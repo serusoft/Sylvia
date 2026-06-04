@@ -34,9 +34,9 @@
       position: relative;
       width: 100%;
       max-width: 380px;
-      height: 90vh; /* Changed from fixed 844px to responsive viewport height */
-      max-height: 780px; /* Cap at reasonable size */
-      min-height: 600px; /* Minimum to keep usability */
+      height: 90vh;
+      max-height: 780px;
+      min-height: 600px;
       background: #000;
       border-radius: 48px;
       box-shadow: 0 30px 50px rgba(0,0,0,0.5), 0 0 0 6px #3a3a3a, 0 0 0 10px #2c2c2c;
@@ -143,7 +143,7 @@
       gap: 6px;
       scroll-behavior: smooth;
       background: #efeae2;
-      min-height: 0;
+      min-height: 0;  /* CRITICAL for flex child scrolling */
     }
     .messages-area::-webkit-scrollbar { width: 4px; }
     .messages-area::-webkit-scrollbar-track { background: #ddd; border-radius: 10px; }
@@ -204,7 +204,7 @@
     .file-name { font-size: 11px; font-weight: 500; color: #075e54; text-decoration: underline; }
     .file-attachment:active { background: rgba(0,0,0,0.1); }
 
-    /* INPUT AREA - NOW ALWAYS VISIBLE */
+    /* INPUT AREA - ALWAYS VISIBLE - FIXED POSITION STICKY BOTTOM */
     .input-area {
       background: #ffffff;
       padding: 10px 14px;
@@ -217,6 +217,8 @@
       min-height: 68px;
       position: relative;
       z-index: 10;
+      width: 100%;
+      backdrop-filter: blur(0px);
     }
     
     .attach-btn, .emoji-btn {
@@ -234,10 +236,6 @@
       box-shadow: 0 1px 2px rgba(0,0,0,0.08);
       flex-shrink: 0;
       color: #2c3e2f;
-    }
-    .attach-btn:hover, .emoji-btn:hover {
-      background: #e4e6e9;
-      transform: scale(1.02);
     }
     .attach-btn:active, .emoji-btn:active { background: #d1d5db; transform: scale(0.96);}
     
@@ -278,10 +276,6 @@
       transition: 0.15s;
       box-shadow: 0 2px 6px rgba(7,94,84,0.3);
       flex-shrink: 0;
-    }
-    .send-btn:hover {
-      background: #0a6b5f;
-      transform: scale(1.02);
     }
     .send-btn:active { transform: scale(0.94); background: #054a42; }
 
@@ -408,7 +402,7 @@
     .loading-spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; animation: spin 0.9s linear infinite; margin: 16px auto; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* Mobile full screen */
+    /* MOBILE FULLSCREEN FIX: input always visible + scroll works */
     @media (max-width: 768px) {
       .desktop-frame {
         display: none !important;
@@ -420,6 +414,7 @@
         position: fixed;
         top: 0;
         left: 0;
+        background: #efeae2;
       }
       body {
         overflow: hidden;
@@ -427,10 +422,22 @@
       }
       .chat-container {
         height: 100vh;
+        display: flex;
+        flex-direction: column;
+      }
+      .messages-area {
+        flex: 1;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
       }
       .input-area {
         padding: 8px 12px;
         padding-bottom: max(8px, env(safe-area-inset-bottom));
+        background: #ffffff;
+        flex-shrink: 0;
+        border-top: 1px solid #e0e0e0;
+        min-height: 70px;
+        width: 100%;
       }
       .attach-btn, .emoji-btn, .send-btn {
         width: 44px;
@@ -438,8 +445,12 @@
         font-size: 22px;
       }
       .message-input {
-        padding: 11px 15px;
+        padding: 12px 15px;
         font-size: 16px;
+        background: #fafafa;
+      }
+      .send-btn {
+        background: #075e54;
       }
     }
 
@@ -451,19 +462,13 @@
       .mobile-full {
         display: none !important;
       }
-      /* If screen is short, reduce phone height further */
-      @media (max-height: 800px) {
-        .phone-mock {
-          height: 85vh;
-          max-height: 700px;
-        }
-      }
-      @media (max-height: 700px) {
-        .phone-mock {
-          height: 80vh;
-          max-height: 620px;
-        }
-      }
+    }
+
+    /* Force input visibility guarantee */
+    .chat-container .input-area {
+      display: flex !important;
+      visibility: visible !important;
+      opacity: 1 !important;
     }
   </style>
 </head>
@@ -494,7 +499,7 @@
           <button class="logout-btn" id="desktopLogoutBtn">Exit</button>
         </div>
         <div class="messages-area" id="desktopMessagesArea">
-          <div class="info-message">✨ DESKTOP MODE ✨<br>📎 Input field now visible at bottom</div>
+          <div class="info-message">✨ DESKTOP MODE ✨<br>📎 Input field always visible</div>
         </div>
         <div class="input-area">
           <button class="attach-btn" id="desktopAttachBtn" title="Attach file">📎</button>
@@ -508,7 +513,7 @@
   </div>
 </div>
 
-<!-- MOBILE VIEW: Full screen -->
+<!-- MOBILE VIEW: Full screen with fix for visible input -->
 <div class="mobile-full">
   <div id="mobileScreen" style="width:100%; height:100%; background:#efeae2;">
     <div id="mobileSplash" class="splash-screen">
@@ -530,7 +535,7 @@
         <button class="logout-btn" id="mobileLogoutBtn">Exit</button>
       </div>
       <div class="messages-area" id="mobileMessagesArea">
-        <div class="info-message">✨ WELCOME ✨<br>📎 Tap image to zoom</div>
+        <div class="info-message">✨ WELCOME ✨<br>📎 Tap image to zoom • Input ready below</div>
       </div>
       <div class="input-area">
         <button class="attach-btn" id="mobileAttachBtn">📎</button>
@@ -569,7 +574,10 @@
 
   let currentUser = null;
   let unsubscribeMessages = null;
-  let isMobile = window.innerWidth <= 768;
+  
+  function getPlatform() {
+    return window.innerWidth <= 768 ? 'mobile' : 'desktop';
+  }
 
   function hideSplash(platform) {
     const splash = document.getElementById(`${platform}Splash`);
@@ -639,7 +647,9 @@
 
   function scrollToBottom(platform) {
     const area = document.getElementById(`${platform}MessagesArea`);
-    if (area) area.scrollTop = area.scrollHeight;
+    if (area) {
+      area.scrollTop = area.scrollHeight;
+    }
   }
 
   let zoomModal = null;
@@ -671,7 +681,7 @@
     unsubscribeMessages = onSnapshot(q, (snap) => {
       const container = document.getElementById(`${platform}MessagesArea`);
       if (!container) return;
-      const wasBottom = (container.scrollHeight - container.scrollTop - container.clientHeight) < 70;
+      const wasBottom = (container.scrollHeight - container.scrollTop - container.clientHeight) < 120;
       container.innerHTML = '';
       if (snap.empty) container.innerHTML = '<div class="info-message">✨ Send a message or share a file ✨</div>';
       snap.forEach(docSnap => {
@@ -727,12 +737,14 @@
         msgDiv.appendChild(bubble);
         container.appendChild(msgDiv);
       });
-      if (wasBottom) scrollToBottom(platform);
+      if (wasBottom) {
+        scrollToBottom(platform);
+      }
     });
   }
 
   let activePicker = null;
-  function buildEmojiGrid() {
+  function buildEmojiGrid(platform) {
     const emojis = ['😀','😃','😄','😁','😆','😂','🤣','😍','🥰','😘','😎','🤩','🥳','😊','🙂','😉','❤️','🧡','💛','💚','💙','💜','🔥','✨','⭐','🚀','🌈','👍','🎉','🎊','💎','😜','🤪'];
     const pickerDiv = document.createElement('div');
     pickerDiv.className = 'emoji-picker';
@@ -741,14 +753,15 @@
       span.textContent = emo;
       span.onclick = (e) => {
         e.stopPropagation();
-        const platform = isMobile ? 'mobile' : 'desktop';
         const inp = document.getElementById(`${platform}MessageInput`);
-        const start = inp.selectionStart;
-        const end = inp.selectionEnd;
-        inp.value = inp.value.substring(0, start) + emo + inp.value.substring(end);
-        inp.focus();
-        if (activePicker) activePicker.remove();
-        activePicker = null;
+        if(inp) {
+          const start = inp.selectionStart;
+          const end = inp.selectionEnd;
+          inp.value = inp.value.substring(0, start) + emo + inp.value.substring(end);
+          inp.focus();
+          if (activePicker) activePicker.remove();
+          activePicker = null;
+        }
       };
       pickerDiv.appendChild(span);
     });
@@ -757,7 +770,7 @@
 
   function showEmojiPicker(btn, platform) {
     if (activePicker) { activePicker.remove(); activePicker = null; return; }
-    const picker = buildEmojiGrid();
+    const picker = buildEmojiGrid(platform);
     document.body.appendChild(picker);
     activePicker = picker;
     const close = (e) => {
@@ -777,17 +790,17 @@
     const inputMsg = document.getElementById(`${platform}MessageInput`);
     const emojiBtn = document.getElementById(`${platform}EmojiBtn`);
     
-    attachBtn.onclick = () => fileInput.click();
-    fileInput.onchange = async (e) => { if(e.target.files[0]) await handleFileUpload(e.target.files[0], platform); fileInput.value = ''; };
-    const sendText = () => { if(inputMsg.value.trim()) { sendMessage(inputMsg.value); inputMsg.value = ''; setTimeout(() => scrollToBottom(platform), 80); } };
-    sendBtn.onclick = sendText;
-    inputMsg.onkeypress = (e) => { if(e.key === 'Enter') { e.preventDefault(); sendText(); } };
-    emojiBtn.onclick = (e) => { e.stopPropagation(); showEmojiPicker(emojiBtn, platform); };
+    if(attachBtn) attachBtn.onclick = () => fileInput?.click();
+    if(fileInput) fileInput.onchange = async (e) => { if(e.target.files[0]) await handleFileUpload(e.target.files[0], platform); fileInput.value = ''; };
+    const sendText = () => { if(inputMsg && inputMsg.value.trim()) { sendMessage(inputMsg.value); inputMsg.value = ''; setTimeout(() => scrollToBottom(platform), 80); } };
+    if(sendBtn) sendBtn.onclick = sendText;
+    if(inputMsg) inputMsg.onkeypress = (e) => { if(e.key === 'Enter') { e.preventDefault(); sendText(); } };
+    if(emojiBtn) emojiBtn.onclick = (e) => { e.stopPropagation(); showEmojiPicker(emojiBtn, platform); };
   }
 
   function initChat(user) {
     currentUser = user;
-    const platform = isMobile ? 'mobile' : 'desktop';
+    const platform = getPlatform();
     document.getElementById(`${platform}UserName`).textContent = user.displayName || user.email.split('@')[0];
     document.getElementById(`${platform}UserEmail`).textContent = `${user.email} • live`;
     document.getElementById(`${platform}Auth`).innerHTML = '';
@@ -795,14 +808,16 @@
     hideSplash(platform);
     loadMessages(platform);
     setupUI(platform);
-    setTimeout(() => scrollToBottom(platform), 200);
+    setTimeout(() => scrollToBottom(platform), 250);
+    setTimeout(() => scrollToBottom(platform), 600);
   }
 
   function renderAuth() {
-    const platform = isMobile ? 'mobile' : 'desktop';
+    const platform = getPlatform();
+    const authContainer = document.getElementById(`${platform}Auth`);
+    if(!authContainer) return;
     hideSplash(platform);
-    const container = document.getElementById(`${platform}Auth`);
-    container.innerHTML = `
+    authContainer.innerHTML = `
       <div class="auth-overlay">
         <div class="auth-card">
           <h2>📱 SERUSOFT</h2>
@@ -816,14 +831,14 @@
         </div>
       </div>
     `;
-    document.getElementById('loginBtn').addEventListener('click', async () => {
+    document.getElementById('loginBtn')?.addEventListener('click', async () => {
       const email = document.getElementById('loginEmail').value;
       const pwd = document.getElementById('loginPassword').value;
-      try { await signInWithEmailAndPassword(auth, email, pwd); } catch(e){ document.getElementById('authError').innerText = e.message; }
+      try { await signInWithEmailAndPassword(auth, email, pwd); } catch(e){ const errDiv = document.getElementById('authError'); if(errDiv) errDiv.innerText = e.message; }
     });
-    document.getElementById('showSignup').addEventListener('click', () => {
+    document.getElementById('showSignup')?.addEventListener('click', () => {
       const modeDiv = document.getElementById('authMode');
-      modeDiv.innerHTML = `
+      if(modeDiv) modeDiv.innerHTML = `
         <input type="email" id="signupEmail" class="auth-input" placeholder="Email">
         <input type="text" id="signupName" class="auth-input" placeholder="Your Name">
         <input type="password" id="signupPassword" class="auth-input" placeholder="Password">
@@ -831,29 +846,50 @@
         <div class="toggle-auth" id="showLogin">← Back</div>
         <div id="authError" class="error-msg"></div>
       `;
-      document.getElementById('signupBtn').addEventListener('click', async () => {
+      document.getElementById('signupBtn')?.addEventListener('click', async () => {
         const email = document.getElementById('signupEmail').value;
         const pwd = document.getElementById('signupPassword').value;
         const name = document.getElementById('signupName').value;
-        if(!name) { document.getElementById('authError').innerText = "Enter name"; return; }
+        if(!name) { const err = document.getElementById('authError'); if(err) err.innerText = "Enter name"; return; }
         try {
           const cred = await createUserWithEmailAndPassword(auth, email, pwd);
           await updateProfile(cred.user, { displayName: name });
-        } catch(e){ document.getElementById('authError').innerText = e.message; }
+        } catch(e){ const errDiv = document.getElementById('authError'); if(errDiv) errDiv.innerText = e.message; }
       });
-      document.getElementById('showLogin').addEventListener('click', renderAuth);
+      document.getElementById('showLogin')?.addEventListener('click', renderAuth);
     });
   }
 
   document.getElementById('desktopLogoutBtn')?.addEventListener('click', async () => { await signOut(auth); });
   document.getElementById('mobileLogoutBtn')?.addEventListener('click', async () => { await signOut(auth); });
 
+  // Handle resize to re-trigger platform consistency
+  window.addEventListener('resize', () => {
+    if(currentUser){
+      const newPlatform = getPlatform();
+      const messagesArea = document.getElementById(`${newPlatform}MessagesArea`);
+      if(messagesArea) scrollToBottom(newPlatform);
+    }
+  });
+
   onAuthStateChanged(auth, (user) => {
     if (user) initChat(user);
     else { if(unsubscribeMessages) unsubscribeMessages(); currentUser=null; renderAuth(); }
   });
   
-  setTimeout(() => { if(!currentUser) { const p = isMobile ? 'mobile' : 'desktop'; hideSplash(p); } }, 1500);
+  setTimeout(() => { if(!currentUser) { const p = getPlatform(); hideSplash(p); } }, 1500);
+  
+  // Force re-check visibility for mobile after load
+  window.addEventListener('load', () => {
+    if(window.innerWidth <= 768) {
+      const mobileChat = document.getElementById('mobileChat');
+      if(mobileChat && !mobileChat.classList.contains('hidden')) {
+        const inputArea = mobileChat.querySelector('.input-area');
+        if(inputArea) inputArea.style.display = 'flex';
+        scrollToBottom('mobile');
+      }
+    }
+  });
 </script>
 </body>
 </html>
