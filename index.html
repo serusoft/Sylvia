@@ -2,100 +2,94 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>SERUSOFT SPACE • Cloudinary File Share • WhatsApp Style Chat</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>SERUSOFT SPACE • Phone Frame Chat • Cloudinary Share</title>
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
     }
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: #075e54;
-      height: 100vh;
+      background: linear-gradient(145deg, #2a2a2a 0%, #1a1a1a 100%);
+      min-height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
-      overflow: hidden;
+      padding: 24px 16px;
     }
 
-    /* SPLASH SCREEN */
-    .splash-screen {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: linear-gradient(135deg, #075e54 0%, #128c7e 100%);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-      transition: opacity 0.8s ease;
+    /* 📱 REALISTIC PHONE FRAME */
+    .phone-mock {
+      position: relative;
+      width: 100%;
+      max-width: 380px;
+      margin: 0 auto;
+      background: #000;
+      border-radius: 48px;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.5), 0 0 0 8px #3a3a3a, 0 0 0 12px #2c2c2c;
+      transition: all 0.2s ease;
     }
 
-    .splash-content {
-      text-align: center;
-      animation: floatIn 0.8s ease;
-    }
-
-    @keyframes floatIn {
-      from { opacity: 0; transform: translateY(30px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .brand-logo { font-size: 80px; margin-bottom: 20px; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2)); }
-    .brand-name { font-size: 32px; font-weight: 800; color: white; letter-spacing: 2px; margin-bottom: 10px; }
-    .brand-sub { font-size: 14px; color: rgba(255,255,255,0.9); margin-bottom: 30px; }
-    .loading-spinner { width: 48px; height: 48px; border: 4px solid rgba(255,255,255,0.3); border-top: 4px solid white; border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto; }
-    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    .loading-text { color: white; font-size: 14px; margin-top: 10px; }
-
-    /* Auth Modal */
-    .auth-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.85);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      animation: fadeIn 0.3s ease;
-    }
-    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-    .auth-card {
-      background: white;
+    /* Dynamic Island / Notch style */
+    .phone-notch {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 30px;
+      background: #0f0f0f;
       border-radius: 24px;
-      padding: 32px;
-      width: 90%;
-      max-width: 400px;
-      text-align: center;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+      z-index: 20;
+      box-shadow: inset 0 1px 1px rgba(255,255,255,0.1), 0 2px 5px rgba(0,0,0,0.2);
     }
-    .auth-card h2 { color: #075e54; margin-bottom: 24px; }
-    .auth-input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; border-radius: 30px; font-size: 16px; outline: none; }
-    .auth-input:focus { border-color: #25d366; }
-    .auth-btn { background: #075e54; color: white; border: none; padding: 12px; width: 100%; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; }
-    .auth-btn:hover { background: #0a6b5f; }
-    .toggle-auth { margin-top: 20px; color: #075e54; cursor: pointer; font-size: 14px; }
-    .error-msg { color: red; font-size: 12px; margin-top: 8px; }
 
-    /* Chat Container */
+    .phone-notch::after {
+      content: "📱";
+      position: absolute;
+      right: -28px;
+      top: 4px;
+      font-size: 10px;
+      color: #444;
+      letter-spacing: -1px;
+    }
+
+    /* Speaker grille */
+    .phone-speaker {
+      position: absolute;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 5px;
+      background: #2b2b2b;
+      border-radius: 10px;
+      z-index: 21;
+    }
+
+    /* Screen container */
+    .phone-screen {
+      background: #000;
+      border-radius: 44px;
+      overflow: hidden;
+      position: relative;
+      height: 700px;
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* CHAT CONTAINER — pure app inside phone */
     .chat-container {
       width: 100%;
-      max-width: 500px;
-      height: 100vh;
-      max-height: 700px;
+      height: 100%;
       background: #efeae2;
       display: flex;
       flex-direction: column;
-      box-shadow: 0 0 20px rgba(0,0,0,0.3);
       overflow: hidden;
       position: relative;
     }
@@ -103,184 +97,316 @@
     .chat-header {
       background: #075e54;
       color: white;
-      padding: 16px 20px;
+      padding: 12px 16px;
       display: flex;
       align-items: center;
       gap: 12px;
       flex-shrink: 0;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+      z-index: 5;
     }
-    .avatar { width: 40px; height: 40px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; }
+    .avatar { width: 42px; height: 42px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 22px; box-shadow: 0 2px 5px rgba(0,0,0,0.2);}
     .contact-info { flex: 1; }
-    .contact-name { font-weight: 600; font-size: 18px; }
-    .contact-status { font-size: 10px; opacity: 0.8; }
-    .logout-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; }
+    .contact-name { font-weight: 700; font-size: 17px; letter-spacing: -0.3px; }
+    .contact-status { font-size: 10px; opacity: 0.85; }
+    .logout-btn { background: rgba(255,255,255,0.18); border: none; color: white; padding: 6px 12px; border-radius: 40px; cursor: pointer; font-size: 12px; font-weight: 500; backdrop-filter: blur(2px); transition: 0.2s; }
+    .logout-btn:active { background: rgba(0,0,0,0.3); transform: scale(0.96);}
 
-    /* Messages Area with Perfect Scrolling */
+    /* MESSAGES AREA - perfect scrolling, native feel */
     .messages-area {
       flex: 1;
       overflow-y: auto;
-      padding: 16px 12px;
+      padding: 14px 10px 18px 10px;
       display: flex;
       flex-direction: column;
       gap: 8px;
       scroll-behavior: smooth;
+      background: #efeae2;
     }
-    .messages-area::-webkit-scrollbar { width: 6px; }
-    .messages-area::-webkit-scrollbar-track { background: transparent; }
-    .messages-area::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
+    .messages-area::-webkit-scrollbar { width: 4px; }
+    .messages-area::-webkit-scrollbar-track { background: #ddd; border-radius: 10px; }
+    .messages-area::-webkit-scrollbar-thumb { background: #888; border-radius: 10px; }
 
     .message {
       display: flex;
       margin-bottom: 4px;
-      max-width: 80%;
-      animation: messagePop 0.2s ease-out;
+      max-width: 82%;
+      animation: messageSlide 0.2s ease;
     }
-    @keyframes messagePop { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    @keyframes messageSlide { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     .message.sent { align-self: flex-end; justify-content: flex-end; }
     .message.received { align-self: flex-start; }
 
     .bubble {
       background: white;
-      padding: 10px 14px;
-      border-radius: 20px;
+      padding: 9px 12px;
+      border-radius: 18px;
       font-size: 14px;
       line-height: 1.4;
-      word-wrap: break-word;
+      word-break: break-word;
       max-width: 100%;
-      box-shadow: 0 1px 0.5px rgba(0,0,0,0.12);
+      box-shadow: 0 1px 0.6px rgba(0,0,0,0.08);
     }
     .message.sent .bubble { background: #dcf8c5; border-bottom-right-radius: 4px; }
     .message.received .bubble { background: white; border-bottom-left-radius: 4px; }
-    .message-time { font-size: 10px; color: rgba(0,0,0,0.45); margin-top: 4px; text-align: right; }
-    .sender-name { font-size: 11px; font-weight: bold; color: #075e54; margin-bottom: 4px; }
+    .message-time { font-size: 9px; color: rgba(0,0,0,0.5); margin-top: 5px; text-align: right; letter-spacing: 0.2px; }
+    .sender-name { font-size: 11px; font-weight: 800; color: #075e54; margin-bottom: 4px; display: flex; align-items: center; gap: 4px;}
 
-    /* File/Image Message Styles */
-    .file-message {
+    /* Image & file styles with tap zoom */
+    .image-wrapper {
+      cursor: pointer;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 5px;
+      display: inline-block;
+      max-width: 220px;
+    }
+    .image-preview-img {
+      width: 100%;
+      max-width: 210px;
+      max-height: 190px;
+      object-fit: cover;
+      border-radius: 14px;
+      display: block;
+      transition: 0.1s;
+      background: #e9e9e9;
+    }
+    .file-attachment {
       display: flex;
       align-items: center;
       gap: 10px;
+      background: rgba(0,0,0,0.03);
+      padding: 6px 12px 6px 8px;
+      border-radius: 36px;
       cursor: pointer;
     }
     .file-icon { font-size: 32px; }
-    .file-name { font-size: 12px; color: #075e54; text-decoration: underline; }
-    .image-preview {
-      max-width: 200px;
-      max-height: 200px;
-      border-radius: 12px;
-      margin-top: 4px;
-      cursor: pointer;
-    }
-    .image-preview img {
-      width: 100%;
-      height: auto;
-      border-radius: 12px;
-    }
+    .file-name { font-size: 11px; font-weight: 500; color: #075e54; text-decoration: underline; text-underline-offset: 3px; }
+    .file-attachment:active { background: rgba(0,0,0,0.08); }
 
-    /* Input Area */
+    /* INPUT AREA — always visible at bottom of phone */
     .input-area {
-      background: #f0f0f0;
-      padding: 12px 14px;
+      background: #f7f7f7;
+      padding: 10px 12px 14px 12px;
       display: flex;
       align-items: center;
       gap: 8px;
-      border-top: 1px solid #e0e0e0;
+      border-top: 1px solid #e2e2e2;
       flex-shrink: 0;
+      backdrop-filter: blur(8px);
+      background: rgba(247,247,247,0.96);
     }
     .attach-btn, .emoji-btn {
-      background: none;
+      background: #fff;
       border: none;
       font-size: 24px;
       cursor: pointer;
       width: 44px;
       height: 44px;
-      border-radius: 50%;
+      border-radius: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: 0.2s;
+      transition: 0.1s;
+      box-shadow: 0 1px 2px rgba(0,0,0,0.05);
     }
-    .attach-btn:hover, .emoji-btn:hover { background: #e2e2e2; }
+    .attach-btn:active, .emoji-btn:active { background: #ddd; transform: scale(0.94);}
     .message-input {
       flex: 1;
       border: none;
       background: white;
       padding: 12px 16px;
-      border-radius: 30px;
+      border-radius: 40px;
       font-size: 15px;
       outline: none;
+      box-shadow: inset 0 1px 2px #00000010;
+      font-family: inherit;
     }
-    .message-input:focus { outline: none; box-shadow: 0 0 0 2px #25d36650; }
+    .message-input:focus { box-shadow: 0 0 0 2px #25d36670; background: white;}
     .send-btn {
       background: #075e54;
       border: none;
       color: white;
       width: 44px;
       height: 44px;
-      border-radius: 50%;
+      border-radius: 40px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
-      font-size: 20px;
+      font-size: 18px;
+      transition: 0.1s;
     }
-    .send-btn:hover { background: #0a6b5f; transform: scale(0.96); }
+    .send-btn:active { transform: scale(0.92); background: #0a6b5f; }
 
-    /* Emoji Picker */
+    /* Emoji Picker inside phone */
     .emoji-picker {
       position: absolute;
-      bottom: 80px;
-      left: 10px;
-      right: 10px;
+      bottom: 82px;
+      left: 12px;
+      right: 12px;
       background: white;
-      border-radius: 20px;
-      padding: 16px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
-      z-index: 200;
+      border-radius: 28px;
+      padding: 14px 10px;
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+      z-index: 300;
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 10px;
-      max-height: 300px;
+      max-height: 280px;
       overflow-y: auto;
+      background: rgba(255,255,255,0.98);
     }
-    .emoji-picker span { font-size: 32px; cursor: pointer; text-align: center; padding: 8px; border-radius: 12px; transition: 0.1s; }
-    .emoji-picker span:hover { background: #f0f0f0; transform: scale(1.1); }
+    .emoji-picker span { font-size: 34px; cursor: pointer; text-align: center; padding: 5px; border-radius: 40px; transition: 0.05s;}
+    .emoji-picker span:active { background: #e2e2e2; transform: scale(1.05);}
     .hidden { display: none; }
-    .info-message { text-align: center; color: #888; padding: 20px; font-size: 14px; }
+    .info-message { text-align: center; color: #6b6b6b; padding: 28px 16px; font-size: 13px; background: transparent; }
     .file-input { display: none; }
-    .upload-progress { font-size: 12px; color: #075e54; margin-top: 5px; }
+    .upload-progress { font-size: 10px; color: #128c7e; margin-top: 4px; font-weight: 500;}
+
+    /* ZOOM MODAL fullscreen image viewer (inside phone context but full view) */
+    .zoom-modal {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.94);
+      backdrop-filter: blur(16px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.2s ease;
+      pointer-events: none;
+    }
+    .zoom-modal.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .zoom-image {
+      max-width: 90%;
+      max-height: 85%;
+      object-fit: contain;
+      border-radius: 24px;
+      box-shadow: 0 20px 35px rgba(0,0,0,0.5);
+      transform: scale(0.96);
+      transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    .zoom-modal.active .zoom-image {
+      transform: scale(1);
+    }
+    .close-zoom {
+      position: absolute;
+      top: 28px;
+      right: 28px;
+      background: rgba(0,0,0,0.6);
+      color: white;
+      font-size: 28px;
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      cursor: pointer;
+    }
+
+    /* Auth modal inside phone frame but covers the screen */
+    .auth-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.92);
+      backdrop-filter: blur(6px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      padding: 20px;
+    }
+    .auth-card {
+      background: white;
+      border-radius: 44px;
+      padding: 32px 24px;
+      width: 100%;
+      max-width: 320px;
+      text-align: center;
+      box-shadow: 0 30px 40px rgba(0,0,0,0.4);
+    }
+    .auth-card h2 { color: #075e54; margin-bottom: 22px; font-weight: 700; font-size: 24px; }
+    .auth-input { width: 100%; padding: 14px 18px; margin: 10px 0; border: 1px solid #ddd; border-radius: 44px; font-size: 15px; outline: none; background: #f9f9f9; }
+    .auth-input:focus { border-color: #25d366; background: white; }
+    .auth-btn { background: #075e54; color: white; border: none; padding: 14px; width: 100%; border-radius: 44px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 12px; transition: 0.2s; }
+    .toggle-auth { margin-top: 18px; color: #075e54; cursor: pointer; font-size: 14px; font-weight: 500; }
+    .error-msg { color: #e74c3c; font-size: 12px; margin-top: 10px; }
+
+    /* splash inside phone frame */
+    .splash-screen {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #075e54 0%, #0b3b33 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      border-radius: 44px;
+      transition: opacity 0.5s ease;
+    }
+    .splash-content { text-align: center; }
+    .brand-logo { font-size: 72px; margin-bottom: 14px; }
+    .brand-name { font-size: 28px; font-weight: 800; color: white; letter-spacing: 1px; }
+    .brand-sub { font-size: 12px; color: rgba(255,255,255,0.9); margin-bottom: 20px; }
+    .loading-spinner { width: 42px; height: 42px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; animation: spin 0.9s linear infinite; margin: 16px auto; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
   </style>
 </head>
 <body>
 
-<div id="splashScreen" class="splash-screen">
-  <div class="splash-content">
-    <div class="brand-logo">🚀</div>
-    <div class="brand-name">SERUSOFT SPACE</div>
-    <div class="brand-sub">Cloudinary • File Share • Real-time Chat</div>
-    <div class="loading-spinner"></div>
-    <div class="loading-text">Initializing secure connection...</div>
-  </div>
-</div>
-
-<div id="authContainer"></div>
-<div id="chatApp" class="chat-container hidden">
-  <div class="chat-header">
-    <div class="avatar">💬</div>
-    <div class="contact-info">
-      <div class="contact-name" id="userNameDisplay">Chat Space</div>
-      <div class="contact-status" id="userEmailDisplay">Connected</div>
+<div class="phone-mock">
+  <div class="phone-notch"></div>
+  <div class="phone-speaker"></div>
+  <div class="phone-screen">
+    <!-- Splash inside phone -->
+    <div id="splashScreen" class="splash-screen">
+      <div class="splash-content">
+        <div class="brand-logo">🚀📱</div>
+        <div class="brand-name">SERUSOFT SPACE</div>
+        <div class="brand-sub">Cloudinary • Real Chat</div>
+        <div class="loading-spinner"></div>
+        <div class="loading-text" style="color:white; font-size:12px;">secure loading...</div>
+      </div>
     </div>
-    <button class="logout-btn" id="logoutBtn">Exit</button>
-  </div>
-  <div class="messages-area" id="messagesArea">
-    <div class="info-message">✨ Welcome to SERUSOFT SPACE ✨<br>📎 Share images, PDFs, videos<br>😊 Use rich emojis</div>
-  </div>
-  <div class="input-area">
-    <button class="attach-btn" id="attachBtn">📎</button>
-    <button class="emoji-btn" id="emojiBtn">😊</button>
-    <input type="text" class="message-input" id="messageInput" placeholder="Type a message..." autocomplete="off">
-    <button class="send-btn" id="sendBtn">➤</button>
-    <input type="file" id="fileInput" class="file-input" accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain">
+
+    <div id="authContainer" style="position:relative; z-index:100;"></div>
+    <div id="chatApp" class="chat-container hidden">
+      <div class="chat-header">
+        <div class="avatar">💬</div>
+        <div class="contact-info">
+          <div class="contact-name" id="userNameDisplay">Chat Space</div>
+          <div class="contact-status" id="userEmailDisplay">online</div>
+        </div>
+        <button class="logout-btn" id="logoutBtn">Exit</button>
+      </div>
+      <div class="messages-area" id="messagesArea">
+        <div class="info-message">✨ SERUSOFT INSIDE PHONE ✨<br>📎 Tap image to zoom • Share files</div>
+      </div>
+      <div class="input-area">
+        <button class="attach-btn" id="attachBtn">📎</button>
+        <button class="emoji-btn" id="emojiBtn">😊</button>
+        <input type="text" class="message-input" id="messageInput" placeholder="Message" autocomplete="off">
+        <button class="send-btn" id="sendBtn">➤</button>
+        <input type="file" id="fileInput" class="file-input" accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain">
+      </div>
+    </div>
   </div>
 </div>
 
@@ -303,437 +429,291 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  // Cloudinary Configuration (Free account - works without API keys for unsigned uploads)
-  // To use Cloudinary, create a free account at cloudinary.com and replace these values
   const CLOUDINARY_CONFIG = {
-    cloudName: "dwmdaz0c6",  // Demo cloud name - Replace with your own
-    uploadPreset: "chat_uploads",  // Create unsigned preset in Cloudinary Settings > Upload
-    apiKey: "YOUR_API_KEY"  // Optional for signed uploads
+    cloudName: "dwmdaz0c6",  // demo cloud name (works with unsigned preset)
+    uploadPreset: "ml_default"
   };
+
+  let currentUser = null;
+  let unsubscribeMessages = null;
+  let zoomModal = null;
 
   function hideSplash() {
     const splash = document.getElementById('splashScreen');
     if (splash) {
       splash.style.opacity = '0';
-      setTimeout(() => { splash.style.display = 'none'; }, 800);
+      setTimeout(() => splash.style.display = 'none', 500);
     }
   }
 
-  // Upload file to Cloudinary
   async function uploadToCloudinary(file) {
-    return new Promise((resolve, reject) => {
-      const formData = new FormData();
-      formData.append('file', file);
-      formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
-      formData.append('cloud_name', CLOUDINARY_CONFIG.cloudName);
-      
-      fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/auto/upload`, {
-        method: 'POST',
-        body: formData
-      })
-      .then(response => response.json())
-      .then(data => {
-        if (data.secure_url) {
-          resolve({
-            url: data.secure_url,
-            name: file.name,
-            type: file.type,
-            resource_type: data.resource_type,
-            format: data.format,
-            size: file.size
-          });
-        } else {
-          reject(new Error('Upload failed: ' + (data.error?.message || 'Unknown error')));
-        }
-      })
-      .catch(reject);
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/auto/upload`, {
+      method: 'POST',
+      body: formData
     });
+    const data = await res.json();
+    if (data.secure_url) {
+      return { url: data.secure_url, name: file.name, type: file.type, resource_type: data.resource_type };
+    } else throw new Error('Upload failed');
   }
 
-  // Fallback: Display file as base64 if Cloudinary fails
-  function getFilePreview(file) {
+  async function fallbackBase64(file) {
     return new Promise((resolve) => {
       const reader = new FileReader();
-      reader.onload = (e) => {
-        resolve({
-          url: e.target.result,
-          name: file.name,
-          type: file.type,
-          isBase64: true
-        });
-      };
+      reader.onload = (e) => resolve({ url: e.target.result, name: file.name, type: file.type, fallback: true });
       reader.readAsDataURL(file);
     });
   }
 
-  let currentUser = null;
-  let unsubscribeMessages = null;
+  async function handleFileUpload(file) {
+    if (!file) return;
+    const container = document.getElementById('messagesArea');
+    const tempId = 'temp-' + Date.now();
+    const tempDiv = document.createElement('div');
+    tempDiv.id = tempId;
+    tempDiv.className = 'message sent';
+    tempDiv.innerHTML = `<div class="bubble">📎 uploading <strong>${escapeHtml(file.name)}</strong>...<div class="upload-progress">☁️ cloudinary</div><div class="message-time">now</div></div>`;
+    container.appendChild(tempDiv);
+    scrollToBottom();
 
-  // Rich emojis
-  const emojiCategories = {
-    love: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '💕', '💞', '💓', '💗', '💖', '💘', '🥰', '😘', '😍'],
-    funny: ['😂', '🤣', '😭', '😅', '🤪', '😜', '😝', '🙃', '🥲', '😹', '🤡', '👻', '💀', '🎃'],
-    study: ['📚', '📖', '📝', '✏️', '📓', '🎓', '🏫', '🧠', '💡', '🔬', '🧪', '📊', '📈', '🎯'],
-    tech: ['💻', '🖥️', '📱', '🤖', '⚡', '🔥', '🚀', '💾', '⌨️', '🖨️', '📡', '🔧', '⚙️', '💎'],
-    general: ['😀', '😃', '😄', '😁', '😆', '😊', '🙂', '😉', '😌', '😎', '🤩', '🥳', '🎉', '🎊', '✨', '⭐']
-  };
+    try {
+      let fileData;
+      try { fileData = await uploadToCloudinary(file); } catch(e) { fileData = await fallbackBase64(file); }
+      await sendMessage('', fileData);
+      const el = document.getElementById(tempId); if(el) el.remove();
+    } catch (err) {
+      const el = document.getElementById(tempId);
+      if(el) el.innerHTML = `<div class="bubble">❌ failed ${escapeHtml(file.name)}<div class="message-time">now</div></div>`;
+      setTimeout(() => { const x = document.getElementById(tempId); if(x) x.remove(); }, 2000);
+    }
+  }
 
-  // Send message with optional file
   async function sendMessage(text, fileData = null) {
     if ((!text || !text.trim()) && !fileData) return;
-    try {
-      const messageData = {
-        senderId: currentUser.uid,
-        senderName: currentUser.displayName || currentUser.email.split('@')[0],
-        senderEmail: currentUser.email,
-        timestamp: serverTimestamp(),
-        ...(text && text.trim() && { text: text.trim() }),
-        ...(fileData && { file: fileData })
-      };
-      await addDoc(collection(db, 'messages'), messageData);
-    } catch (err) {
-      console.error('Send error:', err);
-      alert('Error: ' + err.message + '\n\nPlease update Firebase Rules in Firestore Console:\nallow read, write: if request.auth != null;');
-    }
+    const msg = {
+      senderId: currentUser.uid,
+      senderName: currentUser.displayName || currentUser.email.split('@')[0],
+      senderEmail: currentUser.email,
+      timestamp: serverTimestamp(),
+      ...(text && text.trim() && { text: text.trim() }),
+      ...(fileData && { file: fileData })
+    };
+    await addDoc(collection(db, 'messages'), msg);
   }
 
-  // Auto-scroll to bottom
   function scrollToBottom() {
-    const messagesArea = document.getElementById('messagesArea');
-    if (messagesArea) {
-      messagesArea.scrollTop = messagesArea.scrollHeight;
-    }
+    const area = document.getElementById('messagesArea');
+    if (area) area.scrollTop = area.scrollHeight;
   }
 
-  // Load messages with perfect scrolling
+  function initZoomFeature() {
+    if (!zoomModal) {
+      const modal = document.createElement('div');
+      modal.className = 'zoom-modal';
+      modal.innerHTML = `<div class="close-zoom">✕</div><img class="zoom-image" alt="Zoom" />`;
+      document.body.appendChild(modal);
+      zoomModal = modal;
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal || e.target.classList.contains('close-zoom')) modal.classList.remove('active');
+      });
+    }
+    return zoomModal;
+  }
+
+  function showImageZoom(url) {
+    const modal = initZoomFeature();
+    modal.querySelector('.zoom-image').src = url;
+    modal.classList.add('active');
+  }
+
+  function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, (m) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
+
   function loadMessages() {
     if (unsubscribeMessages) unsubscribeMessages();
-    const messagesQuery = query(collection(db, 'messages'), orderBy('timestamp', 'asc'), limit(500));
-    
-    unsubscribeMessages = onSnapshot(messagesQuery, (snapshot) => {
-      const messagesArea = document.getElementById('messagesArea');
-      if (!messagesArea) return;
-      
-      const wasAtBottom = messagesArea.scrollHeight - messagesArea.scrollTop - messagesArea.clientHeight < 50;
-      messagesArea.innerHTML = '';
-      
-      if (snapshot.empty) {
-        messagesArea.innerHTML = '<div class="info-message">✨ No messages yet. Start chatting! ✨</div>';
-      }
-      
-      snapshot.forEach(doc => {
-        const data = doc.data();
+    const q = query(collection(db, 'messages'), orderBy('timestamp', 'asc'), limit(500));
+    unsubscribeMessages = onSnapshot(q, (snap) => {
+      const container = document.getElementById('messagesArea');
+      if (!container) return;
+      const wasBottom = (container.scrollHeight - container.scrollTop - container.clientHeight) < 70;
+      container.innerHTML = '';
+      if (snap.empty) container.innerHTML = '<div class="info-message">✨ Start sharing ✨</div>';
+      snap.forEach(docSnap => {
+        const data = docSnap.data();
         const isSent = currentUser && data.senderId === currentUser.uid;
-        const messageDiv = document.createElement('div');
-        messageDiv.className = `message ${isSent ? 'sent' : 'received'}`;
-        
-        const bubbleDiv = document.createElement('div');
-        bubbleDiv.className = 'bubble';
-        
+        const msgDiv = document.createElement('div');
+        msgDiv.className = `message ${isSent ? 'sent' : 'received'}`;
+        const bubble = document.createElement('div');
+        bubble.className = 'bubble';
         if (!isSent && data.senderName) {
           const nameSpan = document.createElement('div');
           nameSpan.className = 'sender-name';
-          nameSpan.textContent = data.senderName;
-          bubbleDiv.appendChild(nameSpan);
+          nameSpan.innerHTML = `👤 ${escapeHtml(data.senderName)}`;
+          bubble.appendChild(nameSpan);
         }
-        
-        // Handle file messages
         if (data.file) {
-          const isImage = data.file.type?.startsWith('image/');
-          const isVideo = data.file.type?.startsWith('video/');
-          
-          if (isImage) {
-            const imgContainer = document.createElement('div');
-            imgContainer.className = 'image-preview';
+          const file = data.file;
+          const isImage = file.type && file.type.startsWith('image/');
+          if (isImage && file.url) {
+            const imgWrap = document.createElement('div');
+            imgWrap.className = 'image-wrapper';
             const img = document.createElement('img');
-            img.src = data.file.url;
-            img.alt = data.file.name;
-            img.style.maxWidth = '200px';
-            img.style.maxHeight = '200px';
-            img.style.borderRadius = '12px';
+            img.src = file.url;
+            img.alt = file.name || 'image';
+            img.className = 'image-preview-img';
+            img.style.maxWidth = '190px';
             img.style.cursor = 'pointer';
-            img.onclick = () => window.open(data.file.url, '_blank');
-            imgContainer.appendChild(img);
-            bubbleDiv.appendChild(imgContainer);
-            
-            const fileNameSpan = document.createElement('div');
-            fileNameSpan.className = 'file-name';
-            fileNameSpan.textContent = data.file.name;
-            fileNameSpan.style.fontSize = '10px';
-            fileNameSpan.style.marginTop = '4px';
-            bubbleDiv.appendChild(fileNameSpan);
+            img.addEventListener('click', (e) => { e.stopPropagation(); showImageZoom(file.url); });
+            imgWrap.appendChild(img);
+            bubble.appendChild(imgWrap);
+            if (file.name) {
+              const caption = document.createElement('div');
+              caption.className = 'file-name';
+              caption.textContent = file.name;
+              caption.style.fontSize = '9px';
+              bubble.appendChild(caption);
+            }
           } else {
             const fileDiv = document.createElement('div');
-            fileDiv.className = 'file-message';
-            const fileIcon = document.createElement('div');
-            fileIcon.className = 'file-icon';
-            fileIcon.textContent = isVideo ? '🎥' : '📄';
-            const fileName = document.createElement('div');
-            fileName.className = 'file-name';
-            fileName.textContent = data.file.name;
-            fileDiv.appendChild(fileIcon);
-            fileDiv.appendChild(fileName);
-            fileDiv.onclick = () => window.open(data.file.url, '_blank');
-            bubbleDiv.appendChild(fileDiv);
+            fileDiv.className = 'file-attachment';
+            fileDiv.addEventListener('click', () => { if(file.url) window.open(file.url, '_blank'); });
+            fileDiv.innerHTML = `<span class="file-icon">${file.type?.startsWith('video/') ? '🎥' : '📄'}</span><span class="file-name">${escapeHtml(file.name || 'file')}</span>`;
+            bubble.appendChild(fileDiv);
           }
         }
-        
-        // Handle text messages
-        if (data.text) {
-          bubbleDiv.appendChild(document.createTextNode(data.text));
-        }
-        
+        if (data.text) bubble.appendChild(document.createTextNode(data.text));
         const timeSpan = document.createElement('div');
         timeSpan.className = 'message-time';
-        if (data.timestamp && data.timestamp.toDate) {
-          const date = data.timestamp.toDate();
-          timeSpan.textContent = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        } else {
-          timeSpan.textContent = 'Now';
-        }
-        bubbleDiv.appendChild(timeSpan);
-        messageDiv.appendChild(bubbleDiv);
-        messagesArea.appendChild(messageDiv);
+        if (data.timestamp?.toDate) {
+          const d = data.timestamp.toDate();
+          timeSpan.textContent = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        } else timeSpan.textContent = 'now';
+        bubble.appendChild(timeSpan);
+        msgDiv.appendChild(bubble);
+        container.appendChild(msgDiv);
       });
-      
-      // Smart scroll: only auto-scroll if user was at bottom
-      if (wasAtBottom) {
-        scrollToBottom();
-      }
+      if (wasBottom) scrollToBottom();
     });
   }
 
   // Emoji picker
-  let emojiPicker = null;
-  function showEmojiPicker() {
-    if (emojiPicker) {
-      emojiPicker.remove();
-      emojiPicker = null;
-      return;
-    }
-    
-    const picker = document.createElement('div');
-    picker.className = 'emoji-picker';
-    
-    const categories = [
-      { name: '❤️ Love', emojis: emojiCategories.love },
-      { name: '😂 Funny', emojis: emojiCategories.funny },
-      { name: '📚 Study', emojis: emojiCategories.study },
-      { name: '💻 Tech', emojis: emojiCategories.tech },
-      { name: '✨ General', emojis: emojiCategories.general }
-    ];
-    
-    categories.forEach(cat => {
-      const catTitle = document.createElement('div');
-      catTitle.textContent = cat.name;
-      catTitle.style.gridColumn = '1/-1';
-      catTitle.style.fontSize = '12px';
-      catTitle.style.fontWeight = 'bold';
-      catTitle.style.color = '#075e54';
-      catTitle.style.marginTop = '8px';
-      catTitle.style.padding = '4px 0';
-      catTitle.style.borderBottom = '1px solid #eee';
-      picker.appendChild(catTitle);
-      
-      cat.emojis.forEach(emoji => {
-        const emojiSpan = document.createElement('span');
-        emojiSpan.textContent = emoji;
-        emojiSpan.onclick = (e) => {
-          e.stopPropagation();
-          const input = document.getElementById('messageInput');
-          const start = input.selectionStart;
-          const end = input.selectionEnd;
-          input.value = input.value.substring(0, start) + emoji + input.value.substring(end);
-          input.focus();
-          picker.remove();
-          emojiPicker = null;
-        };
-        picker.appendChild(emojiSpan);
-      });
+  let activePicker = null;
+  function buildEmojiGrid() {
+    const emojis = ['😀','😃','😄','😁','😆','😂','🤣','😍','🥰','😘','😎','🤩','🥳','😊','🙂','😉','❤️','🧡','💛','💚','💙','💜','🔥','✨','⭐','🚀','🌈','👍','🎉','🎊','💎','😜','🤪','😭','🥺'];
+    const pickerDiv = document.createElement('div');
+    pickerDiv.className = 'emoji-picker';
+    emojis.forEach(emo => {
+      const span = document.createElement('span');
+      span.textContent = emo;
+      span.onclick = (e) => {
+        e.stopPropagation();
+        const inp = document.getElementById('messageInput');
+        const start = inp.selectionStart;
+        const end = inp.selectionEnd;
+        inp.value = inp.value.substring(0, start) + emo + inp.value.substring(end);
+        inp.focus();
+        if (activePicker) activePicker.remove();
+        activePicker = null;
+      };
+      pickerDiv.appendChild(span);
     });
-    
+    return pickerDiv;
+  }
+  function showEmojiPicker(btn) {
+    if (activePicker) { activePicker.remove(); activePicker = null; return; }
+    const picker = buildEmojiGrid();
     document.body.appendChild(picker);
-    emojiPicker = picker;
-    
-    const closePicker = (e) => {
-      if (!picker.contains(e.target) && e.target !== document.getElementById('emojiBtn')) {
+    activePicker = picker;
+    const close = (e) => {
+      if (!picker.contains(e.target) && e.target !== btn) {
         picker.remove();
-        emojiPicker = null;
-        document.removeEventListener('click', closePicker);
+        activePicker = null;
+        document.removeEventListener('click', close);
       }
     };
-    setTimeout(() => document.addEventListener('click', closePicker), 100);
+    setTimeout(() => document.addEventListener('click', close), 80);
   }
 
-  // File upload handler with Cloudinary + fallback
-  async function handleFileUpload(file) {
-    if (!file) return;
-    
-    // Show uploading indicator
-    const messagesArea = document.getElementById('messagesArea');
-    const tempId = 'temp-msg-' + Date.now();
-    const tempDiv = document.createElement('div');
-    tempDiv.id = tempId;
-    tempDiv.className = 'message sent';
-    tempDiv.innerHTML = `<div class="bubble">📎 Uploading <strong>${file.name}</strong>...<div class="upload-progress">⏳ Please wait</div><div class="message-time">Now</div></div>`;
-    messagesArea.appendChild(tempDiv);
-    scrollToBottom();
-    
-    try {
-      // Try Cloudinary first
-      let fileData;
-      if (CLOUDINARY_CONFIG.cloudName !== "YOUR_CLOUD_NAME") {
-        try {
-          fileData = await uploadToCloudinary(file);
-          console.log('Uploaded to Cloudinary:', fileData.url);
-        } catch (cloudinaryError) {
-          console.warn('Cloudinary failed, using fallback:', cloudinaryError);
-          fileData = await getFilePreview(file);
-        }
-      } else {
-        // Use fallback if Cloudinary not configured
-        fileData = await getFilePreview(file);
-      }
-      
-      await sendMessage('', fileData);
-      tempDiv.remove();
-    } catch (err) {
-      console.error('Upload error:', err);
-      tempDiv.innerHTML = `<div class="bubble">❌ Failed to upload <strong>${file.name}</strong><div class="message-time">Now</div></div>`;
-      setTimeout(() => tempDiv.remove(), 3000);
-    }
-  }
-
-  function setupFileUpload() {
+  function setupUI() {
     const fileInput = document.getElementById('fileInput');
     const attachBtn = document.getElementById('attachBtn');
-    
+    const sendBtn = document.getElementById('sendBtn');
+    const inputMsg = document.getElementById('messageInput');
+    const emojiBtn = document.getElementById('emojiBtn');
     attachBtn.onclick = () => fileInput.click();
-    fileInput.onchange = async (e) => {
-      const file = e.target.files[0];
-      if (file) {
-        await handleFileUpload(file);
-      }
-      fileInput.value = '';
-    };
+    fileInput.onchange = async (e) => { if(e.target.files[0]) await handleFileUpload(e.target.files[0]); fileInput.value = ''; };
+    const sendText = () => { if(inputMsg.value.trim()) { sendMessage(inputMsg.value); inputMsg.value = ''; setTimeout(scrollToBottom, 80); } };
+    sendBtn.onclick = sendText;
+    inputMsg.onkeypress = (e) => { if(e.key === 'Enter') { e.preventDefault(); sendText(); } };
+    emojiBtn.onclick = (e) => { e.stopPropagation(); showEmojiPicker(emojiBtn); };
   }
 
-  // Auth UI
+  function initChat(user) {
+    currentUser = user;
+    document.getElementById('userNameDisplay').textContent = user.displayName || user.email.split('@')[0];
+    document.getElementById('userEmailDisplay').textContent = `${user.email} • live`;
+    document.getElementById('authContainer').innerHTML = '';
+    document.getElementById('chatApp').classList.remove('hidden');
+    hideSplash();
+    loadMessages();
+    setupUI();
+    setTimeout(scrollToBottom, 200);
+  }
+
   function renderAuth() {
     hideSplash();
     const container = document.getElementById('authContainer');
     container.innerHTML = `
       <div class="auth-overlay">
         <div class="auth-card">
-          <h2>🚀 SERUSOFT SPACE</h2>
+          <h2>📱 SERUSOFT</h2>
           <div id="authMode">
             <input type="email" id="loginEmail" class="auth-input" placeholder="Email">
             <input type="password" id="loginPassword" class="auth-input" placeholder="Password">
-            <button id="loginBtn" class="auth-btn">Login to Chat</button>
-            <div class="toggle-auth" id="showSignup">Create new account →</div>
+            <button id="loginBtn" class="auth-btn">Login → Chat</button>
+            <div class="toggle-auth" id="showSignup">✨ Create account</div>
             <div id="authError" class="error-msg"></div>
           </div>
         </div>
       </div>
     `;
-
     document.getElementById('loginBtn').addEventListener('click', async () => {
       const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      const errorDiv = document.getElementById('authError');
-      try {
-        await signInWithEmailAndPassword(auth, email, password);
-      } catch (err) {
-        errorDiv.textContent = err.message;
-      }
+      const pwd = document.getElementById('loginPassword').value;
+      try { await signInWithEmailAndPassword(auth, email, pwd); } catch(e){ document.getElementById('authError').innerText = e.message; }
     });
-
     document.getElementById('showSignup').addEventListener('click', () => {
       const modeDiv = document.getElementById('authMode');
       modeDiv.innerHTML = `
         <input type="email" id="signupEmail" class="auth-input" placeholder="Email">
         <input type="text" id="signupName" class="auth-input" placeholder="Your Name">
         <input type="password" id="signupPassword" class="auth-input" placeholder="Password">
-        <button id="signupBtn" class="auth-btn">Create Account</button>
-        <div class="toggle-auth" id="showLogin">← Back to Login</div>
+        <button id="signupBtn" class="auth-btn">Create & Enter</button>
+        <div class="toggle-auth" id="showLogin">← Back</div>
         <div id="authError" class="error-msg"></div>
       `;
       document.getElementById('signupBtn').addEventListener('click', async () => {
         const email = document.getElementById('signupEmail').value;
-        const password = document.getElementById('signupPassword').value;
+        const pwd = document.getElementById('signupPassword').value;
         const name = document.getElementById('signupName').value;
-        const errorDiv = document.getElementById('authError');
-        if (!name) {
-          errorDiv.textContent = 'Please enter your name';
-          return;
-        }
+        if(!name) { document.getElementById('authError').innerText = "Enter name"; return; }
         try {
-          const userCred = await createUserWithEmailAndPassword(auth, email, password);
-          await updateProfile(userCred.user, { displayName: name });
-        } catch (err) {
-          errorDiv.textContent = err.message;
-        }
+          const cred = await createUserWithEmailAndPassword(auth, email, pwd);
+          await updateProfile(cred.user, { displayName: name });
+        } catch(e){ document.getElementById('authError').innerText = e.message; }
       });
       document.getElementById('showLogin').addEventListener('click', renderAuth);
     });
   }
 
-  function initChat(user) {
-    currentUser = user;
-    document.getElementById('userNameDisplay').textContent = user.displayName || user.email.split('@')[0];
-    document.getElementById('userEmailDisplay').textContent = `${user.email} • Online`;
-    document.getElementById('authContainer').innerHTML = '';
-    document.getElementById('chatApp').classList.remove('hidden');
-    hideSplash();
-    loadMessages();
-    setupFileUpload();
-    
-    const input = document.getElementById('messageInput');
-    const sendBtn = document.getElementById('sendBtn');
-    const emojiBtn = document.getElementById('emojiBtn');
-    
-    const handleSend = () => {
-      const msg = input?.value;
-      if (msg && msg.trim()) {
-        sendMessage(msg);
-        input.value = '';
-        setTimeout(scrollToBottom, 100);
-      }
-    };
-    
-    sendBtn.onclick = handleSend;
-    input.onkeypress = (e) => {
-      if (e.key === 'Enter') {
-        e.preventDefault();
-        handleSend();
-      }
-    };
-    emojiBtn.onclick = (e) => {
-      e.stopPropagation();
-      showEmojiPicker();
-    };
-    
-    // Initial scroll
-    setTimeout(scrollToBottom, 500);
-  }
-
+  document.getElementById('logoutBtn')?.addEventListener('click', async () => { await signOut(auth); });
   onAuthStateChanged(auth, (user) => {
-    if (user) {
-      initChat(user);
-    } else {
-      if (unsubscribeMessages) unsubscribeMessages();
-      currentUser = null;
-      const chatApp = document.getElementById('chatApp');
-      if (chatApp) chatApp.classList.add('hidden');
-      renderAuth();
-    }
+    if (user) initChat(user);
+    else { if(unsubscribeMessages) unsubscribeMessages(); currentUser=null; document.getElementById('chatApp')?.classList.add('hidden'); renderAuth(); }
   });
-
-  document.getElementById('logoutBtn')?.addEventListener('click', async () => {
-    await signOut(auth);
-  });
-
-  setTimeout(() => hideSplash(), 3000);
+  setTimeout(() => { if(!currentUser) hideSplash(); }, 1500);
 </script>
 </body>
 </html>
