@@ -3,48 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>SERUSOFT SPACE • WhatsApp Style Chat</title>
-  <!-- Firebase SDKs -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
-    import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-storage.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyAWb2IuKrtSQzmJSLHWR2cgsAR1mbXwwoo",
-      authDomain: "sylivia-19116.firebaseapp.com",
-      projectId: "sylivia-19116",
-      storageBucket: "sylivia-19116.firebasestorage.app",
-      messagingSenderId: "904125881889",
-      appId: "1:904125881889:web:ebbc013df9caa425e80d60",
-      measurementId: "G-ZR03Q2TMJW"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
-
-    window.auth = auth;
-    window.db = db;
-    window.storage = storage;
-    window.updateProfile = updateProfile;
-    window.signInWithEmailAndPassword = signInWithEmailAndPassword;
-    window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
-    window.signOut = signOut;
-    window.onAuthStateChanged = onAuthStateChanged;
-    window.collection = collection;
-    window.addDoc = addDoc;
-    window.query = query;
-    window.orderBy = orderBy;
-    window.onSnapshot = onSnapshot;
-    window.serverTimestamp = serverTimestamp;
-    window.limit = limit;
-    window.ref = ref;
-    window.uploadBytes = uploadBytes;
-    window.getDownloadURL = getDownloadURL;
-  </script>
+  <title>SERUSOFT SPACE • Cloudinary File Share • WhatsApp Style Chat</title>
   <style>
     * {
       margin: 0;
@@ -59,9 +18,10 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      overflow: hidden;
     }
 
-    /* SPLASH SCREEN - Shows immediately with brand */
+    /* SPLASH SCREEN */
     .splash-screen {
       position: fixed;
       top: 0;
@@ -74,12 +34,6 @@
       align-items: center;
       z-index: 10000;
       transition: opacity 0.8s ease;
-      animation: gradientShift 3s ease infinite;
-    }
-
-    @keyframes gradientShift {
-      0%, 100% { background: linear-gradient(135deg, #075e54 0%, #128c7e 100%); }
-      50% { background: linear-gradient(135deg, #0a6b5f 0%, #1da88a 100%); }
     }
 
     .splash-content {
@@ -88,56 +42,16 @@
     }
 
     @keyframes floatIn {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    .brand-logo {
-      font-size: 80px;
-      margin-bottom: 20px;
-      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2));
-    }
-
-    .brand-name {
-      font-size: 32px;
-      font-weight: 800;
-      color: white;
-      letter-spacing: 2px;
-      margin-bottom: 10px;
-    }
-
-    .brand-sub {
-      font-size: 14px;
-      color: rgba(255,255,255,0.9);
-      margin-bottom: 30px;
-    }
-
-    .loading-spinner {
-      width: 48px;
-      height: 48px;
-      border: 4px solid rgba(255,255,255,0.3);
-      border-top: 4px solid white;
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-      margin: 20px auto;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    .loading-text {
-      color: white;
-      font-size: 14px;
-      margin-top: 10px;
-    }
+    .brand-logo { font-size: 80px; margin-bottom: 20px; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2)); }
+    .brand-name { font-size: 32px; font-weight: 800; color: white; letter-spacing: 2px; margin-bottom: 10px; }
+    .brand-sub { font-size: 14px; color: rgba(255,255,255,0.9); margin-bottom: 30px; }
+    .loading-spinner { width: 48px; height: 48px; border: 4px solid rgba(255,255,255,0.3); border-top: 4px solid white; border-radius: 50%; animation: spin 1s linear infinite; margin: 20px auto; }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .loading-text { color: white; font-size: 14px; margin-top: 10px; }
 
     /* Auth Modal */
     .auth-overlay {
@@ -153,11 +67,7 @@
       z-index: 1000;
       animation: fadeIn 0.3s ease;
     }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
 
     .auth-card {
       background: white;
@@ -168,51 +78,13 @@
       text-align: center;
       box-shadow: 0 20px 40px rgba(0,0,0,0.3);
     }
-
-    .auth-card h2 {
-      color: #075e54;
-      margin-bottom: 24px;
-    }
-
-    .auth-input {
-      width: 100%;
-      padding: 14px;
-      margin: 10px 0;
-      border: 1px solid #ddd;
-      border-radius: 30px;
-      font-size: 16px;
-      outline: none;
-    }
-
-    .auth-input:focus {
-      border-color: #25d366;
-    }
-
-    .auth-btn {
-      background: #075e54;
-      color: white;
-      border: none;
-      padding: 12px;
-      width: 100%;
-      border-radius: 30px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      margin-top: 10px;
-    }
-
-    .toggle-auth {
-      margin-top: 20px;
-      color: #075e54;
-      cursor: pointer;
-      font-size: 14px;
-    }
-
-    .error-msg {
-      color: red;
-      font-size: 12px;
-      margin-top: 8px;
-    }
+    .auth-card h2 { color: #075e54; margin-bottom: 24px; }
+    .auth-input { width: 100%; padding: 14px; margin: 10px 0; border: 1px solid #ddd; border-radius: 30px; font-size: 16px; outline: none; }
+    .auth-input:focus { border-color: #25d366; }
+    .auth-btn { background: #075e54; color: white; border: none; padding: 12px; width: 100%; border-radius: 30px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+    .auth-btn:hover { background: #0a6b5f; }
+    .toggle-auth { margin-top: 20px; color: #075e54; cursor: pointer; font-size: 14px; }
+    .error-msg { color: red; font-size: 12px; margin-top: 8px; }
 
     /* Chat Container */
     .chat-container {
@@ -235,44 +107,15 @@
       display: flex;
       align-items: center;
       gap: 12px;
+      flex-shrink: 0;
     }
+    .avatar { width: 40px; height: 40px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; }
+    .contact-info { flex: 1; }
+    .contact-name { font-weight: 600; font-size: 18px; }
+    .contact-status { font-size: 10px; opacity: 0.8; }
+    .logout-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 8px 12px; border-radius: 20px; cursor: pointer; font-size: 12px; }
 
-    .avatar {
-      width: 40px;
-      height: 40px;
-      background: #25d366;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    .contact-info {
-      flex: 1;
-    }
-
-    .contact-name {
-      font-weight: 600;
-      font-size: 18px;
-    }
-
-    .contact-status {
-      font-size: 10px;
-      opacity: 0.8;
-    }
-
-    .logout-btn {
-      background: rgba(255,255,255,0.2);
-      border: none;
-      color: white;
-      padding: 8px 12px;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 12px;
-    }
-
+    /* Messages Area with Perfect Scrolling */
     .messages-area {
       flex: 1;
       overflow-y: auto;
@@ -280,7 +123,11 @@
       display: flex;
       flex-direction: column;
       gap: 8px;
+      scroll-behavior: smooth;
     }
+    .messages-area::-webkit-scrollbar { width: 6px; }
+    .messages-area::-webkit-scrollbar-track { background: transparent; }
+    .messages-area::-webkit-scrollbar-thumb { background: #ccc; border-radius: 10px; }
 
     .message {
       display: flex;
@@ -288,26 +135,9 @@
       max-width: 80%;
       animation: messagePop 0.2s ease-out;
     }
-
-    @keyframes messagePop {
-      from {
-        opacity: 0;
-        transform: scale(0.95);
-      }
-      to {
-        opacity: 1;
-        transform: scale(1);
-      }
-    }
-
-    .message.sent {
-      align-self: flex-end;
-      justify-content: flex-end;
-    }
-
-    .message.received {
-      align-self: flex-start;
-    }
+    @keyframes messagePop { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
+    .message.sent { align-self: flex-end; justify-content: flex-end; }
+    .message.received { align-self: flex-start; }
 
     .bubble {
       background: white;
@@ -319,48 +149,34 @@
       max-width: 100%;
       box-shadow: 0 1px 0.5px rgba(0,0,0,0.12);
     }
+    .message.sent .bubble { background: #dcf8c5; border-bottom-right-radius: 4px; }
+    .message.received .bubble { background: white; border-bottom-left-radius: 4px; }
+    .message-time { font-size: 10px; color: rgba(0,0,0,0.45); margin-top: 4px; text-align: right; }
+    .sender-name { font-size: 11px; font-weight: bold; color: #075e54; margin-bottom: 4px; }
 
-    .message.sent .bubble {
-      background: #dcf8c5;
-      border-bottom-right-radius: 4px;
-    }
-
-    .message.received .bubble {
-      background: white;
-      border-bottom-left-radius: 4px;
-    }
-
-    .message-time {
-      font-size: 10px;
-      color: rgba(0,0,0,0.45);
-      margin-top: 4px;
-      text-align: right;
-    }
-
-    .sender-name {
-      font-size: 11px;
-      font-weight: bold;
-      color: #075e54;
-      margin-bottom: 4px;
-    }
-
+    /* File/Image Message Styles */
     .file-message {
       display: flex;
       align-items: center;
       gap: 10px;
       cursor: pointer;
     }
-
-    .file-icon {
-      font-size: 32px;
+    .file-icon { font-size: 32px; }
+    .file-name { font-size: 12px; color: #075e54; text-decoration: underline; }
+    .image-preview {
+      max-width: 200px;
+      max-height: 200px;
+      border-radius: 12px;
+      margin-top: 4px;
+      cursor: pointer;
+    }
+    .image-preview img {
+      width: 100%;
+      height: auto;
+      border-radius: 12px;
     }
 
-    .file-name {
-      font-size: 12px;
-      color: #075e54;
-      text-decoration: underline;
-    }
-
+    /* Input Area */
     .input-area {
       background: #f0f0f0;
       padding: 12px 14px;
@@ -368,8 +184,8 @@
       align-items: center;
       gap: 8px;
       border-top: 1px solid #e0e0e0;
+      flex-shrink: 0;
     }
-
     .attach-btn, .emoji-btn {
       background: none;
       border: none;
@@ -383,11 +199,7 @@
       justify-content: center;
       transition: 0.2s;
     }
-
-    .attach-btn:hover, .emoji-btn:hover {
-      background: #e2e2e2;
-    }
-
+    .attach-btn:hover, .emoji-btn:hover { background: #e2e2e2; }
     .message-input {
       flex: 1;
       border: none;
@@ -397,7 +209,7 @@
       font-size: 15px;
       outline: none;
     }
-
+    .message-input:focus { outline: none; box-shadow: 0 0 0 2px #25d36650; }
     .send-btn {
       background: #075e54;
       border: none;
@@ -411,7 +223,9 @@
       cursor: pointer;
       font-size: 20px;
     }
+    .send-btn:hover { background: #0a6b5f; transform: scale(0.96); }
 
+    /* Emoji Picker */
     .emoji-picker {
       position: absolute;
       bottom: 80px;
@@ -428,45 +242,21 @@
       max-height: 300px;
       overflow-y: auto;
     }
-
-    .emoji-picker span {
-      font-size: 32px;
-      cursor: pointer;
-      text-align: center;
-      padding: 8px;
-      border-radius: 12px;
-      transition: 0.1s;
-    }
-
-    .emoji-picker span:hover {
-      background: #f0f0f0;
-      transform: scale(1.1);
-    }
-
-    .hidden {
-      display: none;
-    }
-
-    .info-message {
-      text-align: center;
-      color: #888;
-      padding: 20px;
-      font-size: 14px;
-    }
-
-    .file-input {
-      display: none;
-    }
+    .emoji-picker span { font-size: 32px; cursor: pointer; text-align: center; padding: 8px; border-radius: 12px; transition: 0.1s; }
+    .emoji-picker span:hover { background: #f0f0f0; transform: scale(1.1); }
+    .hidden { display: none; }
+    .info-message { text-align: center; color: #888; padding: 20px; font-size: 14px; }
+    .file-input { display: none; }
+    .upload-progress { font-size: 12px; color: #075e54; margin-top: 5px; }
   </style>
 </head>
 <body>
 
-<!-- BRAND SPLASH SCREEN - Shows immediately -->
 <div id="splashScreen" class="splash-screen">
   <div class="splash-content">
     <div class="brand-logo">🚀</div>
     <div class="brand-name">SERUSOFT SPACE</div>
-    <div class="brand-sub">Next-Gen Communication Platform</div>
+    <div class="brand-sub">Cloudinary • File Share • Real-time Chat</div>
     <div class="loading-spinner"></div>
     <div class="loading-text">Initializing secure connection...</div>
   </div>
@@ -483,112 +273,201 @@
     <button class="logout-btn" id="logoutBtn">Exit</button>
   </div>
   <div class="messages-area" id="messagesArea">
-    <div class="info-message">✨ Welcome to SERUSOFT SPACE ✨<br>Share files, emojis, and moments!</div>
+    <div class="info-message">✨ Welcome to SERUSOFT SPACE ✨<br>📎 Share images, PDFs, videos<br>😊 Use rich emojis</div>
   </div>
   <div class="input-area">
     <button class="attach-btn" id="attachBtn">📎</button>
     <button class="emoji-btn" id="emojiBtn">😊</button>
     <input type="text" class="message-input" id="messageInput" placeholder="Type a message..." autocomplete="off">
     <button class="send-btn" id="sendBtn">➤</button>
-    <input type="file" id="fileInput" class="file-input" accept="image/*,video/*,application/pdf,text/plain">
+    <input type="file" id="fileInput" class="file-input" accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain">
   </div>
 </div>
 
-<script>
-  (function() {
-    // Hide splash after initialization
-    function hideSplash() {
-      const splash = document.getElementById('splashScreen');
-      if (splash) {
-        splash.style.opacity = '0';
-        setTimeout(() => {
-          splash.style.display = 'none';
-        }, 800);
-      }
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
+  import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
+  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAWb2IuKrtSQzmJSLHWR2cgsAR1mbXwwoo",
+    authDomain: "sylivia-19116.firebaseapp.com",
+    projectId: "sylivia-19116",
+    storageBucket: "sylivia-19116.firebasestorage.app",
+    messagingSenderId: "904125881889",
+    appId: "1:904125881889:web:ebbc013df9caa425e80d60",
+    measurementId: "G-ZR03Q2TMJW"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Cloudinary Configuration (Free account - works without API keys for unsigned uploads)
+  // To use Cloudinary, create a free account at cloudinary.com and replace these values
+  const CLOUDINARY_CONFIG = {
+    cloudName: "dwmdaz0c6",  // Demo cloud name - Replace with your own
+    uploadPreset: "chat_uploads",  // Create unsigned preset in Cloudinary Settings > Upload
+    apiKey: "YOUR_API_KEY"  // Optional for signed uploads
+  };
+
+  function hideSplash() {
+    const splash = document.getElementById('splashScreen');
+    if (splash) {
+      splash.style.opacity = '0';
+      setTimeout(() => { splash.style.display = 'none'; }, 800);
     }
+  }
 
-    // Rich emoji collection - LOVE, FUNNY, STUDY, TECH
-    const emojiCategories = {
-      love: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '💕', '💞', '💓', '💗', '💖', '💘', '💝', '🥰', '😘', '😍'],
-      funny: ['😂', '🤣', '😭', '😅', '🤪', '😜', '😝', '🤣', '🙃', '🥲', '😹', '🤡', '👻', '💀', '🎃', '🤯', '😱'],
-      study: ['📚', '📖', '📝', '✏️', '📓', '🎓', '🏫', '🧠', '💡', '🔬', '🧪', '📊', '📈', '📉', '📌', '📍', '🔖'],
-      tech: ['💻', '🖥️', '📱', '🤖', '⚡', '🔥', '🚀', '💾', '🖱️', '⌨️', '🖨️', '📡', '🔧', '⚙️', '💎', '🌟', '✨'],
-      general: ['😀', '😃', '😄', '😁', '😆', '😊', '🙂', '🥹', '😉', '😌', '😎', '🤩', '🥳', '🎉', '🎊', '🎈', '🎁']
-    };
-    
-    const allEmojis = [...emojiCategories.love, ...emojiCategories.funny, ...emojiCategories.study, ...emojiCategories.tech, ...emojiCategories.general];
-
-    let currentUser = null;
-    let unsubscribeMessages = null;
-
-    // File upload to Firebase Storage
-    async function uploadFile(file) {
-      if (!currentUser) return null;
-      const fileRef = ref(window.storage, `chat_files/${Date.now()}_${file.name}`);
-      await window.uploadBytes(fileRef, file);
-      const url = await window.getDownloadURL(fileRef);
-      return { url, name: file.name, type: file.type };
-    }
-
-    // Send message (text or file)
-    async function sendMessage(text, fileData = null) {
-      if (!text.trim() && !fileData) return;
-      try {
-        const messageData = {
-          senderId: currentUser.uid,
-          senderName: currentUser.displayName || currentUser.email.split('@')[0],
-          senderEmail: currentUser.email,
-          timestamp: window.serverTimestamp(),
-          ...(text.trim() && { text: text.trim() }),
-          ...(fileData && { file: fileData })
-        };
-        await window.addDoc(window.collection(window.db, 'messages'), messageData);
-      } catch (err) {
-        console.error('Send error:', err);
-        alert('Error: ' + err.message + '\n\nPlease update Firebase Rules:\nallow read, write: if request.auth != null;');
-      }
-    }
-
-    // Load messages real-time
-    function loadMessages() {
-      if (unsubscribeMessages) unsubscribeMessages();
-      const messagesQuery = window.query(window.collection(window.db, 'messages'), window.orderBy('timestamp', 'asc'), window.limit(200));
+  // Upload file to Cloudinary
+  async function uploadToCloudinary(file) {
+    return new Promise((resolve, reject) => {
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
+      formData.append('cloud_name', CLOUDINARY_CONFIG.cloudName);
       
-      unsubscribeMessages = window.onSnapshot(messagesQuery, (snapshot) => {
-        const messagesArea = document.getElementById('messagesArea');
-        if (!messagesArea) return;
+      fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/auto/upload`, {
+        method: 'POST',
+        body: formData
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.secure_url) {
+          resolve({
+            url: data.secure_url,
+            name: file.name,
+            type: file.type,
+            resource_type: data.resource_type,
+            format: data.format,
+            size: file.size
+          });
+        } else {
+          reject(new Error('Upload failed: ' + (data.error?.message || 'Unknown error')));
+        }
+      })
+      .catch(reject);
+    });
+  }
+
+  // Fallback: Display file as base64 if Cloudinary fails
+  function getFilePreview(file) {
+    return new Promise((resolve) => {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        resolve({
+          url: e.target.result,
+          name: file.name,
+          type: file.type,
+          isBase64: true
+        });
+      };
+      reader.readAsDataURL(file);
+    });
+  }
+
+  let currentUser = null;
+  let unsubscribeMessages = null;
+
+  // Rich emojis
+  const emojiCategories = {
+    love: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '💕', '💞', '💓', '💗', '💖', '💘', '🥰', '😘', '😍'],
+    funny: ['😂', '🤣', '😭', '😅', '🤪', '😜', '😝', '🙃', '🥲', '😹', '🤡', '👻', '💀', '🎃'],
+    study: ['📚', '📖', '📝', '✏️', '📓', '🎓', '🏫', '🧠', '💡', '🔬', '🧪', '📊', '📈', '🎯'],
+    tech: ['💻', '🖥️', '📱', '🤖', '⚡', '🔥', '🚀', '💾', '⌨️', '🖨️', '📡', '🔧', '⚙️', '💎'],
+    general: ['😀', '😃', '😄', '😁', '😆', '😊', '🙂', '😉', '😌', '😎', '🤩', '🥳', '🎉', '🎊', '✨', '⭐']
+  };
+
+  // Send message with optional file
+  async function sendMessage(text, fileData = null) {
+    if ((!text || !text.trim()) && !fileData) return;
+    try {
+      const messageData = {
+        senderId: currentUser.uid,
+        senderName: currentUser.displayName || currentUser.email.split('@')[0],
+        senderEmail: currentUser.email,
+        timestamp: serverTimestamp(),
+        ...(text && text.trim() && { text: text.trim() }),
+        ...(fileData && { file: fileData })
+      };
+      await addDoc(collection(db, 'messages'), messageData);
+    } catch (err) {
+      console.error('Send error:', err);
+      alert('Error: ' + err.message + '\n\nPlease update Firebase Rules in Firestore Console:\nallow read, write: if request.auth != null;');
+    }
+  }
+
+  // Auto-scroll to bottom
+  function scrollToBottom() {
+    const messagesArea = document.getElementById('messagesArea');
+    if (messagesArea) {
+      messagesArea.scrollTop = messagesArea.scrollHeight;
+    }
+  }
+
+  // Load messages with perfect scrolling
+  function loadMessages() {
+    if (unsubscribeMessages) unsubscribeMessages();
+    const messagesQuery = query(collection(db, 'messages'), orderBy('timestamp', 'asc'), limit(500));
+    
+    unsubscribeMessages = onSnapshot(messagesQuery, (snapshot) => {
+      const messagesArea = document.getElementById('messagesArea');
+      if (!messagesArea) return;
+      
+      const wasAtBottom = messagesArea.scrollHeight - messagesArea.scrollTop - messagesArea.clientHeight < 50;
+      messagesArea.innerHTML = '';
+      
+      if (snapshot.empty) {
+        messagesArea.innerHTML = '<div class="info-message">✨ No messages yet. Start chatting! ✨</div>';
+      }
+      
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const isSent = currentUser && data.senderId === currentUser.uid;
+        const messageDiv = document.createElement('div');
+        messageDiv.className = `message ${isSent ? 'sent' : 'received'}`;
         
-        const shouldScroll = messagesArea.scrollHeight - messagesArea.scrollTop < 300;
-        messagesArea.innerHTML = '';
+        const bubbleDiv = document.createElement('div');
+        bubbleDiv.className = 'bubble';
         
-        if (snapshot.empty) {
-          messagesArea.innerHTML = '<div class="info-message">✨ No messages yet. Start chatting! ✨</div>';
+        if (!isSent && data.senderName) {
+          const nameSpan = document.createElement('div');
+          nameSpan.className = 'sender-name';
+          nameSpan.textContent = data.senderName;
+          bubbleDiv.appendChild(nameSpan);
         }
         
-        snapshot.forEach(doc => {
-          const data = doc.data();
-          const isSent = currentUser && data.senderId === currentUser.uid;
-          const messageDiv = document.createElement('div');
-          messageDiv.className = `message ${isSent ? 'sent' : 'received'}`;
+        // Handle file messages
+        if (data.file) {
+          const isImage = data.file.type?.startsWith('image/');
+          const isVideo = data.file.type?.startsWith('video/');
           
-          const bubbleDiv = document.createElement('div');
-          bubbleDiv.className = 'bubble';
-          
-          if (!isSent && data.senderName) {
-            const nameSpan = document.createElement('div');
-            nameSpan.className = 'sender-name';
-            nameSpan.textContent = data.senderName;
-            bubbleDiv.appendChild(nameSpan);
-          }
-          
-          // Handle file messages
-          if (data.file) {
+          if (isImage) {
+            const imgContainer = document.createElement('div');
+            imgContainer.className = 'image-preview';
+            const img = document.createElement('img');
+            img.src = data.file.url;
+            img.alt = data.file.name;
+            img.style.maxWidth = '200px';
+            img.style.maxHeight = '200px';
+            img.style.borderRadius = '12px';
+            img.style.cursor = 'pointer';
+            img.onclick = () => window.open(data.file.url, '_blank');
+            imgContainer.appendChild(img);
+            bubbleDiv.appendChild(imgContainer);
+            
+            const fileNameSpan = document.createElement('div');
+            fileNameSpan.className = 'file-name';
+            fileNameSpan.textContent = data.file.name;
+            fileNameSpan.style.fontSize = '10px';
+            fileNameSpan.style.marginTop = '4px';
+            bubbleDiv.appendChild(fileNameSpan);
+          } else {
             const fileDiv = document.createElement('div');
             fileDiv.className = 'file-message';
-            fileDiv.style.cursor = 'pointer';
             const fileIcon = document.createElement('div');
             fileIcon.className = 'file-icon';
-            fileIcon.textContent = data.file.type?.startsWith('image/') ? '🖼️' : (data.file.type?.startsWith('video/') ? '🎥' : '📄');
+            fileIcon.textContent = isVideo ? '🎥' : '📄';
             const fileName = document.createElement('div');
             fileName.className = 'file-name';
             fileName.textContent = data.file.name;
@@ -597,238 +476,264 @@
             fileDiv.onclick = () => window.open(data.file.url, '_blank');
             bubbleDiv.appendChild(fileDiv);
           }
-          
-          // Handle text messages
-          if (data.text) {
-            bubbleDiv.appendChild(document.createTextNode(data.text));
-          }
-          
-          const timeSpan = document.createElement('div');
-          timeSpan.className = 'message-time';
-          if (data.timestamp && data.timestamp.toDate) {
-            const date = data.timestamp.toDate();
-            timeSpan.textContent = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-          } else {
-            timeSpan.textContent = 'Now';
-          }
-          bubbleDiv.appendChild(timeSpan);
-          messageDiv.appendChild(bubbleDiv);
-          messagesArea.appendChild(messageDiv);
-        });
-        
-        if (shouldScroll) {
-          messagesArea.scrollTop = messagesArea.scrollHeight;
         }
-      });
-    }
-
-    // Emoji picker with categories
-    let emojiPicker = null;
-    function showEmojiPicker() {
-      if (emojiPicker) {
-        emojiPicker.remove();
-        emojiPicker = null;
-        return;
-      }
-      
-      const picker = document.createElement('div');
-      picker.className = 'emoji-picker';
-      
-      // Add category headers
-      const categories = [
-        { name: '❤️ Love & Romance', emojis: emojiCategories.love },
-        { name: '😂 Funny & Crazy', emojis: emojiCategories.funny },
-        { name: '📚 Study & School', emojis: emojiCategories.study },
-        { name: '💻 Tech & Work', emojis: emojiCategories.tech },
-        { name: '✨ General', emojis: emojiCategories.general }
-      ];
-      
-      categories.forEach(cat => {
-        const catTitle = document.createElement('div');
-        catTitle.textContent = cat.name;
-        catTitle.style.gridColumn = '1/-1';
-        catTitle.style.fontSize = '12px';
-        catTitle.style.fontWeight = 'bold';
-        catTitle.style.color = '#075e54';
-        catTitle.style.marginTop = '8px';
-        catTitle.style.padding = '4px 0';
-        picker.appendChild(catTitle);
         
-        cat.emojis.forEach(emoji => {
-          const emojiSpan = document.createElement('span');
-          emojiSpan.textContent = emoji;
-          emojiSpan.onclick = (e) => {
-            e.stopPropagation();
-            const input = document.getElementById('messageInput');
-            const start = input.selectionStart;
-            const end = input.selectionEnd;
-            input.value = input.value.substring(0, start) + emoji + input.value.substring(end);
-            input.focus();
-            picker.remove();
-            emojiPicker = null;
-          };
-          picker.appendChild(emojiSpan);
-        });
+        // Handle text messages
+        if (data.text) {
+          bubbleDiv.appendChild(document.createTextNode(data.text));
+        }
+        
+        const timeSpan = document.createElement('div');
+        timeSpan.className = 'message-time';
+        if (data.timestamp && data.timestamp.toDate) {
+          const date = data.timestamp.toDate();
+          timeSpan.textContent = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        } else {
+          timeSpan.textContent = 'Now';
+        }
+        bubbleDiv.appendChild(timeSpan);
+        messageDiv.appendChild(bubbleDiv);
+        messagesArea.appendChild(messageDiv);
       });
       
-      document.body.appendChild(picker);
-      emojiPicker = picker;
+      // Smart scroll: only auto-scroll if user was at bottom
+      if (wasAtBottom) {
+        scrollToBottom();
+      }
+    });
+  }
+
+  // Emoji picker
+  let emojiPicker = null;
+  function showEmojiPicker() {
+    if (emojiPicker) {
+      emojiPicker.remove();
+      emojiPicker = null;
+      return;
+    }
+    
+    const picker = document.createElement('div');
+    picker.className = 'emoji-picker';
+    
+    const categories = [
+      { name: '❤️ Love', emojis: emojiCategories.love },
+      { name: '😂 Funny', emojis: emojiCategories.funny },
+      { name: '📚 Study', emojis: emojiCategories.study },
+      { name: '💻 Tech', emojis: emojiCategories.tech },
+      { name: '✨ General', emojis: emojiCategories.general }
+    ];
+    
+    categories.forEach(cat => {
+      const catTitle = document.createElement('div');
+      catTitle.textContent = cat.name;
+      catTitle.style.gridColumn = '1/-1';
+      catTitle.style.fontSize = '12px';
+      catTitle.style.fontWeight = 'bold';
+      catTitle.style.color = '#075e54';
+      catTitle.style.marginTop = '8px';
+      catTitle.style.padding = '4px 0';
+      catTitle.style.borderBottom = '1px solid #eee';
+      picker.appendChild(catTitle);
       
-      const closePicker = (e) => {
-        if (!picker.contains(e.target) && e.target !== document.getElementById('emojiBtn')) {
+      cat.emojis.forEach(emoji => {
+        const emojiSpan = document.createElement('span');
+        emojiSpan.textContent = emoji;
+        emojiSpan.onclick = (e) => {
+          e.stopPropagation();
+          const input = document.getElementById('messageInput');
+          const start = input.selectionStart;
+          const end = input.selectionEnd;
+          input.value = input.value.substring(0, start) + emoji + input.value.substring(end);
+          input.focus();
           picker.remove();
           emojiPicker = null;
-          document.removeEventListener('click', closePicker);
-        }
-      };
-      setTimeout(() => document.addEventListener('click', closePicker), 100);
-    }
+        };
+        picker.appendChild(emojiSpan);
+      });
+    });
+    
+    document.body.appendChild(picker);
+    emojiPicker = picker;
+    
+    const closePicker = (e) => {
+      if (!picker.contains(e.target) && e.target !== document.getElementById('emojiBtn')) {
+        picker.remove();
+        emojiPicker = null;
+        document.removeEventListener('click', closePicker);
+      }
+    };
+    setTimeout(() => document.addEventListener('click', closePicker), 100);
+  }
 
-    // File attachment handler
-    function setupFileUpload() {
-      const fileInput = document.getElementById('fileInput');
-      const attachBtn = document.getElementById('attachBtn');
+  // File upload handler with Cloudinary + fallback
+  async function handleFileUpload(file) {
+    if (!file) return;
+    
+    // Show uploading indicator
+    const messagesArea = document.getElementById('messagesArea');
+    const tempId = 'temp-msg-' + Date.now();
+    const tempDiv = document.createElement('div');
+    tempDiv.id = tempId;
+    tempDiv.className = 'message sent';
+    tempDiv.innerHTML = `<div class="bubble">📎 Uploading <strong>${file.name}</strong>...<div class="upload-progress">⏳ Please wait</div><div class="message-time">Now</div></div>`;
+    messagesArea.appendChild(tempDiv);
+    scrollToBottom();
+    
+    try {
+      // Try Cloudinary first
+      let fileData;
+      if (CLOUDINARY_CONFIG.cloudName !== "YOUR_CLOUD_NAME") {
+        try {
+          fileData = await uploadToCloudinary(file);
+          console.log('Uploaded to Cloudinary:', fileData.url);
+        } catch (cloudinaryError) {
+          console.warn('Cloudinary failed, using fallback:', cloudinaryError);
+          fileData = await getFilePreview(file);
+        }
+      } else {
+        // Use fallback if Cloudinary not configured
+        fileData = await getFilePreview(file);
+      }
       
-      attachBtn.onclick = () => fileInput.click();
-      fileInput.onchange = async (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-        
-        // Show uploading indicator
-        const msg = `📎 Uploading ${file.name}...`;
-        const tempDiv = document.createElement('div');
-        tempDiv.className = 'message sent';
-        tempDiv.innerHTML = `<div class="bubble">${msg}<div class="message-time">Now</div></div>`;
-        document.getElementById('messagesArea').appendChild(tempDiv);
-        
-        const fileData = await uploadFile(file);
-        if (fileData) {
-          await sendMessage('', fileData);
-        }
-        tempDiv.remove();
-        fileInput.value = '';
-      };
+      await sendMessage('', fileData);
+      tempDiv.remove();
+    } catch (err) {
+      console.error('Upload error:', err);
+      tempDiv.innerHTML = `<div class="bubble">❌ Failed to upload <strong>${file.name}</strong><div class="message-time">Now</div></div>`;
+      setTimeout(() => tempDiv.remove(), 3000);
     }
+  }
 
-    // Auth UI
-    function renderAuth() {
-      hideSplash();
-      const container = document.getElementById('authContainer');
-      container.innerHTML = `
-        <div class="auth-overlay">
-          <div class="auth-card">
-            <h2>🚀 SERUSOFT SPACE</h2>
-            <div id="authMode">
-              <input type="email" id="loginEmail" class="auth-input" placeholder="Email">
-              <input type="password" id="loginPassword" class="auth-input" placeholder="Password">
-              <button id="loginBtn" class="auth-btn">Login to Chat</button>
-              <div class="toggle-auth" id="showSignup">Create new account →</div>
-              <div id="authError" class="error-msg"></div>
-            </div>
+  function setupFileUpload() {
+    const fileInput = document.getElementById('fileInput');
+    const attachBtn = document.getElementById('attachBtn');
+    
+    attachBtn.onclick = () => fileInput.click();
+    fileInput.onchange = async (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        await handleFileUpload(file);
+      }
+      fileInput.value = '';
+    };
+  }
+
+  // Auth UI
+  function renderAuth() {
+    hideSplash();
+    const container = document.getElementById('authContainer');
+    container.innerHTML = `
+      <div class="auth-overlay">
+        <div class="auth-card">
+          <h2>🚀 SERUSOFT SPACE</h2>
+          <div id="authMode">
+            <input type="email" id="loginEmail" class="auth-input" placeholder="Email">
+            <input type="password" id="loginPassword" class="auth-input" placeholder="Password">
+            <button id="loginBtn" class="auth-btn">Login to Chat</button>
+            <div class="toggle-auth" id="showSignup">Create new account →</div>
+            <div id="authError" class="error-msg"></div>
           </div>
         </div>
-      `;
+      </div>
+    `;
 
-      document.getElementById('loginBtn').addEventListener('click', async () => {
-        const email = document.getElementById('loginEmail').value;
-        const password = document.getElementById('loginPassword').value;
+    document.getElementById('loginBtn').addEventListener('click', async () => {
+      const email = document.getElementById('loginEmail').value;
+      const password = document.getElementById('loginPassword').value;
+      const errorDiv = document.getElementById('authError');
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+      } catch (err) {
+        errorDiv.textContent = err.message;
+      }
+    });
+
+    document.getElementById('showSignup').addEventListener('click', () => {
+      const modeDiv = document.getElementById('authMode');
+      modeDiv.innerHTML = `
+        <input type="email" id="signupEmail" class="auth-input" placeholder="Email">
+        <input type="text" id="signupName" class="auth-input" placeholder="Your Name">
+        <input type="password" id="signupPassword" class="auth-input" placeholder="Password">
+        <button id="signupBtn" class="auth-btn">Create Account</button>
+        <div class="toggle-auth" id="showLogin">← Back to Login</div>
+        <div id="authError" class="error-msg"></div>
+      `;
+      document.getElementById('signupBtn').addEventListener('click', async () => {
+        const email = document.getElementById('signupEmail').value;
+        const password = document.getElementById('signupPassword').value;
+        const name = document.getElementById('signupName').value;
         const errorDiv = document.getElementById('authError');
+        if (!name) {
+          errorDiv.textContent = 'Please enter your name';
+          return;
+        }
         try {
-          await window.signInWithEmailAndPassword(window.auth, email, password);
+          const userCred = await createUserWithEmailAndPassword(auth, email, password);
+          await updateProfile(userCred.user, { displayName: name });
         } catch (err) {
           errorDiv.textContent = err.message;
         }
       });
-
-      document.getElementById('showSignup').addEventListener('click', () => {
-        const modeDiv = document.getElementById('authMode');
-        modeDiv.innerHTML = `
-          <input type="email" id="signupEmail" class="auth-input" placeholder="Email">
-          <input type="text" id="signupName" class="auth-input" placeholder="Your Name">
-          <input type="password" id="signupPassword" class="auth-input" placeholder="Password">
-          <button id="signupBtn" class="auth-btn">Create Account</button>
-          <div class="toggle-auth" id="showLogin">← Back to Login</div>
-          <div id="authError" class="error-msg"></div>
-        `;
-        document.getElementById('signupBtn').addEventListener('click', async () => {
-          const email = document.getElementById('signupEmail').value;
-          const password = document.getElementById('signupPassword').value;
-          const name = document.getElementById('signupName').value;
-          const errorDiv = document.getElementById('authError');
-          if (!name) {
-            errorDiv.textContent = 'Please enter your name';
-            return;
-          }
-          try {
-            const userCred = await window.createUserWithEmailAndPassword(window.auth, email, password);
-            await window.updateProfile(userCred.user, { displayName: name });
-          } catch (err) {
-            errorDiv.textContent = err.message;
-          }
-        });
-        document.getElementById('showLogin').addEventListener('click', renderAuth);
-      });
-    }
-
-    function initChat(user) {
-      currentUser = user;
-      document.getElementById('userNameDisplay').textContent = user.displayName || user.email.split('@')[0];
-      document.getElementById('userEmailDisplay').textContent = `${user.email} • Online`;
-      document.getElementById('authContainer').innerHTML = '';
-      document.getElementById('chatApp').classList.remove('hidden');
-      hideSplash();
-      loadMessages();
-      setupFileUpload();
-      
-      const input = document.getElementById('messageInput');
-      const sendBtn = document.getElementById('sendBtn');
-      const emojiBtn = document.getElementById('emojiBtn');
-      
-      const handleSend = () => {
-        const msg = input?.value;
-        if (msg && msg.trim()) {
-          sendMessage(msg);
-          input.value = '';
-        }
-      };
-      
-      sendBtn.onclick = handleSend;
-      input.onkeypress = (e) => {
-        if (e.key === 'Enter') {
-          e.preventDefault();
-          handleSend();
-        }
-      };
-      emojiBtn.onclick = (e) => {
-        e.stopPropagation();
-        showEmojiPicker();
-      };
-    }
-
-    // Auth state listener
-    window.onAuthStateChanged(window.auth, (user) => {
-      if (user) {
-        initChat(user);
-      } else {
-        if (unsubscribeMessages) unsubscribeMessages();
-        currentUser = null;
-        document.getElementById('chatApp')?.classList.add('hidden');
-        renderAuth();
-      }
+      document.getElementById('showLogin').addEventListener('click', renderAuth);
     });
+  }
 
-    // Logout
-    document.addEventListener('click', (e) => {
-      if (e.target.id === 'logoutBtn') {
-        window.signOut(window.auth);
+  function initChat(user) {
+    currentUser = user;
+    document.getElementById('userNameDisplay').textContent = user.displayName || user.email.split('@')[0];
+    document.getElementById('userEmailDisplay').textContent = `${user.email} • Online`;
+    document.getElementById('authContainer').innerHTML = '';
+    document.getElementById('chatApp').classList.remove('hidden');
+    hideSplash();
+    loadMessages();
+    setupFileUpload();
+    
+    const input = document.getElementById('messageInput');
+    const sendBtn = document.getElementById('sendBtn');
+    const emojiBtn = document.getElementById('emojiBtn');
+    
+    const handleSend = () => {
+      const msg = input?.value;
+      if (msg && msg.trim()) {
+        sendMessage(msg);
+        input.value = '';
+        setTimeout(scrollToBottom, 100);
       }
-    });
+    };
+    
+    sendBtn.onclick = handleSend;
+    input.onkeypress = (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        handleSend();
+      }
+    };
+    emojiBtn.onclick = (e) => {
+      e.stopPropagation();
+      showEmojiPicker();
+    };
+    
+    // Initial scroll
+    setTimeout(scrollToBottom, 500);
+  }
 
-    // Fallback: hide splash after 3 seconds max
-    setTimeout(() => {
-      hideSplash();
-    }, 3000);
-  })();
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      initChat(user);
+    } else {
+      if (unsubscribeMessages) unsubscribeMessages();
+      currentUser = null;
+      const chatApp = document.getElementById('chatApp');
+      if (chatApp) chatApp.classList.add('hidden');
+      renderAuth();
+    }
+  });
+
+  document.getElementById('logoutBtn')?.addEventListener('click', async () => {
+    await signOut(auth);
+  });
+
+  setTimeout(() => hideSplash(), 3000);
 </script>
 </body>
 </html>
