@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>SERUSOFT SPACE • Real Phone Size • Perfect Input Access</title>
+  <title>SERUSOFT SPACE • Smart Chat • Cloudinary Share</title>
   <style>
     * {
       margin: 0;
@@ -14,29 +14,34 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+      background: #1a1a2e;
       min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* DESKTOP ONLY: Phone frame wrapper */
+    .desktop-frame {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
+      min-height: 100vh;
+      background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+      padding: 24px;
     }
 
-    /* 📱 REALISTIC PHONE FRAME - GENUINE SIZE (like iPhone 14 Pro) */
+    /* Phone mock - ONLY visible on desktop */
     .phone-mock {
       position: relative;
       width: 100%;
       max-width: 390px;
       height: 844px;
-      max-height: 90vh;
       background: #000;
       border-radius: 48px;
       box-shadow: 0 30px 50px rgba(0,0,0,0.5), 0 0 0 6px #3a3a3a, 0 0 0 10px #2c2c2c;
-      transition: all 0.2s ease;
       overflow: hidden;
     }
 
-    /* Dynamic Island */
+    /* Dynamic Island - desktop only */
     .dynamic-island {
       position: absolute;
       top: 12px;
@@ -50,7 +55,6 @@
       box-shadow: inset 0 1px 1px rgba(255,255,255,0.08), 0 2px 8px rgba(0,0,0,0.3);
     }
 
-    /* Speaker grille */
     .speaker-grille {
       position: absolute;
       top: 22px;
@@ -63,7 +67,6 @@
       z-index: 21;
     }
 
-    /* Screen container - fills phone exactly */
     .phone-screen {
       background: #000;
       width: 100%;
@@ -71,10 +74,14 @@
       display: flex;
       flex-direction: column;
       overflow: hidden;
-      position: relative;
     }
 
-    /* CHAT CONTAINER */
+    /* MOBILE: Full screen takeover (no frame) */
+    .mobile-full {
+      display: none;
+    }
+
+    /* CHAT CONTAINER - shared styles for both modes */
     .chat-container {
       width: 100%;
       height: 100%;
@@ -124,7 +131,6 @@
     }
     .logout-btn:active { background: rgba(0,0,0,0.3); transform: scale(0.95);}
 
-    /* MESSAGES AREA - scrollable */
     .messages-area {
       flex: 1;
       overflow-y: auto;
@@ -164,7 +170,6 @@
     .message-time { font-size: 10px; color: rgba(0,0,0,0.5); margin-top: 5px; text-align: right; }
     .sender-name { font-size: 11px; font-weight: 800; color: #075e54; margin-bottom: 4px; }
 
-    /* Image preview with tap zoom */
     .image-wrapper {
       cursor: pointer;
       border-radius: 16px;
@@ -195,18 +200,20 @@
     .file-name { font-size: 12px; font-weight: 500; color: #075e54; text-decoration: underline; }
     .file-attachment:active { background: rgba(0,0,0,0.1); }
 
-    /* INPUT AREA - PERFECTLY VISIBLE AT BOTTOM */
+    /* INPUT AREA - ALWAYS VISIBLE & TAPPABLE */
     .input-area {
       background: #f7f7f7;
-      padding: 12px 14px 18px 14px;
+      padding: 12px 14px;
       display: flex;
       align-items: center;
       gap: 10px;
       border-top: 1px solid #e2e2e2;
       flex-shrink: 0;
       background: rgba(247,247,247,0.98);
-      /* Safe area for iPhone bottom notch */
-      padding-bottom: max(18px, env(safe-area-inset-bottom));
+    }
+    /* Mobile: extra bottom padding for safe area */
+    body.mobile-device .input-area {
+      padding-bottom: calc(12px + env(safe-area-inset-bottom, 0px));
     }
     .attach-btn, .emoji-btn {
       background: #fff;
@@ -252,7 +259,6 @@
     }
     .send-btn:active { transform: scale(0.92); background: #0a6b5f; }
 
-    /* Emoji Picker */
     .emoji-picker {
       position: fixed;
       bottom: 90px;
@@ -279,7 +285,6 @@
     .file-input { display: none; }
     .upload-progress { font-size: 10px; color: #128c7e; margin-top: 4px; font-weight: 500;}
 
-    /* ZOOM MODAL */
     .zoom-modal {
       position: fixed;
       top: 0;
@@ -310,9 +315,7 @@
       transform: scale(0.96);
       transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
     }
-    .zoom-modal.active .zoom-image {
-      transform: scale(1);
-    }
+    .zoom-modal.active .zoom-image { transform: scale(1); }
     .close-zoom {
       position: absolute;
       top: 50px;
@@ -330,7 +333,6 @@
       cursor: pointer;
     }
 
-    /* Auth Modal */
     .auth-overlay {
       position: fixed;
       top: 0;
@@ -361,7 +363,6 @@
     .toggle-auth { margin-top: 20px; color: #075e54; cursor: pointer; font-size: 14px; font-weight: 500; }
     .error-msg { color: #e74c3c; font-size: 12px; margin-top: 10px; }
 
-    /* Splash */
     .splash-screen {
       position: absolute;
       top: 0;
@@ -373,7 +374,6 @@
       justify-content: center;
       align-items: center;
       z-index: 10000;
-      border-radius: 44px;
       transition: opacity 0.5s ease;
     }
     .splash-content { text-align: center; }
@@ -382,15 +382,85 @@
     .brand-sub { font-size: 13px; color: rgba(255,255,255,0.9); margin-bottom: 24px; }
     .loading-spinner { width: 48px; height: 48px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; animation: spin 0.9s linear infinite; margin: 20px auto; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    /* MOBILE: Full screen (no frame, no notch) */
+    @media (max-width: 768px) {
+      .desktop-frame {
+        display: none !important;
+      }
+      .mobile-full {
+        display: block !important;
+        width: 100%;
+        height: 100vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+      }
+      body {
+        overflow: hidden;
+        background: #000;
+      }
+      .chat-container {
+        height: 100vh;
+      }
+    }
+
+    /* DESKTOP: Show frame only */
+    @media (min-width: 769px) {
+      .desktop-frame {
+        display: flex !important;
+      }
+      .mobile-full {
+        display: none !important;
+      }
+    }
   </style>
 </head>
 <body>
 
-<div class="phone-mock">
-  <div class="dynamic-island"></div>
-  <div class="speaker-grille"></div>
-  <div class="phone-screen">
-    <div id="splashScreen" class="splash-screen">
+<!-- DESKTOP VIEW: Phone frame -->
+<div class="desktop-frame">
+  <div class="phone-mock">
+    <div class="dynamic-island"></div>
+    <div class="speaker-grille"></div>
+    <div class="phone-screen" id="desktopScreen">
+      <div id="desktopSplash" class="splash-screen">
+        <div class="splash-content">
+          <div class="brand-logo">🚀📱</div>
+          <div class="brand-name">SERUSOFT SPACE</div>
+          <div class="brand-sub">Cloudinary • Instant Share</div>
+          <div class="loading-spinner"></div>
+        </div>
+      </div>
+      <div id="desktopAuth"></div>
+      <div id="desktopChat" class="chat-container hidden">
+        <div class="chat-header">
+          <div class="avatar">💬</div>
+          <div class="contact-info">
+            <div class="contact-name" id="desktopUserName">Chat Space</div>
+            <div class="contact-status" id="desktopUserEmail">online</div>
+          </div>
+          <button class="logout-btn" id="desktopLogoutBtn">Exit</button>
+        </div>
+        <div class="messages-area" id="desktopMessagesArea">
+          <div class="info-message">✨ DESKTOP PREVIEW MODE ✨<br>📎 Tap image to zoom</div>
+        </div>
+        <div class="input-area">
+          <button class="attach-btn" id="desktopAttachBtn">📎</button>
+          <button class="emoji-btn" id="desktopEmojiBtn">😊</button>
+          <input type="text" class="message-input" id="desktopMessageInput" placeholder="Message" autocomplete="off">
+          <button class="send-btn" id="desktopSendBtn">➤</button>
+          <input type="file" id="desktopFileInput" class="file-input" accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain">
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MOBILE VIEW: Full screen (no frame) -->
+<div class="mobile-full">
+  <div id="mobileScreen" style="width:100%; height:100%; background:#efeae2;">
+    <div id="mobileSplash" class="splash-screen">
       <div class="splash-content">
         <div class="brand-logo">🚀📱</div>
         <div class="brand-name">SERUSOFT SPACE</div>
@@ -398,26 +468,25 @@
         <div class="loading-spinner"></div>
       </div>
     </div>
-
-    <div id="authContainer" style="position:relative; z-index:100;"></div>
-    <div id="chatApp" class="chat-container hidden">
+    <div id="mobileAuth"></div>
+    <div id="mobileChat" class="chat-container hidden">
       <div class="chat-header">
         <div class="avatar">💬</div>
         <div class="contact-info">
-          <div class="contact-name" id="userNameDisplay">Chat Space</div>
-          <div class="contact-status" id="userEmailDisplay">online</div>
+          <div class="contact-name" id="mobileUserName">Chat Space</div>
+          <div class="contact-status" id="mobileUserEmail">online</div>
         </div>
-        <button class="logout-btn" id="logoutBtn">Exit</button>
+        <button class="logout-btn" id="mobileLogoutBtn">Exit</button>
       </div>
-      <div class="messages-area" id="messagesArea">
-        <div class="info-message">✨ REAL PHONE SIZE ✨<br>📎 Tap any image to zoom<br>📱 Input always visible</div>
+      <div class="messages-area" id="mobileMessagesArea">
+        <div class="info-message">✨ WELCOME ✨<br>📎 Tap image to zoom</div>
       </div>
       <div class="input-area">
-        <button class="attach-btn" id="attachBtn">📎</button>
-        <button class="emoji-btn" id="emojiBtn">😊</button>
-        <input type="text" class="message-input" id="messageInput" placeholder="Message" autocomplete="off">
-        <button class="send-btn" id="sendBtn">➤</button>
-        <input type="file" id="fileInput" class="file-input" accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain">
+        <button class="attach-btn" id="mobileAttachBtn">📎</button>
+        <button class="emoji-btn" id="mobileEmojiBtn">😊</button>
+        <input type="text" class="message-input" id="mobileMessageInput" placeholder="Message" autocomplete="off">
+        <button class="send-btn" id="mobileSendBtn">➤</button>
+        <input type="file" id="mobileFileInput" class="file-input" accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain">
       </div>
     </div>
   </div>
@@ -449,10 +518,10 @@
 
   let currentUser = null;
   let unsubscribeMessages = null;
-  let zoomModal = null;
+  let isMobile = window.innerWidth <= 768;
 
-  function hideSplash() {
-    const splash = document.getElementById('splashScreen');
+  function hideSplash(platform) {
+    const splash = document.getElementById(`${platform}Splash`);
     if (splash) {
       splash.style.opacity = '0';
       setTimeout(() => splash.style.display = 'none', 500);
@@ -481,16 +550,16 @@
     });
   }
 
-  async function handleFileUpload(file) {
+  async function handleFileUpload(file, platform) {
     if (!file) return;
-    const container = document.getElementById('messagesArea');
+    const container = document.getElementById(`${platform}MessagesArea`);
     const tempId = 'temp-' + Date.now();
     const tempDiv = document.createElement('div');
     tempDiv.id = tempId;
     tempDiv.className = 'message sent';
     tempDiv.innerHTML = `<div class="bubble">📤 uploading ${escapeHtml(file.name)}...<div class="upload-progress">☁️ Cloudinary</div><div class="message-time">now</div></div>`;
     container.appendChild(tempDiv);
-    scrollToBottom();
+    scrollToBottom(platform);
 
     try {
       let fileData;
@@ -517,11 +586,12 @@
     await addDoc(collection(db, 'messages'), msg);
   }
 
-  function scrollToBottom() {
-    const area = document.getElementById('messagesArea');
+  function scrollToBottom(platform) {
+    const area = document.getElementById(`${platform}MessagesArea`);
     if (area) area.scrollTop = area.scrollHeight;
   }
 
+  let zoomModal = null;
   function initZoomFeature() {
     if (!zoomModal) {
       const modal = document.createElement('div');
@@ -544,11 +614,11 @@
 
   function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, (m) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
 
-  function loadMessages() {
+  function loadMessages(platform) {
     if (unsubscribeMessages) unsubscribeMessages();
     const q = query(collection(db, 'messages'), orderBy('timestamp', 'asc'), limit(500));
     unsubscribeMessages = onSnapshot(q, (snap) => {
-      const container = document.getElementById('messagesArea');
+      const container = document.getElementById(`${platform}MessagesArea`);
       if (!container) return;
       const wasBottom = (container.scrollHeight - container.scrollTop - container.clientHeight) < 70;
       container.innerHTML = '';
@@ -607,7 +677,7 @@
         msgDiv.appendChild(bubble);
         container.appendChild(msgDiv);
       });
-      if (wasBottom) scrollToBottom();
+      if (wasBottom) scrollToBottom(platform);
     });
   }
 
@@ -621,7 +691,8 @@
       span.textContent = emo;
       span.onclick = (e) => {
         e.stopPropagation();
-        const inp = document.getElementById('messageInput');
+        const platform = isMobile ? 'mobile' : 'desktop';
+        const inp = document.getElementById(`${platform}MessageInput`);
         const start = inp.selectionStart;
         const end = inp.selectionEnd;
         inp.value = inp.value.substring(0, start) + emo + inp.value.substring(end);
@@ -633,7 +704,8 @@
     });
     return pickerDiv;
   }
-  function showEmojiPicker(btn) {
+
+  function showEmojiPicker(btn, platform) {
     if (activePicker) { activePicker.remove(); activePicker = null; return; }
     const picker = buildEmojiGrid();
     document.body.appendChild(picker);
@@ -648,35 +720,38 @@
     setTimeout(() => document.addEventListener('click', close), 80);
   }
 
-  function setupUI() {
-    const fileInput = document.getElementById('fileInput');
-    const attachBtn = document.getElementById('attachBtn');
-    const sendBtn = document.getElementById('sendBtn');
-    const inputMsg = document.getElementById('messageInput');
-    const emojiBtn = document.getElementById('emojiBtn');
+  function setupUI(platform) {
+    const fileInput = document.getElementById(`${platform}FileInput`);
+    const attachBtn = document.getElementById(`${platform}AttachBtn`);
+    const sendBtn = document.getElementById(`${platform}SendBtn`);
+    const inputMsg = document.getElementById(`${platform}MessageInput`);
+    const emojiBtn = document.getElementById(`${platform}EmojiBtn`);
+    
     attachBtn.onclick = () => fileInput.click();
-    fileInput.onchange = async (e) => { if(e.target.files[0]) await handleFileUpload(e.target.files[0]); fileInput.value = ''; };
-    const sendText = () => { if(inputMsg.value.trim()) { sendMessage(inputMsg.value); inputMsg.value = ''; setTimeout(scrollToBottom, 80); } };
+    fileInput.onchange = async (e) => { if(e.target.files[0]) await handleFileUpload(e.target.files[0], platform); fileInput.value = ''; };
+    const sendText = () => { if(inputMsg.value.trim()) { sendMessage(inputMsg.value); inputMsg.value = ''; setTimeout(() => scrollToBottom(platform), 80); } };
     sendBtn.onclick = sendText;
     inputMsg.onkeypress = (e) => { if(e.key === 'Enter') { e.preventDefault(); sendText(); } };
-    emojiBtn.onclick = (e) => { e.stopPropagation(); showEmojiPicker(emojiBtn); };
+    emojiBtn.onclick = (e) => { e.stopPropagation(); showEmojiPicker(emojiBtn, platform); };
   }
 
   function initChat(user) {
     currentUser = user;
-    document.getElementById('userNameDisplay').textContent = user.displayName || user.email.split('@')[0];
-    document.getElementById('userEmailDisplay').textContent = `${user.email} • live`;
-    document.getElementById('authContainer').innerHTML = '';
-    document.getElementById('chatApp').classList.remove('hidden');
-    hideSplash();
-    loadMessages();
-    setupUI();
-    setTimeout(scrollToBottom, 200);
+    const platform = isMobile ? 'mobile' : 'desktop';
+    document.getElementById(`${platform}UserName`).textContent = user.displayName || user.email.split('@')[0];
+    document.getElementById(`${platform}UserEmail`).textContent = `${user.email} • live`;
+    document.getElementById(`${platform}Auth`).innerHTML = '';
+    document.getElementById(`${platform}Chat`).classList.remove('hidden');
+    hideSplash(platform);
+    loadMessages(platform);
+    setupUI(platform);
+    setTimeout(() => scrollToBottom(platform), 200);
   }
 
   function renderAuth() {
-    hideSplash();
-    const container = document.getElementById('authContainer');
+    const platform = isMobile ? 'mobile' : 'desktop';
+    hideSplash(platform);
+    const container = document.getElementById(`${platform}Auth`);
     container.innerHTML = `
       <div class="auth-overlay">
         <div class="auth-card">
@@ -720,12 +795,16 @@
     });
   }
 
-  document.getElementById('logoutBtn')?.addEventListener('click', async () => { await signOut(auth); });
+  // Handle logout for both platforms
+  document.getElementById('desktopLogoutBtn')?.addEventListener('click', async () => { await signOut(auth); });
+  document.getElementById('mobileLogoutBtn')?.addEventListener('click', async () => { await signOut(auth); });
+
   onAuthStateChanged(auth, (user) => {
     if (user) initChat(user);
-    else { if(unsubscribeMessages) unsubscribeMessages(); currentUser=null; document.getElementById('chatApp')?.classList.add('hidden'); renderAuth(); }
+    else { if(unsubscribeMessages) unsubscribeMessages(); currentUser=null; renderAuth(); }
   });
-  setTimeout(() => { if(!currentUser) hideSplash(); }, 1500);
+  
+  setTimeout(() => { if(!currentUser) { const p = isMobile ? 'mobile' : 'desktop'; hideSplash(p); } }, 1500);
 </script>
 </body>
 </html>
