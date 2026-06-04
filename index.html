@@ -3,12 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-  <title>WhatsApp Style Chat - Fixed Firebase</title>
+  <title>SERUSOFT SPACE • WhatsApp Style Chat</title>
   <!-- Firebase SDKs -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
     import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, limit, getDocs } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+    import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-storage.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyAWb2IuKrtSQzmJSLHWR2cgsAR1mbXwwoo",
@@ -23,9 +24,11 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
     const db = getFirestore(app);
+    const storage = getStorage(app);
 
     window.auth = auth;
     window.db = db;
+    window.storage = storage;
     window.updateProfile = updateProfile;
     window.signInWithEmailAndPassword = signInWithEmailAndPassword;
     window.createUserWithEmailAndPassword = createUserWithEmailAndPassword;
@@ -38,7 +41,9 @@
     window.onSnapshot = onSnapshot;
     window.serverTimestamp = serverTimestamp;
     window.limit = limit;
-    window.getDocs = getDocs;
+    window.ref = ref;
+    window.uploadBytes = uploadBytes;
+    window.getDownloadURL = getDownloadURL;
   </script>
   <style>
     * {
@@ -49,24 +54,109 @@
 
     body {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: #0a0a0a;
+      background: #075e54;
       height: 100vh;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
+    /* SPLASH SCREEN - Shows immediately with brand */
+    .splash-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, #075e54 0%, #128c7e 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      transition: opacity 0.8s ease;
+      animation: gradientShift 3s ease infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background: linear-gradient(135deg, #075e54 0%, #128c7e 100%); }
+      50% { background: linear-gradient(135deg, #0a6b5f 0%, #1da88a 100%); }
+    }
+
+    .splash-content {
+      text-align: center;
+      animation: floatIn 0.8s ease;
+    }
+
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .brand-logo {
+      font-size: 80px;
+      margin-bottom: 20px;
+      filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2));
+    }
+
+    .brand-name {
+      font-size: 32px;
+      font-weight: 800;
+      color: white;
+      letter-spacing: 2px;
+      margin-bottom: 10px;
+    }
+
+    .brand-sub {
+      font-size: 14px;
+      color: rgba(255,255,255,0.9);
+      margin-bottom: 30px;
+    }
+
+    .loading-spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(255,255,255,0.3);
+      border-top: 4px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 20px auto;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      color: white;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+
+    /* Auth Modal */
     .auth-overlay {
       position: fixed;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: rgba(0,0,0,0.9);
+      background: rgba(0,0,0,0.85);
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 1000;
+      animation: fadeIn 0.3s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     .auth-card {
@@ -111,10 +201,6 @@
       margin-top: 10px;
     }
 
-    .auth-btn:hover {
-      background: #0a6b5f;
-    }
-
     .toggle-auth {
       margin-top: 20px;
       color: #075e54;
@@ -128,12 +214,7 @@
       margin-top: 8px;
     }
 
-    .success-msg {
-      color: green;
-      font-size: 12px;
-      margin-top: 8px;
-    }
-
+    /* Chat Container */
     .chat-container {
       width: 100%;
       max-width: 500px;
@@ -166,7 +247,6 @@
       justify-content: center;
       font-weight: bold;
       font-size: 18px;
-      color: #075e54;
     }
 
     .contact-info {
@@ -179,7 +259,7 @@
     }
 
     .contact-status {
-      font-size: 12px;
+      font-size: 10px;
       opacity: 0.8;
     }
 
@@ -202,25 +282,21 @@
       gap: 8px;
     }
 
-    .messages-area::-webkit-scrollbar {
-      width: 6px;
-    }
-
     .message {
       display: flex;
       margin-bottom: 4px;
       max-width: 80%;
-      animation: fadeInUp 0.2s ease-out;
+      animation: messagePop 0.2s ease-out;
     }
 
-    @keyframes fadeInUp {
+    @keyframes messagePop {
       from {
         opacity: 0;
-        transform: translateY(8px);
+        transform: scale(0.95);
       }
       to {
         opacity: 1;
-        transform: translateY(0);
+        transform: scale(1);
       }
     }
 
@@ -237,7 +313,7 @@
       background: white;
       padding: 10px 14px;
       border-radius: 20px;
-      font-size: 14.5px;
+      font-size: 14px;
       line-height: 1.4;
       word-wrap: break-word;
       max-width: 100%;
@@ -268,6 +344,23 @@
       margin-bottom: 4px;
     }
 
+    .file-message {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      cursor: pointer;
+    }
+
+    .file-icon {
+      font-size: 32px;
+    }
+
+    .file-name {
+      font-size: 12px;
+      color: #075e54;
+      text-decoration: underline;
+    }
+
     .input-area {
       background: #f0f0f0;
       padding: 12px 14px;
@@ -277,10 +370,10 @@
       border-top: 1px solid #e0e0e0;
     }
 
-    .emoji-btn {
+    .attach-btn, .emoji-btn {
       background: none;
       border: none;
-      font-size: 28px;
+      font-size: 24px;
       cursor: pointer;
       width: 44px;
       height: 44px;
@@ -291,7 +384,7 @@
       transition: 0.2s;
     }
 
-    .emoji-btn:hover {
+    .attach-btn:hover, .emoji-btn:hover {
       background: #e2e2e2;
     }
 
@@ -303,11 +396,6 @@
       border-radius: 30px;
       font-size: 15px;
       outline: none;
-    }
-
-    .message-input:focus {
-      outline: none;
-      box-shadow: 0 0 0 2px #25d36650;
     }
 
     .send-btn {
@@ -324,10 +412,6 @@
       font-size: 20px;
     }
 
-    .send-btn:hover {
-      background: #0a6b5f;
-    }
-
     .emoji-picker {
       position: absolute;
       bottom: 80px;
@@ -339,11 +423,10 @@
       box-shadow: 0 4px 20px rgba(0,0,0,0.3);
       z-index: 200;
       display: grid;
-      grid-template-columns: repeat(7, 1fr);
+      grid-template-columns: repeat(6, 1fr);
       gap: 10px;
-      max-height: 280px;
+      max-height: 300px;
       overflow-y: auto;
-      border: 1px solid #ddd;
     }
 
     .emoji-picker span {
@@ -364,224 +447,214 @@
       display: none;
     }
 
-    .loading {
+    .info-message {
       text-align: center;
+      color: #888;
       padding: 20px;
-      color: #666;
+      font-size: 14px;
+    }
+
+    .file-input {
+      display: none;
     }
   </style>
 </head>
 <body>
+
+<!-- BRAND SPLASH SCREEN - Shows immediately -->
+<div id="splashScreen" class="splash-screen">
+  <div class="splash-content">
+    <div class="brand-logo">🚀</div>
+    <div class="brand-name">SERUSOFT SPACE</div>
+    <div class="brand-sub">Next-Gen Communication Platform</div>
+    <div class="loading-spinner"></div>
+    <div class="loading-text">Initializing secure connection...</div>
+  </div>
+</div>
+
 <div id="authContainer"></div>
 <div id="chatApp" class="chat-container hidden">
   <div class="chat-header">
     <div class="avatar">💬</div>
     <div class="contact-info">
-      <div class="contact-name" id="userNameDisplay">Chat</div>
-      <div class="contact-status" id="userEmailDisplay">Loading...</div>
+      <div class="contact-name" id="userNameDisplay">Chat Space</div>
+      <div class="contact-status" id="userEmailDisplay">Connected</div>
     </div>
-    <button class="logout-btn" id="logoutBtn">Logout</button>
+    <button class="logout-btn" id="logoutBtn">Exit</button>
   </div>
   <div class="messages-area" id="messagesArea">
-    <div class="loading">✨ Loading messages... ✨</div>
+    <div class="info-message">✨ Welcome to SERUSOFT SPACE ✨<br>Share files, emojis, and moments!</div>
   </div>
   <div class="input-area">
+    <button class="attach-btn" id="attachBtn">📎</button>
     <button class="emoji-btn" id="emojiBtn">😊</button>
     <input type="text" class="message-input" id="messageInput" placeholder="Type a message..." autocomplete="off">
-    <button class="send-btn" id="sendBtn">📤</button>
+    <button class="send-btn" id="sendBtn">➤</button>
+    <input type="file" id="fileInput" class="file-input" accept="image/*,video/*,application/pdf,text/plain">
   </div>
 </div>
 
 <script>
   (function() {
-    setTimeout(() => {
-      const auth = window.auth;
-      const db = window.db;
-      const updateProfile = window.updateProfile;
-      const signInWithEmailAndPassword = window.signInWithEmailAndPassword;
-      const createUserWithEmailAndPassword = window.createUserWithEmailAndPassword;
-      const signOut = window.signOut;
-      const onAuthStateChanged = window.onAuthStateChanged;
-      const collection = window.collection;
-      const addDoc = window.addDoc;
-      const query = window.query;
-      const orderBy = window.orderBy;
-      const onSnapshot = window.onSnapshot;
-      const serverTimestamp = window.serverTimestamp;
-      const limit = window.limit;
-
-      let currentUser = null;
-      let unsubscribeMessages = null;
-
-      const emojis = ['😀', '😂', '😍', '🥰', '😎', '🔥', '❤️', '👍', '🎉', '✨', '😭', '😱', '🙏', '💯', '🤣', '🥺', '😘', '🤔', '👀', '💬', '🌟', '⭐', '💡', '🎈', '🎁', '💝', '💖', '💗', '💓', '💞'];
-
-      async function sendEmailNotification(senderName, senderEmail, messageText) {
-        try {
-          const formData = new FormData();
-          formData.append('email', senderEmail);
-          formData.append('message', `📱 NEW MESSAGE\n\nFrom: ${senderName}\nMessage: ${messageText}\nTime: ${new Date().toLocaleString()}`);
-          formData.append('_subject', `New message from ${senderName}`);
-          await fetch('https://formspree.io/f/xvznogjr', { method: 'POST', body: formData, headers: { 'Accept': 'application/json' } });
-          console.log('Email sent');
-        } catch (error) {
-          console.error('Email error:', error);
-        }
+    // Hide splash after initialization
+    function hideSplash() {
+      const splash = document.getElementById('splashScreen');
+      if (splash) {
+        splash.style.opacity = '0';
+        setTimeout(() => {
+          splash.style.display = 'none';
+        }, 800);
       }
+    }
 
-      function renderAuth() {
-        const container = document.getElementById('authContainer');
-        container.innerHTML = `
-          <div class="auth-overlay">
-            <div class="auth-card">
-              <h2>💬 WhatsApp Style Chat</h2>
-              <div id="authMode">
-                <input type="email" id="loginEmail" class="auth-input" placeholder="Email">
-                <input type="password" id="loginPassword" class="auth-input" placeholder="Password">
-                <button id="loginBtn" class="auth-btn">Login</button>
-                <div class="toggle-auth" id="showSignup">Create new account →</div>
-                <div id="authError" class="error-msg"></div>
-              </div>
-            </div>
-          </div>
-        `;
+    // Rich emoji collection - LOVE, FUNNY, STUDY, TECH
+    const emojiCategories = {
+      love: ['❤️', '🧡', '💛', '💚', '💙', '💜', '🖤', '🤍', '💕', '💞', '💓', '💗', '💖', '💘', '💝', '🥰', '😘', '😍'],
+      funny: ['😂', '🤣', '😭', '😅', '🤪', '😜', '😝', '🤣', '🙃', '🥲', '😹', '🤡', '👻', '💀', '🎃', '🤯', '😱'],
+      study: ['📚', '📖', '📝', '✏️', '📓', '🎓', '🏫', '🧠', '💡', '🔬', '🧪', '📊', '📈', '📉', '📌', '📍', '🔖'],
+      tech: ['💻', '🖥️', '📱', '🤖', '⚡', '🔥', '🚀', '💾', '🖱️', '⌨️', '🖨️', '📡', '🔧', '⚙️', '💎', '🌟', '✨'],
+      general: ['😀', '😃', '😄', '😁', '😆', '😊', '🙂', '🥹', '😉', '😌', '😎', '🤩', '🥳', '🎉', '🎊', '🎈', '🎁']
+    };
+    
+    const allEmojis = [...emojiCategories.love, ...emojiCategories.funny, ...emojiCategories.study, ...emojiCategories.tech, ...emojiCategories.general];
 
-        document.getElementById('loginBtn').addEventListener('click', async () => {
-          const email = document.getElementById('loginEmail').value;
-          const password = document.getElementById('loginPassword').value;
-          const errorDiv = document.getElementById('authError');
-          try {
-            await signInWithEmailAndPassword(auth, email, password);
-          } catch (err) {
-            errorDiv.textContent = err.message;
-          }
-        });
+    let currentUser = null;
+    let unsubscribeMessages = null;
 
-        document.getElementById('showSignup').addEventListener('click', () => {
-          const modeDiv = document.getElementById('authMode');
-          modeDiv.innerHTML = `
-            <input type="email" id="signupEmail" class="auth-input" placeholder="Email">
-            <input type="text" id="signupName" class="auth-input" placeholder="Your Name">
-            <input type="password" id="signupPassword" class="auth-input" placeholder="Password">
-            <button id="signupBtn" class="auth-btn">Create Account</button>
-            <div class="toggle-auth" id="showLogin">← Back to Login</div>
-            <div id="authError" class="error-msg"></div>
-          `;
-          document.getElementById('signupBtn').addEventListener('click', async () => {
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
-            const name = document.getElementById('signupName').value;
-            const errorDiv = document.getElementById('authError');
-            if (!name) {
-              errorDiv.textContent = 'Please enter your name';
-              return;
-            }
-            try {
-              const userCred = await createUserWithEmailAndPassword(auth, email, password);
-              await updateProfile(userCred.user, { displayName: name });
-            } catch (err) {
-              errorDiv.textContent = err.message;
-            }
-          });
-          document.getElementById('showLogin').addEventListener('click', renderAuth);
-        });
+    // File upload to Firebase Storage
+    async function uploadFile(file) {
+      if (!currentUser) return null;
+      const fileRef = ref(window.storage, `chat_files/${Date.now()}_${file.name}`);
+      await window.uploadBytes(fileRef, file);
+      const url = await window.getDownloadURL(fileRef);
+      return { url, name: file.name, type: file.type };
+    }
+
+    // Send message (text or file)
+    async function sendMessage(text, fileData = null) {
+      if (!text.trim() && !fileData) return;
+      try {
+        const messageData = {
+          senderId: currentUser.uid,
+          senderName: currentUser.displayName || currentUser.email.split('@')[0],
+          senderEmail: currentUser.email,
+          timestamp: window.serverTimestamp(),
+          ...(text.trim() && { text: text.trim() }),
+          ...(fileData && { file: fileData })
+        };
+        await window.addDoc(window.collection(window.db, 'messages'), messageData);
+      } catch (err) {
+        console.error('Send error:', err);
+        alert('Error: ' + err.message + '\n\nPlease update Firebase Rules:\nallow read, write: if request.auth != null;');
       }
+    }
 
-      async function sendMessage(text) {
-        if (!text.trim() || !currentUser) {
-          console.log("Cannot send: no message or no user");
-          return;
-        }
-        try {
-          const messageData = {
-            text: text.trim(),
-            senderId: currentUser.uid,
-            senderName: currentUser.displayName || currentUser.email.split('@')[0],
-            senderEmail: currentUser.email,
-            timestamp: serverTimestamp(),
-            createdAt: new Date().toISOString()
-          };
-          const docRef = await addDoc(collection(db, 'messages'), messageData);
-          console.log("Message sent! ID:", docRef.id);
-          await sendEmailNotification(messageData.senderName, messageData.senderEmail, messageData.text);
-        } catch (err) {
-          console.error('Send error details:', err);
-          alert(`Error sending message: ${err.message}. Please check Firebase Rules.`);
-        }
-      }
-
-      function loadMessages() {
-        if (unsubscribeMessages) unsubscribeMessages();
-        const messagesQuery = query(collection(db, 'messages'), orderBy('timestamp', 'asc'), limit(200));
+    // Load messages real-time
+    function loadMessages() {
+      if (unsubscribeMessages) unsubscribeMessages();
+      const messagesQuery = window.query(window.collection(window.db, 'messages'), window.orderBy('timestamp', 'asc'), window.limit(200));
+      
+      unsubscribeMessages = window.onSnapshot(messagesQuery, (snapshot) => {
+        const messagesArea = document.getElementById('messagesArea');
+        if (!messagesArea) return;
         
-        unsubscribeMessages = onSnapshot(messagesQuery, (snapshot) => {
-          const messagesArea = document.getElementById('messagesArea');
-          if (!messagesArea) return;
-          
-          const shouldScroll = messagesArea.scrollHeight - messagesArea.scrollTop < 300;
-          messagesArea.innerHTML = '';
-          
-          if (snapshot.empty) {
-            messagesArea.innerHTML = '<div style="text-align: center; color: #888; padding: 20px;">✨ No messages yet. Start chatting! ✨</div>';
-          }
-          
-          snapshot.forEach(doc => {
-            const data = doc.data();
-            if (!data.text) return;
-            
-            const isSent = currentUser && data.senderId === currentUser.uid;
-            const messageDiv = document.createElement('div');
-            messageDiv.className = `message ${isSent ? 'sent' : 'received'}`;
-            
-            const bubbleDiv = document.createElement('div');
-            bubbleDiv.className = 'bubble';
-            
-            if (!isSent && data.senderName) {
-              const nameSpan = document.createElement('div');
-              nameSpan.className = 'sender-name';
-              nameSpan.textContent = data.senderName;
-              bubbleDiv.appendChild(nameSpan);
-            }
-            
-            const textNode = document.createTextNode(data.text);
-            bubbleDiv.appendChild(textNode);
-            
-            const timeSpan = document.createElement('div');
-            timeSpan.className = 'message-time';
-            if (data.timestamp && data.timestamp.toDate) {
-              const date = data.timestamp.toDate();
-              timeSpan.textContent = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            } else {
-              timeSpan.textContent = 'Just now';
-            }
-            bubbleDiv.appendChild(timeSpan);
-            messageDiv.appendChild(bubbleDiv);
-            messagesArea.appendChild(messageDiv);
-          });
-          
-          if (shouldScroll) {
-            messagesArea.scrollTop = messagesArea.scrollHeight;
-          }
-        }, (error) => {
-          console.error("Snapshot error:", error);
-          const messagesArea = document.getElementById('messagesArea');
-          if (messagesArea) {
-            messagesArea.innerHTML = `<div style="text-align: center; color: red; padding: 20px;">⚠️ Error loading messages: ${error.message}<br><br>Please check Firebase Rules! ⚠️</div>`;
-          }
-        });
-      }
-
-      let emojiPicker = null;
-      function showEmojiPicker() {
-        if (emojiPicker) {
-          emojiPicker.remove();
-          emojiPicker = null;
-          return;
+        const shouldScroll = messagesArea.scrollHeight - messagesArea.scrollTop < 300;
+        messagesArea.innerHTML = '';
+        
+        if (snapshot.empty) {
+          messagesArea.innerHTML = '<div class="info-message">✨ No messages yet. Start chatting! ✨</div>';
         }
         
-        const picker = document.createElement('div');
-        picker.className = 'emoji-picker';
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          const isSent = currentUser && data.senderId === currentUser.uid;
+          const messageDiv = document.createElement('div');
+          messageDiv.className = `message ${isSent ? 'sent' : 'received'}`;
+          
+          const bubbleDiv = document.createElement('div');
+          bubbleDiv.className = 'bubble';
+          
+          if (!isSent && data.senderName) {
+            const nameSpan = document.createElement('div');
+            nameSpan.className = 'sender-name';
+            nameSpan.textContent = data.senderName;
+            bubbleDiv.appendChild(nameSpan);
+          }
+          
+          // Handle file messages
+          if (data.file) {
+            const fileDiv = document.createElement('div');
+            fileDiv.className = 'file-message';
+            fileDiv.style.cursor = 'pointer';
+            const fileIcon = document.createElement('div');
+            fileIcon.className = 'file-icon';
+            fileIcon.textContent = data.file.type?.startsWith('image/') ? '🖼️' : (data.file.type?.startsWith('video/') ? '🎥' : '📄');
+            const fileName = document.createElement('div');
+            fileName.className = 'file-name';
+            fileName.textContent = data.file.name;
+            fileDiv.appendChild(fileIcon);
+            fileDiv.appendChild(fileName);
+            fileDiv.onclick = () => window.open(data.file.url, '_blank');
+            bubbleDiv.appendChild(fileDiv);
+          }
+          
+          // Handle text messages
+          if (data.text) {
+            bubbleDiv.appendChild(document.createTextNode(data.text));
+          }
+          
+          const timeSpan = document.createElement('div');
+          timeSpan.className = 'message-time';
+          if (data.timestamp && data.timestamp.toDate) {
+            const date = data.timestamp.toDate();
+            timeSpan.textContent = date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+          } else {
+            timeSpan.textContent = 'Now';
+          }
+          bubbleDiv.appendChild(timeSpan);
+          messageDiv.appendChild(bubbleDiv);
+          messagesArea.appendChild(messageDiv);
+        });
         
-        emojis.forEach(emoji => {
+        if (shouldScroll) {
+          messagesArea.scrollTop = messagesArea.scrollHeight;
+        }
+      });
+    }
+
+    // Emoji picker with categories
+    let emojiPicker = null;
+    function showEmojiPicker() {
+      if (emojiPicker) {
+        emojiPicker.remove();
+        emojiPicker = null;
+        return;
+      }
+      
+      const picker = document.createElement('div');
+      picker.className = 'emoji-picker';
+      
+      // Add category headers
+      const categories = [
+        { name: '❤️ Love & Romance', emojis: emojiCategories.love },
+        { name: '😂 Funny & Crazy', emojis: emojiCategories.funny },
+        { name: '📚 Study & School', emojis: emojiCategories.study },
+        { name: '💻 Tech & Work', emojis: emojiCategories.tech },
+        { name: '✨ General', emojis: emojiCategories.general }
+      ];
+      
+      categories.forEach(cat => {
+        const catTitle = document.createElement('div');
+        catTitle.textContent = cat.name;
+        catTitle.style.gridColumn = '1/-1';
+        catTitle.style.fontSize = '12px';
+        catTitle.style.fontWeight = 'bold';
+        catTitle.style.color = '#075e54';
+        catTitle.style.marginTop = '8px';
+        catTitle.style.padding = '4px 0';
+        picker.appendChild(catTitle);
+        
+        cat.emojis.forEach(emoji => {
           const emojiSpan = document.createElement('span');
           emojiSpan.textContent = emoji;
           emojiSpan.onclick = (e) => {
@@ -589,86 +662,172 @@
             const input = document.getElementById('messageInput');
             const start = input.selectionStart;
             const end = input.selectionEnd;
-            const currentValue = input.value;
-            const newValue = currentValue.substring(0, start) + emoji + currentValue.substring(end);
-            input.value = newValue;
+            input.value = input.value.substring(0, start) + emoji + input.value.substring(end);
             input.focus();
-            input.setSelectionRange(start + emoji.length, start + emoji.length);
             picker.remove();
             emojiPicker = null;
           };
           picker.appendChild(emojiSpan);
         });
-        
-        document.body.appendChild(picker);
-        emojiPicker = picker;
-        
-        const closePicker = (e) => {
-          if (!picker.contains(e.target) && e.target !== document.getElementById('emojiBtn')) {
-            picker.remove();
-            emojiPicker = null;
-            document.removeEventListener('click', closePicker);
-          }
-        };
-        setTimeout(() => document.addEventListener('click', closePicker), 100);
-      }
+      });
+      
+      document.body.appendChild(picker);
+      emojiPicker = picker;
+      
+      const closePicker = (e) => {
+        if (!picker.contains(e.target) && e.target !== document.getElementById('emojiBtn')) {
+          picker.remove();
+          emojiPicker = null;
+          document.removeEventListener('click', closePicker);
+        }
+      };
+      setTimeout(() => document.addEventListener('click', closePicker), 100);
+    }
 
-      function initChat(user) {
-        currentUser = user;
-        document.getElementById('userNameDisplay').textContent = user.displayName || user.email.split('@')[0];
-        document.getElementById('userEmailDisplay').textContent = user.email;
-        document.getElementById('authContainer').innerHTML = '';
-        document.getElementById('chatApp').classList.remove('hidden');
+    // File attachment handler
+    function setupFileUpload() {
+      const fileInput = document.getElementById('fileInput');
+      const attachBtn = document.getElementById('attachBtn');
+      
+      attachBtn.onclick = () => fileInput.click();
+      fileInput.onchange = async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
         
-        loadMessages();
+        // Show uploading indicator
+        const msg = `📎 Uploading ${file.name}...`;
+        const tempDiv = document.createElement('div');
+        tempDiv.className = 'message sent';
+        tempDiv.innerHTML = `<div class="bubble">${msg}<div class="message-time">Now</div></div>`;
+        document.getElementById('messagesArea').appendChild(tempDiv);
         
-        const input = document.getElementById('messageInput');
-        const sendBtn = document.getElementById('sendBtn');
-        const emojiBtn = document.getElementById('emojiBtn');
-        
-        const handleSend = () => {
-          const msg = input?.value;
-          if (msg && msg.trim()) {
-            sendMessage(msg);
-            input.value = '';
-            input.focus();
-          }
-        };
-        
-        sendBtn.onclick = handleSend;
-        input.onkeypress = (e) => {
-          if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            handleSend();
-          }
-        };
-        emojiBtn.onclick = (e) => {
-          e.stopPropagation();
-          showEmojiPicker();
-        };
-      }
+        const fileData = await uploadFile(file);
+        if (fileData) {
+          await sendMessage('', fileData);
+        }
+        tempDiv.remove();
+        fileInput.value = '';
+      };
+    }
 
-      onAuthStateChanged(auth, (user) => {
-        if (user) {
-          initChat(user);
-        } else {
-          if (unsubscribeMessages) unsubscribeMessages();
-          currentUser = null;
-          document.getElementById('chatApp')?.classList.add('hidden');
-          renderAuth();
+    // Auth UI
+    function renderAuth() {
+      hideSplash();
+      const container = document.getElementById('authContainer');
+      container.innerHTML = `
+        <div class="auth-overlay">
+          <div class="auth-card">
+            <h2>🚀 SERUSOFT SPACE</h2>
+            <div id="authMode">
+              <input type="email" id="loginEmail" class="auth-input" placeholder="Email">
+              <input type="password" id="loginPassword" class="auth-input" placeholder="Password">
+              <button id="loginBtn" class="auth-btn">Login to Chat</button>
+              <div class="toggle-auth" id="showSignup">Create new account →</div>
+              <div id="authError" class="error-msg"></div>
+            </div>
+          </div>
+        </div>
+      `;
+
+      document.getElementById('loginBtn').addEventListener('click', async () => {
+        const email = document.getElementById('loginEmail').value;
+        const password = document.getElementById('loginPassword').value;
+        const errorDiv = document.getElementById('authError');
+        try {
+          await window.signInWithEmailAndPassword(window.auth, email, password);
+        } catch (err) {
+          errorDiv.textContent = err.message;
         }
       });
 
-      setTimeout(() => {
-        const logoutBtn = document.getElementById('logoutBtn');
-        if (logoutBtn) {
-          logoutBtn.onclick = async () => {
-            await signOut(auth);
-          };
-        }
-      }, 500);
+      document.getElementById('showSignup').addEventListener('click', () => {
+        const modeDiv = document.getElementById('authMode');
+        modeDiv.innerHTML = `
+          <input type="email" id="signupEmail" class="auth-input" placeholder="Email">
+          <input type="text" id="signupName" class="auth-input" placeholder="Your Name">
+          <input type="password" id="signupPassword" class="auth-input" placeholder="Password">
+          <button id="signupBtn" class="auth-btn">Create Account</button>
+          <div class="toggle-auth" id="showLogin">← Back to Login</div>
+          <div id="authError" class="error-msg"></div>
+        `;
+        document.getElementById('signupBtn').addEventListener('click', async () => {
+          const email = document.getElementById('signupEmail').value;
+          const password = document.getElementById('signupPassword').value;
+          const name = document.getElementById('signupName').value;
+          const errorDiv = document.getElementById('authError');
+          if (!name) {
+            errorDiv.textContent = 'Please enter your name';
+            return;
+          }
+          try {
+            const userCred = await window.createUserWithEmailAndPassword(window.auth, email, password);
+            await window.updateProfile(userCred.user, { displayName: name });
+          } catch (err) {
+            errorDiv.textContent = err.message;
+          }
+        });
+        document.getElementById('showLogin').addEventListener('click', renderAuth);
+      });
+    }
+
+    function initChat(user) {
+      currentUser = user;
+      document.getElementById('userNameDisplay').textContent = user.displayName || user.email.split('@')[0];
+      document.getElementById('userEmailDisplay').textContent = `${user.email} • Online`;
+      document.getElementById('authContainer').innerHTML = '';
+      document.getElementById('chatApp').classList.remove('hidden');
+      hideSplash();
+      loadMessages();
+      setupFileUpload();
       
-    }, 200);
+      const input = document.getElementById('messageInput');
+      const sendBtn = document.getElementById('sendBtn');
+      const emojiBtn = document.getElementById('emojiBtn');
+      
+      const handleSend = () => {
+        const msg = input?.value;
+        if (msg && msg.trim()) {
+          sendMessage(msg);
+          input.value = '';
+        }
+      };
+      
+      sendBtn.onclick = handleSend;
+      input.onkeypress = (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleSend();
+        }
+      };
+      emojiBtn.onclick = (e) => {
+        e.stopPropagation();
+        showEmojiPicker();
+      };
+    }
+
+    // Auth state listener
+    window.onAuthStateChanged(window.auth, (user) => {
+      if (user) {
+        initChat(user);
+      } else {
+        if (unsubscribeMessages) unsubscribeMessages();
+        currentUser = null;
+        document.getElementById('chatApp')?.classList.add('hidden');
+        renderAuth();
+      }
+    });
+
+    // Logout
+    document.addEventListener('click', (e) => {
+      if (e.target.id === 'logoutBtn') {
+        window.signOut(window.auth);
+      }
+    });
+
+    // Fallback: hide splash after 3 seconds max
+    setTimeout(() => {
+      hideSplash();
+    }, 3000);
   })();
 </script>
 </body>
