@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>SERUSOFT SPACE • Smart Chat • Cloudinary Share</title>
+  <title>SERUSOFT SPACE • Smart Chat • Reply Feature</title>
   <style>
     * {
       margin: 0;
@@ -83,7 +83,7 @@
       display: none;
     }
 
-    /* CHAT CONTAINER - CRITICAL FIXES FOR REAL PHONE */
+    /* CHAT CONTAINER */
     .chat-container {
       width: 100%;
       height: 100%;
@@ -158,8 +158,9 @@
     .message {
       display: flex;
       margin-bottom: 4px;
-      max-width: 82%;
+      max-width: 85%;
       animation: messageSlide 0.2s ease;
+      position: relative;
     }
     
     @keyframes messageSlide { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
@@ -175,12 +176,68 @@
       word-break: break-word;
       max-width: 100%;
       box-shadow: 0 1px 0.6px rgba(0,0,0,0.08);
+      position: relative;
     }
     
     .message.sent .bubble { background: #dcf8c5; border-bottom-right-radius: 4px; }
     .message.received .bubble { background: white; border-bottom-left-radius: 4px; }
     .message-time { font-size: 9px; color: rgba(0,0,0,0.5); margin-top: 4px; text-align: right; }
     .sender-name { font-size: 10px; font-weight: 800; color: #075e54; margin-bottom: 3px; }
+
+    /* Reply Quote Styling */
+    .reply-quote {
+      background: rgba(0,0,0,0.05);
+      border-left: 3px solid #25d366;
+      padding: 6px 8px;
+      margin-bottom: 8px;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+    .reply-quote .reply-sender {
+      font-weight: 700;
+      color: #075e54;
+      font-size: 11px;
+      margin-bottom: 2px;
+    }
+    .reply-quote .reply-text {
+      color: #3b3b3b;
+      font-style: italic;
+      white-space: pre-wrap;
+      word-break: break-word;
+      max-height: 45px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .reply-quote .reply-file-indicator {
+      font-size: 11px;
+      color: #128c7e;
+    }
+
+    /* Reply Context Bar (in input area) */
+    .reply-context-bar {
+      background: #e9ecef;
+      margin: 0 14px 6px 14px;
+      padding: 8px 12px;
+      border-radius: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 12px;
+      border-left: 4px solid #25d366;
+      flex-shrink: 0;
+    }
+    .reply-context-bar span {
+      color: #075e54;
+      font-weight: 500;
+    }
+    .cancel-reply {
+      background: none;
+      border: none;
+      font-size: 18px;
+      cursor: pointer;
+      color: #888;
+      padding: 0 6px;
+    }
 
     .image-wrapper {
       cursor: pointer;
@@ -215,7 +272,7 @@
     .file-name { font-size: 11px; font-weight: 500; color: #075e54; text-decoration: underline; }
     .file-attachment:active { background: rgba(0,0,0,0.1); }
 
-    /* INPUT AREA - CRITICAL REAL PHONE FIXES */
+    /* INPUT AREA */
     .input-area {
       background: #ffffff;
       padding: 10px 14px;
@@ -228,6 +285,14 @@
       min-height: 68px;
       position: relative;
       z-index: 10;
+      width: 100%;
+      flex-wrap: wrap;
+    }
+    
+    .input-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
       width: 100%;
     }
     
@@ -267,11 +332,6 @@
     .message-input:focus { 
       border-color: #25d366; 
       box-shadow: 0 0 0 2px rgba(37,211,102,0.2);
-    }
-    
-    .message-input::placeholder {
-      color: #8e9aaf;
-      font-size: 14px;
     }
     
     .send-btn {
@@ -348,12 +408,8 @@
       max-height: 85%;
       object-fit: contain;
       border-radius: 20px;
-      transform: scale(0.96);
-      transition: transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
     }
-    
-    .zoom-modal.active .zoom-image { transform: scale(1); }
-    
+
     .close-zoom {
       position: absolute;
       top: 40px;
@@ -425,156 +481,39 @@
     .loading-spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; animation: spin 0.9s linear infinite; margin: 16px auto; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
 
-    /* ========== REAL PHONE FIXES ========== */
     @media (max-width: 768px) {
-      .desktop-frame {
-        display: none !important;
-      }
-      
-      .mobile-full {
-        display: block !important;
-        width: 100%;
-        height: 100%;
-        position: fixed;
-        top: 0;
-        left: 0;
-        background: #efeae2;
-      }
-      
-      body {
-        position: fixed;
-        width: 100%;
-        height: 100%;
-        overflow: hidden;
-      }
-      
-      /* Use dynamic viewport height for real phones */
-      .chat-container {
-        height: 100dvh !important; /* dvh fixes mobile browser address bar issues */
-        max-height: 100dvh;
-        display: flex;
-        flex-direction: column;
-      }
-      
-      .messages-area {
-        flex: 1;
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        min-height: 0;
-      }
-      
-      .input-area {
-        padding: 10px 12px;
-        padding-bottom: max(12px, env(safe-area-inset-bottom));
-        background: #ffffff;
-        flex-shrink: 0;
-        border-top: 1px solid #e0e0e0;
-        min-height: 74px;
-        width: 100%;
-        position: relative;
-        bottom: 0;
-      }
-      
-      .attach-btn, .emoji-btn, .send-btn {
-        width: 48px;
-        height: 48px;
-        font-size: 24px;
-      }
-      
-      .message-input {
-        padding: 12px 16px;
-        font-size: 16px;
-        background: #fafafa;
-      }
-      
-      .send-btn {
-        background: #075e54;
-      }
+      .desktop-frame { display: none !important; }
+      .mobile-full { display: block !important; width: 100%; height: 100%; position: fixed; top: 0; left: 0; background: #efeae2; }
+      body { position: fixed; width: 100%; height: 100%; overflow: hidden; }
+      .chat-container { height: 100dvh !important; max-height: 100dvh; display: flex; flex-direction: column; }
+      .messages-area { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0; }
+      .input-area { padding: 10px 12px; padding-bottom: max(12px, env(safe-area-inset-bottom)); background: #ffffff; flex-shrink: 0; }
     }
-
     @media (min-width: 769px) {
-      .desktop-frame {
-        display: flex !important;
-      }
-      .mobile-full {
-        display: none !important;
-      }
+      .desktop-frame { display: flex !important; }
+      .mobile-full { display: none !important; }
     }
   </style>
 </head>
 <body>
 
-<!-- DESKTOP VIEW -->
 <div class="desktop-frame">
   <div class="phone-mock">
     <div class="dynamic-island"></div>
     <div class="speaker-grille"></div>
     <div class="phone-screen" id="desktopScreen">
-      <div id="desktopSplash" class="splash-screen">
-        <div class="splash-content">
-          <div class="brand-logo">🚀📱</div>
-          <div class="brand-name">SERUSOFT SPACE</div>
-          <div class="brand-sub">Cloudinary • Instant Share</div>
-          <div class="loading-spinner"></div>
-        </div>
-      </div>
+      <div id="desktopSplash" class="splash-screen">...</div>
       <div id="desktopAuth"></div>
-      <div id="desktopChat" class="chat-container hidden">
-        <div class="chat-header">
-          <div class="avatar">💬</div>
-          <div class="contact-info">
-            <div class="contact-name" id="desktopUserName">Chat Space</div>
-            <div class="contact-status" id="desktopUserEmail">online</div>
-          </div>
-          <button class="logout-btn" id="desktopLogoutBtn">Exit</button>
-        </div>
-        <div class="messages-area" id="desktopMessagesArea">
-          <div class="info-message">✨ DESKTOP MODE ✨<br>📎 Input field always visible</div>
-        </div>
-        <div class="input-area">
-          <button class="attach-btn" id="desktopAttachBtn" title="Attach file">📎</button>
-          <button class="emoji-btn" id="desktopEmojiBtn" title="Emoji">😊</button>
-          <input type="text" class="message-input" id="desktopMessageInput" placeholder="Type a message..." autocomplete="off">
-          <button class="send-btn" id="desktopSendBtn" title="Send message">➤</button>
-          <input type="file" id="desktopFileInput" class="file-input" accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain">
-        </div>
-      </div>
+      <div id="desktopChat" class="chat-container hidden"></div>
     </div>
   </div>
 </div>
 
-<!-- MOBILE VIEW: REAL PHONE FIXES -->
 <div class="mobile-full">
   <div id="mobileScreen" style="width:100%; height:100%; background:#efeae2;">
-    <div id="mobileSplash" class="splash-screen">
-      <div class="splash-content">
-        <div class="brand-logo">🚀📱</div>
-        <div class="brand-name">SERUSOFT SPACE</div>
-        <div class="brand-sub">Cloudinary • Instant Share</div>
-        <div class="loading-spinner"></div>
-      </div>
-    </div>
+    <div id="mobileSplash" class="splash-screen">...</div>
     <div id="mobileAuth"></div>
-    <div id="mobileChat" class="chat-container hidden">
-      <div class="chat-header">
-        <div class="avatar">💬</div>
-        <div class="contact-info">
-          <div class="contact-name" id="mobileUserName">Chat Space</div>
-          <div class="contact-status" id="mobileUserEmail">online</div>
-        </div>
-        <button class="logout-btn" id="mobileLogoutBtn">Exit</button>
-      </div>
-      <div class="messages-area" id="mobileMessagesArea">
-        <div class="info-message">✨ WELCOME ✨<br>📎 Tap image to zoom • Input ready below</div>
-      </div>
-      <div class="input-area">
-        <button class="attach-btn" id="mobileAttachBtn">📎</button>
-        <button class="emoji-btn" id="mobileEmojiBtn">😊</button>
-        <input type="text" class="message-input" id="mobileMessageInput" placeholder="Type a message..." autocomplete="off">
-        <button class="send-btn" id="mobileSendBtn">➤</button>
-        <input type="file" id="mobileFileInput" class="file-input" accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain">
-      </div>
-    </div>
+    <div id="mobileChat" class="chat-container hidden"></div>
   </div>
 </div>
 
@@ -597,72 +536,46 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  const CLOUDINARY_CONFIG = {
-    cloudName: "dwmdaz0c6",
-    uploadPreset: "ml_default"
-  };
-
+  const CLOUDINARY_CONFIG = { cloudName: "dwmdaz0c6", uploadPreset: "ml_default" };
   let currentUser = null;
   let unsubscribeMessages = null;
   
-  function getPlatform() {
-    return window.innerWidth <= 768 ? 'mobile' : 'desktop';
-  }
+  // Store active reply data per platform
+  let activeReply = { desktop: null, mobile: null };
 
+  function getPlatform() { return window.innerWidth <= 768 ? 'mobile' : 'desktop'; }
+  
   function hideSplash(platform) {
     const splash = document.getElementById(`${platform}Splash`);
-    if (splash) {
-      splash.style.opacity = '0';
-      setTimeout(() => splash.style.display = 'none', 500);
-    }
+    if (splash) { splash.style.opacity = '0'; setTimeout(() => splash.style.display = 'none', 500); }
   }
 
   async function uploadToCloudinary(file) {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
-    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/auto/upload`, {
-      method: 'POST',
-      body: formData
-    });
+    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/auto/upload`, { method: 'POST', body: formData });
     const data = await res.json();
-    if (data.secure_url) {
-      return { url: data.secure_url, name: file.name, type: file.type };
-    } else throw new Error('Upload failed');
+    if (data.secure_url) return { url: data.secure_url, name: file.name, type: file.type };
+    else throw new Error('Upload failed');
   }
-
-  async function fallbackBase64(file) {
-    return new Promise((resolve) => {
-      const reader = new FileReader();
-      reader.onload = (e) => resolve({ url: e.target.result, name: file.name, type: file.type });
-      reader.readAsDataURL(file);
-    });
-  }
+  async function fallbackBase64(file) { return new Promise((resolve) => { const reader = new FileReader(); reader.onload = (e) => resolve({ url: e.target.result, name: file.name, type: file.type }); reader.readAsDataURL(file); }); }
 
   async function handleFileUpload(file, platform) {
     if (!file) return;
     const container = document.getElementById(`${platform}MessagesArea`);
     const tempId = 'temp-' + Date.now();
-    const tempDiv = document.createElement('div');
-    tempDiv.id = tempId;
-    tempDiv.className = 'message sent';
+    const tempDiv = document.createElement('div'); tempDiv.id = tempId; tempDiv.className = 'message sent';
     tempDiv.innerHTML = `<div class="bubble">📤 uploading ${escapeHtml(file.name)}...<div class="upload-progress">☁️ Cloudinary</div><div class="message-time">now</div></div>`;
-    container.appendChild(tempDiv);
-    scrollToBottom(platform);
-
+    container.appendChild(tempDiv); scrollToBottom(platform);
     try {
-      let fileData;
-      try { fileData = await uploadToCloudinary(file); } catch(e) { fileData = await fallbackBase64(file); }
-      await sendMessage('', fileData);
+      let fileData; try { fileData = await uploadToCloudinary(file); } catch(e) { fileData = await fallbackBase64(file); }
+      await sendMessage('', fileData, null);
       const el = document.getElementById(tempId); if(el) el.remove();
-    } catch (err) {
-      const el = document.getElementById(tempId);
-      if(el) el.innerHTML = `<div class="bubble">❌ failed ${escapeHtml(file.name)}<div class="message-time">now</div></div>`;
-      setTimeout(() => { const x = document.getElementById(tempId); if(x) x.remove(); }, 2000);
-    }
+    } catch (err) { const el = document.getElementById(tempId); if(el) el.innerHTML = `<div class="bubble">❌ failed ${escapeHtml(file.name)}</div>`; setTimeout(() => { const x = document.getElementById(tempId); if(x) x.remove(); }, 2000); }
   }
 
-  async function sendMessage(text, fileData = null) {
+  async function sendMessage(text, fileData = null, replyTo = null) {
     if ((!text || !text.trim()) && !fileData) return;
     const msg = {
       senderId: currentUser.uid,
@@ -670,42 +583,114 @@
       senderEmail: currentUser.email,
       timestamp: serverTimestamp(),
       ...(text && text.trim() && { text: text.trim() }),
-      ...(fileData && { file: fileData })
+      ...(fileData && { file: fileData }),
+      ...(replyTo && { replyTo: replyTo })
     };
     await addDoc(collection(db, 'messages'), msg);
   }
 
-  function scrollToBottom(platform) {
-    setTimeout(() => {
-      const area = document.getElementById(`${platform}MessagesArea`);
-      if (area) {
-        area.scrollTop = area.scrollHeight;
-      }
-    }, 100);
-  }
+  function scrollToBottom(platform) { setTimeout(() => { const area = document.getElementById(`${platform}MessagesArea`); if(area) area.scrollTop = area.scrollHeight; }, 100); }
 
   let zoomModal = null;
-  function initZoomFeature() {
-    if (!zoomModal) {
-      const modal = document.createElement('div');
-      modal.className = 'zoom-modal';
-      modal.innerHTML = `<div class="close-zoom">✕</div><img class="zoom-image" alt="Zoom" />`;
-      document.body.appendChild(modal);
-      zoomModal = modal;
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal || e.target.classList.contains('close-zoom')) modal.classList.remove('active');
-      });
-    }
-    return zoomModal;
-  }
-
-  function showImageZoom(url) {
-    const modal = initZoomFeature();
-    modal.querySelector('.zoom-image').src = url;
-    modal.classList.add('active');
-  }
-
+  function initZoomFeature() { if (!zoomModal) { const modal = document.createElement('div'); modal.className = 'zoom-modal'; modal.innerHTML = `<div class="close-zoom">✕</div><img class="zoom-image" alt="Zoom" />`; document.body.appendChild(modal); zoomModal = modal; modal.addEventListener('click', (e) => { if (e.target === modal || e.target.classList.contains('close-zoom')) modal.classList.remove('active'); }); } return zoomModal; }
+  function showImageZoom(url) { const modal = initZoomFeature(); modal.querySelector('.zoom-image').src = url; modal.classList.add('active'); }
   function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, (m) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
+
+  // Helper to extract preview text from message (for reply quote)
+  function getMessagePreview(data) {
+    if (data.text) return data.text.length > 70 ? data.text.substring(0,70)+'...' : data.text;
+    if (data.file) return `📎 ${data.file.name || 'file'}`;
+    return '📄 Message';
+  }
+
+  // Render reply bar
+  function updateReplyBar(platform) {
+    const replyData = activeReply[platform];
+    const chatContainer = document.getElementById(`${platform}Chat`);
+    if (!chatContainer) return;
+    let bar = document.getElementById(`${platform}ReplyBar`);
+    if (bar) bar.remove();
+    if (replyData) {
+      bar = document.createElement('div');
+      bar.id = `${platform}ReplyBar`;
+      bar.className = 'reply-context-bar';
+      bar.innerHTML = `<span>↩️ Replying to ${escapeHtml(replyData.senderName || 'user')}: "${escapeHtml(replyData.preview)}"</span><button class="cancel-reply">✕</button>`;
+      const inputArea = chatContainer.querySelector('.input-area');
+      if (inputArea && inputArea.parentNode) inputArea.parentNode.insertBefore(bar, inputArea);
+      bar.querySelector('.cancel-reply').onclick = () => { activeReply[platform] = null; updateReplyBar(platform); };
+    }
+  }
+
+  function handleReplyToMessage(originalMsg, platform) {
+    const previewText = originalMsg.text || (originalMsg.file ? `[File: ${originalMsg.file.name}]` : 'Message');
+    activeReply[platform] = {
+      originalMessageId: originalMsg.id,
+      senderName: originalMsg.senderName || 'User',
+      text: originalMsg.text || '',
+      preview: previewText.length > 50 ? previewText.substring(0,50)+'...' : previewText,
+      file: originalMsg.file || null
+    };
+    updateReplyBar(platform);
+    const input = document.getElementById(`${platform}MessageInput`);
+    if (input) input.focus();
+  }
+
+  function buildMessageElement(data, docId, isSent, platform) {
+    const msgDiv = document.createElement('div');
+    msgDiv.className = `message ${isSent ? 'sent' : 'received'}`;
+    const bubble = document.createElement('div');
+    bubble.className = 'bubble';
+    if (!isSent && data.senderName) {
+      const nameSpan = document.createElement('div'); nameSpan.className = 'sender-name'; nameSpan.innerHTML = `👤 ${escapeHtml(data.senderName)}`; bubble.appendChild(nameSpan);
+    }
+    // Show reply quote if exists
+    if (data.replyTo) {
+      const reply = data.replyTo;
+      const quoteDiv = document.createElement('div'); quoteDiv.className = 'reply-quote';
+      quoteDiv.innerHTML = `<div class="reply-sender">↩️ ${escapeHtml(reply.senderName || 'Someone')}</div><div class="reply-text">${escapeHtml(reply.preview || reply.text || 'Media content')}</div>`;
+      bubble.appendChild(quoteDiv);
+    }
+    if (data.file) {
+      const file = data.file;
+      const isImage = file.type && file.type.startsWith('image/');
+      if (isImage && file.url) {
+        const imgWrap = document.createElement('div'); imgWrap.className = 'image-wrapper';
+        const img = document.createElement('img'); img.src = file.url; img.alt = file.name || 'image'; img.className = 'image-preview-img';
+        img.style.cursor = 'pointer'; img.addEventListener('click', (e) => { e.stopPropagation(); showImageZoom(file.url); });
+        imgWrap.appendChild(img); bubble.appendChild(imgWrap);
+        if (file.name) { const cap = document.createElement('div'); cap.className = 'file-name'; cap.textContent = file.name; cap.style.fontSize = '9px'; bubble.appendChild(cap); }
+      } else {
+        const fileDiv = document.createElement('div'); fileDiv.className = 'file-attachment';
+        fileDiv.addEventListener('click', () => { if(file.url) window.open(file.url, '_blank'); });
+        fileDiv.innerHTML = `<span class="file-icon">${file.type?.startsWith('video/') ? '🎥' : '📄'}</span><span class="file-name">${escapeHtml(file.name || 'file')}</span>`;
+        bubble.appendChild(fileDiv);
+      }
+    }
+    if (data.text) bubble.appendChild(document.createTextNode(data.text));
+    const timeSpan = document.createElement('div'); timeSpan.className = 'message-time';
+    if (data.timestamp?.toDate) { const d = data.timestamp.toDate(); timeSpan.textContent = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); } else timeSpan.textContent = 'now';
+    bubble.appendChild(timeSpan);
+    msgDiv.appendChild(bubble);
+    // Add reply button on long press / context menu? For simplicity: add a small reply icon on bubble (only for received or sent but useful)
+    const replyAction = document.createElement('div'); 
+    replyAction.style.cssText = 'position: absolute; right: 0; top: -6px; background: #fff; border-radius: 30px; padding: 2px 6px; font-size: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer; opacity:0.7; transition:0.1s;';
+    replyAction.innerHTML = '↩️';
+    replyAction.title = 'Reply to message';
+    replyAction.style.display = 'inline-block';
+    replyAction.style.marginLeft = '8px';
+    replyAction.onclick = (e) => { e.stopPropagation(); 
+      const originalMsgData = { id: docId, senderName: data.senderName, text: data.text || null, file: data.file || null };
+      handleReplyToMessage(originalMsgData, platform);
+    };
+    // Only show on hover for desktop, always for mobile? Add inside bubble
+    bubble.style.position = 'relative';
+    const replyBtnContainer = document.createElement('div'); replyBtnContainer.style.cssText = 'display: flex; justify-content: flex-end; margin-top: 2px;';
+    const smallReply = document.createElement('button'); smallReply.textContent = '↩️ reply'; smallReply.style.cssText = 'background: none; border: none; font-size: 9px; color: #128c7e; cursor: pointer; padding: 0 4px;';
+    smallReply.onclick = (e) => { e.stopPropagation(); handleReplyToMessage({ id: docId, senderName: data.senderName, text: data.text || null, file: data.file || null }, platform); };
+    replyBtnContainer.appendChild(smallReply);
+    bubble.appendChild(replyBtnContainer);
+    return msgDiv;
+  }
 
   function loadMessages(platform) {
     if (unsubscribeMessages) unsubscribeMessages();
@@ -715,104 +700,15 @@
       if (!container) return;
       const wasBottom = (container.scrollHeight - container.scrollTop - container.clientHeight) < 200;
       container.innerHTML = '';
-      if (snap.empty) container.innerHTML = '<div class="info-message">✨ Send a message or share a file ✨</div>';
+      if (snap.empty) container.innerHTML = '<div class="info-message">✨ Tap message "reply" to quote ✨</div>';
       snap.forEach(docSnap => {
         const data = docSnap.data();
         const isSent = currentUser && data.senderId === currentUser.uid;
-        const msgDiv = document.createElement('div');
-        msgDiv.className = `message ${isSent ? 'sent' : 'received'}`;
-        const bubble = document.createElement('div');
-        bubble.className = 'bubble';
-        if (!isSent && data.senderName) {
-          const nameSpan = document.createElement('div');
-          nameSpan.className = 'sender-name';
-          nameSpan.innerHTML = `👤 ${escapeHtml(data.senderName)}`;
-          bubble.appendChild(nameSpan);
-        }
-        if (data.file) {
-          const file = data.file;
-          const isImage = file.type && file.type.startsWith('image/');
-          if (isImage && file.url) {
-            const imgWrap = document.createElement('div');
-            imgWrap.className = 'image-wrapper';
-            const img = document.createElement('img');
-            img.src = file.url;
-            img.alt = file.name || 'image';
-            img.className = 'image-preview-img';
-            img.style.cursor = 'pointer';
-            img.addEventListener('click', (e) => { e.stopPropagation(); showImageZoom(file.url); });
-            imgWrap.appendChild(img);
-            bubble.appendChild(imgWrap);
-            if (file.name) {
-              const cap = document.createElement('div');
-              cap.className = 'file-name';
-              cap.textContent = file.name;
-              cap.style.fontSize = '9px';
-              bubble.appendChild(cap);
-            }
-          } else {
-            const fileDiv = document.createElement('div');
-            fileDiv.className = 'file-attachment';
-            fileDiv.addEventListener('click', () => { if(file.url) window.open(file.url, '_blank'); });
-            fileDiv.innerHTML = `<span class="file-icon">${file.type?.startsWith('video/') ? '🎥' : '📄'}</span><span class="file-name">${escapeHtml(file.name || 'file')}</span>`;
-            bubble.appendChild(fileDiv);
-          }
-        }
-        if (data.text) bubble.appendChild(document.createTextNode(data.text));
-        const timeSpan = document.createElement('div');
-        timeSpan.className = 'message-time';
-        if (data.timestamp?.toDate) {
-          const d = data.timestamp.toDate();
-          timeSpan.textContent = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-        } else timeSpan.textContent = 'now';
-        bubble.appendChild(timeSpan);
-        msgDiv.appendChild(bubble);
-        container.appendChild(msgDiv);
+        const msgElement = buildMessageElement(data, docSnap.id, isSent, platform);
+        container.appendChild(msgElement);
       });
-      if (wasBottom) {
-        scrollToBottom(platform);
-      }
+      if (wasBottom) scrollToBottom(platform);
     });
-  }
-
-  let activePicker = null;
-  function buildEmojiGrid(platform) {
-    const emojis = ['😀','😃','😄','😁','😆','😂','🤣','😍','🥰','😘','😎','🤩','🥳','😊','🙂','😉','❤️','🧡','💛','💚','💙','💜','🔥','✨','⭐','🚀','🌈','👍','🎉','🎊','💎','😜','🤪'];
-    const pickerDiv = document.createElement('div');
-    pickerDiv.className = 'emoji-picker';
-    emojis.forEach(emo => {
-      const span = document.createElement('span');
-      span.textContent = emo;
-      span.onclick = (e) => {
-        e.stopPropagation();
-        const inp = document.getElementById(`${platform}MessageInput`);
-        if(inp) {
-          const start = inp.selectionStart;
-          const end = inp.selectionEnd;
-          inp.value = inp.value.substring(0, start) + emo + inp.value.substring(end);
-          inp.focus();
-          if (activePicker) activePicker.remove();
-          activePicker = null;
-        }
-      };
-      pickerDiv.appendChild(span);
-    });
-    return pickerDiv;
-  }
-
-  function showEmojiPicker(btn, platform) {
-    if (activePicker) { activePicker.remove(); activePicker = null; return; }
-    const picker = buildEmojiGrid(platform);
-    document.body.appendChild(picker);
-    activePicker = picker;
-    const close = (e) => {
-      if (!picker.contains(e.target) && e.target !== btn) {
-        picker.remove();
-        activePicker = null;
-        document.removeEventListener('click', close);
-      }
-    };
-    setTimeout(() => document.addEventListener('click', close), 80);
   }
 
   function setupUI(platform) {
@@ -821,18 +717,56 @@
     const sendBtn = document.getElementById(`${platform}SendBtn`);
     const inputMsg = document.getElementById(`${platform}MessageInput`);
     const emojiBtn = document.getElementById(`${platform}EmojiBtn`);
-    
     if(attachBtn) attachBtn.onclick = () => fileInput?.click();
     if(fileInput) fileInput.onchange = async (e) => { if(e.target.files[0]) await handleFileUpload(e.target.files[0], platform); fileInput.value = ''; };
-    const sendText = () => { if(inputMsg && inputMsg.value.trim()) { sendMessage(inputMsg.value); inputMsg.value = ''; setTimeout(() => scrollToBottom(platform), 80); } };
+    const sendText = () => { 
+      if(inputMsg && inputMsg.value.trim()) { 
+        const replyData = activeReply[platform];
+        const replyMeta = replyData ? { originalMessageId: replyData.originalMessageId, senderName: replyData.senderName, preview: replyData.preview, text: replyData.text } : null;
+        sendMessage(inputMsg.value, null, replyMeta);
+        inputMsg.value = '';
+        activeReply[platform] = null;
+        updateReplyBar(platform);
+        setTimeout(() => scrollToBottom(platform), 80);
+      } 
+    };
     if(sendBtn) sendBtn.onclick = sendText;
     if(inputMsg) inputMsg.onkeypress = (e) => { if(e.key === 'Enter') { e.preventDefault(); sendText(); } };
-    if(emojiBtn) emojiBtn.onclick = (e) => { e.stopPropagation(); showEmojiPicker(emojiBtn, platform); };
+    
+    let activePicker = null;
+    function buildEmojiGrid() {
+      const emojis = ['😀','😃','😄','😁','😆','😂','🤣','😍','🥰','😘','😎','🤩','🥳','😊','🙂','😉','❤️','🧡','💛','💚','💙','💜','🔥','✨','⭐','🚀','🌈','👍','🎉','🎊','💎','😜','🤪'];
+      const pickerDiv = document.createElement('div'); pickerDiv.className = 'emoji-picker';
+      emojis.forEach(emo => { const span = document.createElement('span'); span.textContent = emo; span.onclick = (e) => { e.stopPropagation(); const inp = document.getElementById(`${platform}MessageInput`); if(inp) { inp.value += emo; inp.focus(); if(activePicker) activePicker.remove(); activePicker = null; } }; pickerDiv.appendChild(span); });
+      return pickerDiv;
+    }
+    if(emojiBtn) emojiBtn.onclick = (e) => { e.stopPropagation(); if(activePicker) { activePicker.remove(); activePicker = null; return; } const picker = buildEmojiGrid(); document.body.appendChild(picker); activePicker = picker; const close = (ev) => { if (!picker.contains(ev.target) && ev.target !== emojiBtn) { picker.remove(); activePicker = null; document.removeEventListener('click', close); } }; setTimeout(() => document.addEventListener('click', close), 80); };
+  }
+
+  function buildChatUI(platform) {
+    const chatDiv = document.getElementById(`${platform}Chat`);
+    if(!chatDiv) return;
+    chatDiv.innerHTML = `
+      <div class="chat-header">
+        <div class="avatar">💬</div>
+        <div class="contact-info"><div class="contact-name" id="${platform}UserName">Chat Space</div><div class="contact-status" id="${platform}UserEmail">online</div></div>
+        <button class="logout-btn" id="${platform}LogoutBtn">Exit</button>
+      </div>
+      <div class="messages-area" id="${platform}MessagesArea"><div class="info-message">✨ Reply to any message by tapping "reply" ✨</div></div>
+      <div class="input-area">
+        <button class="attach-btn" id="${platform}AttachBtn">📎</button>
+        <button class="emoji-btn" id="${platform}EmojiBtn">😊</button>
+        <input type="text" class="message-input" id="${platform}MessageInput" placeholder="Type a message..." autocomplete="off">
+        <button class="send-btn" id="${platform}SendBtn">➤</button>
+        <input type="file" id="${platform}FileInput" class="file-input" accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain">
+      </div>
+    `;
   }
 
   function initChat(user) {
     currentUser = user;
     const platform = getPlatform();
+    buildChatUI(platform);
     document.getElementById(`${platform}UserName`).textContent = user.displayName || user.email.split('@')[0];
     document.getElementById(`${platform}UserEmail`).textContent = `${user.email} • live`;
     document.getElementById(`${platform}Auth`).innerHTML = '';
@@ -840,7 +774,10 @@
     hideSplash(platform);
     loadMessages(platform);
     setupUI(platform);
+    activeReply[platform] = null; updateReplyBar(platform);
     setTimeout(() => scrollToBottom(platform), 300);
+    // logout
+    document.getElementById(`${platform}LogoutBtn`)?.addEventListener('click', async () => { await signOut(auth); });
   }
 
   function renderAuth() {
@@ -848,80 +785,15 @@
     const authContainer = document.getElementById(`${platform}Auth`);
     if(!authContainer) return;
     hideSplash(platform);
-    authContainer.innerHTML = `
-      <div class="auth-overlay">
-        <div class="auth-card">
-          <h2>📱 SERUSOFT</h2>
-          <div id="authMode">
-            <input type="email" id="loginEmail" class="auth-input" placeholder="Email">
-            <input type="password" id="loginPassword" class="auth-input" placeholder="Password">
-            <button id="loginBtn" class="auth-btn">Login → Chat</button>
-            <div class="toggle-auth" id="showSignup">✨ Create account</div>
-            <div id="authError" class="error-msg"></div>
-          </div>
-        </div>
-      </div>
-    `;
-    document.getElementById('loginBtn')?.addEventListener('click', async () => {
-      const email = document.getElementById('loginEmail').value;
-      const pwd = document.getElementById('loginPassword').value;
-      try { await signInWithEmailAndPassword(auth, email, pwd); } catch(e){ const errDiv = document.getElementById('authError'); if(errDiv) errDiv.innerText = e.message; }
-    });
-    document.getElementById('showSignup')?.addEventListener('click', () => {
-      const modeDiv = document.getElementById('authMode');
-      if(modeDiv) modeDiv.innerHTML = `
-        <input type="email" id="signupEmail" class="auth-input" placeholder="Email">
-        <input type="text" id="signupName" class="auth-input" placeholder="Your Name">
-        <input type="password" id="signupPassword" class="auth-input" placeholder="Password">
-        <button id="signupBtn" class="auth-btn">Create & Enter</button>
-        <div class="toggle-auth" id="showLogin">← Back</div>
-        <div id="authError" class="error-msg"></div>
-      `;
-      document.getElementById('signupBtn')?.addEventListener('click', async () => {
-        const email = document.getElementById('signupEmail').value;
-        const pwd = document.getElementById('signupPassword').value;
-        const name = document.getElementById('signupName').value;
-        if(!name) { const err = document.getElementById('authError'); if(err) err.innerText = "Enter name"; return; }
-        try {
-          const cred = await createUserWithEmailAndPassword(auth, email, pwd);
-          await updateProfile(cred.user, { displayName: name });
-        } catch(e){ const errDiv = document.getElementById('authError'); if(errDiv) errDiv.innerText = e.message; }
-      });
-      document.getElementById('showLogin')?.addEventListener('click', renderAuth);
-    });
+    authContainer.innerHTML = `<div class="auth-overlay"><div class="auth-card"><h2>📱 SERUSOFT</h2><div id="authMode"><input type="email" id="loginEmail" class="auth-input" placeholder="Email"><input type="password" id="loginPassword" class="auth-input" placeholder="Password"><button id="loginBtn" class="auth-btn">Login → Chat</button><div class="toggle-auth" id="showSignup">✨ Create account</div><div id="authError" class="error-msg"></div></div></div></div>`;
+    document.getElementById('loginBtn')?.addEventListener('click', async () => { const email = document.getElementById('loginEmail').value, pwd = document.getElementById('loginPassword').value; try { await signInWithEmailAndPassword(auth, email, pwd); } catch(e){ const errDiv = document.getElementById('authError'); if(errDiv) errDiv.innerText = e.message; } });
+    document.getElementById('showSignup')?.addEventListener('click', () => { const modeDiv = document.getElementById('authMode'); if(modeDiv) modeDiv.innerHTML = `<input type="email" id="signupEmail" class="auth-input" placeholder="Email"><input type="text" id="signupName" class="auth-input" placeholder="Your Name"><input type="password" id="signupPassword" class="auth-input" placeholder="Password"><button id="signupBtn" class="auth-btn">Create & Enter</button><div class="toggle-auth" id="showLogin">← Back</div><div id="authError" class="error-msg"></div>`; document.getElementById('signupBtn')?.addEventListener('click', async () => { const email = document.getElementById('signupEmail').value, pwd = document.getElementById('signupPassword').value, name = document.getElementById('signupName').value; if(!name) { const err = document.getElementById('authError'); if(err) err.innerText = "Enter name"; return; } try { const cred = await createUserWithEmailAndPassword(auth, email, pwd); await updateProfile(cred.user, { displayName: name }); } catch(e){ const errDiv = document.getElementById('authError'); if(errDiv) errDiv.innerText = e.message; } }); document.getElementById('showLogin')?.addEventListener('click', renderAuth); });
   }
 
-  document.getElementById('desktopLogoutBtn')?.addEventListener('click', async () => { await signOut(auth); });
-  document.getElementById('mobileLogoutBtn')?.addEventListener('click', async () => { await signOut(auth); });
-
-  window.addEventListener('resize', () => {
-    if(currentUser){
-      const newPlatform = getPlatform();
-      setTimeout(() => scrollToBottom(newPlatform), 150);
-    }
-  });
-
-  onAuthStateChanged(auth, (user) => {
-    if (user) initChat(user);
-    else { if(unsubscribeMessages) unsubscribeMessages(); currentUser=null; renderAuth(); }
-  });
-  
+  window.addEventListener('resize', () => { if(currentUser){ const newPlatform = getPlatform(); setTimeout(() => scrollToBottom(newPlatform), 150); } });
+  onAuthStateChanged(auth, (user) => { if (user) initChat(user); else { if(unsubscribeMessages) unsubscribeMessages(); currentUser=null; renderAuth(); } });
   setTimeout(() => { if(!currentUser) { const p = getPlatform(); hideSplash(p); } }, 1500);
-  
-  // REAL PHONE FIX: Force visibility check
-  window.addEventListener('load', () => {
-    if(window.innerWidth <= 768) {
-      const mobileChat = document.getElementById('mobileChat');
-      if(mobileChat && !mobileChat.classList.contains('hidden')) {
-        const inputArea = mobileChat.querySelector('.input-area');
-        if(inputArea) {
-          inputArea.style.display = 'flex';
-          inputArea.style.visibility = 'visible';
-        }
-        scrollToBottom('mobile');
-      }
-    }
-  });
+  window.addEventListener('load', () => { if(window.innerWidth <= 768 && document.getElementById('mobileChat') && !document.getElementById('mobileChat').classList.contains('hidden')) scrollToBottom('mobile'); });
 </script>
 </body>
 </html>
