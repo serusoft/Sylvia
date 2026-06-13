@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>SERUSOFT SPACE • Smart Chat • Reply Feature</title>
+  <title>SERUSOFT SPACE • Smart Chat • Pro Media & Files</title>
   <style>
     * {
       margin: 0;
@@ -22,13 +22,13 @@
       height: 100%;
     }
 
-    /* DESKTOP ONLY: Phone frame wrapper */
+    /* DESKTOP ONLY: elegant frame */
     .desktop-frame {
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      background: linear-gradient(145deg, #1a1a2e 0%, #16213e 100%);
+      background: linear-gradient(145deg, #1a1a2e 0%, #0f172a 100%);
       padding: 20px;
     }
 
@@ -41,7 +41,7 @@
       min-height: 600px;
       background: #000;
       border-radius: 48px;
-      box-shadow: 0 30px 50px rgba(0,0,0,0.5), 0 0 0 6px #3a3a3a, 0 0 0 10px #2c2c2c;
+      box-shadow: 0 30px 50px rgba(0,0,0,0.6), 0 0 0 6px #3a3a3a, 0 0 0 10px #2c2c2c;
       overflow: hidden;
     }
 
@@ -144,7 +144,7 @@
       padding: 12px 12px 16px 12px;
       display: flex;
       flex-direction: column;
-      gap: 6px;
+      gap: 8px;
       scroll-behavior: smooth;
       background: #efeae2;
       min-height: 0;
@@ -181,8 +181,8 @@
     
     .message.sent .bubble { background: #dcf8c5; border-bottom-right-radius: 4px; }
     .message.received .bubble { background: white; border-bottom-left-radius: 4px; }
-    .message-time { font-size: 9px; color: rgba(0,0,0,0.5); margin-top: 4px; text-align: right; }
-    .sender-name { font-size: 10px; font-weight: 800; color: #075e54; margin-bottom: 3px; }
+    .message-time { font-size: 9px; color: rgba(0,0,0,0.5); margin-top: 6px; text-align: right; }
+    .sender-name { font-size: 10px; font-weight: 800; color: #075e54; margin-bottom: 5px; display: flex; align-items: center; gap: 4px;}
 
     /* Reply Quote Styling */
     .reply-quote {
@@ -204,7 +204,7 @@
       font-style: italic;
       white-space: pre-wrap;
       word-break: break-word;
-      max-height: 45px;
+      max-height: 55px;
       overflow: hidden;
       text-overflow: ellipsis;
     }
@@ -241,19 +241,21 @@
 
     .image-wrapper {
       cursor: pointer;
-      border-radius: 12px;
+      border-radius: 14px;
       overflow: hidden;
-      margin-bottom: 4px;
+      margin-bottom: 6px;
       display: inline-block;
       max-width: 200px;
+      transition: transform 0.05s ease;
     }
+    .image-wrapper:active { transform: scale(0.98); }
     
     .image-preview-img {
       width: 100%;
       max-width: 180px;
       max-height: 160px;
       object-fit: cover;
-      border-radius: 12px;
+      border-radius: 14px;
       display: block;
       background: #e9e9e9;
     }
@@ -262,16 +264,17 @@
       display: flex;
       align-items: center;
       gap: 10px;
-      background: rgba(0,0,0,0.03);
-      padding: 6px 12px 6px 8px;
-      border-radius: 32px;
+      background: rgba(0,0,0,0.04);
+      padding: 8px 14px 8px 10px;
+      border-radius: 36px;
       cursor: pointer;
+      transition: background 0.1s;
     }
+    .file-attachment:active { background: rgba(0,0,0,0.12); }
     
     .file-icon { font-size: 28px; }
-    .file-name { font-size: 11px; font-weight: 500; color: #075e54; text-decoration: underline; }
-    .file-attachment:active { background: rgba(0,0,0,0.1); }
-
+    .file-name { font-size: 12px; font-weight: 500; color: #075e54; text-decoration: underline; word-break: break-all; }
+    
     /* INPUT AREA */
     .input-area {
       background: #ffffff;
@@ -308,7 +311,6 @@
       align-items: center;
       justify-content: center;
       transition: all 0.15s ease;
-      box-shadow: 0 1px 2px rgba(0,0,0,0.08);
       flex-shrink: 0;
       color: #2c3e2f;
     }
@@ -347,7 +349,6 @@
       cursor: pointer;
       font-size: 18px;
       transition: 0.15s;
-      box-shadow: 0 2px 6px rgba(7,94,84,0.3);
       flex-shrink: 0;
     }
     
@@ -459,27 +460,31 @@
     .toggle-auth { margin-top: 16px; color: #075e54; cursor: pointer; font-size: 13px; font-weight: 500; }
     .error-msg { color: #e74c3c; font-size: 11px; margin-top: 8px; }
 
+    /* SPLASH premium */
     .splash-screen {
       position: absolute;
       top: 0;
       left: 0;
       right: 0;
       bottom: 0;
-      background: linear-gradient(135deg, #075e54 0%, #0b3b33 100%);
+      background: radial-gradient(circle at 30% 20%, #075e54, #0b2b26);
       display: flex;
       justify-content: center;
       align-items: center;
       z-index: 10000;
-      transition: opacity 0.5s ease;
+      opacity: 1;
+      transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      backdrop-filter: blur(0px);
     }
     
-    .splash-content { text-align: center; }
-    .brand-logo { font-size: 70px; margin-bottom: 12px; }
-    .brand-name { font-size: 26px; font-weight: 800; color: white; letter-spacing: 1px; }
-    .brand-sub { font-size: 11px; color: rgba(255,255,255,0.9); margin-bottom: 20px; }
+    .splash-content { text-align: center; animation: fadeUp 0.7s ease; }
+    .brand-logo { font-size: 74px; margin-bottom: 12px; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2)); }
+    .brand-name { font-size: 28px; font-weight: 800; color: white; letter-spacing: 1px; background: linear-gradient(135deg, #fff, #d0ffd0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .brand-sub { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 8px; font-weight: 500; letter-spacing: 0.5px; }
     
-    .loading-spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid white; border-radius: 50%; animation: spin 0.9s linear infinite; margin: 16px auto; }
+    .loading-spinner { width: 42px; height: 42px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid #25d366; border-radius: 50%; animation: spin 0.9s linear infinite; margin: 20px auto; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
     @media (max-width: 768px) {
       .desktop-frame { display: none !important; }
@@ -502,7 +507,7 @@
     <div class="dynamic-island"></div>
     <div class="speaker-grille"></div>
     <div class="phone-screen" id="desktopScreen">
-      <div id="desktopSplash" class="splash-screen">...</div>
+      <div id="desktopSplash" class="splash-screen"><div class="splash-content"><div class="brand-logo">🚀</div><div class="brand-name">SERUSOFT SPACE</div><div class="brand-sub">smart chat • media ready</div><div class="loading-spinner"></div></div></div>
       <div id="desktopAuth"></div>
       <div id="desktopChat" class="chat-container hidden"></div>
     </div>
@@ -511,7 +516,7 @@
 
 <div class="mobile-full">
   <div id="mobileScreen" style="width:100%; height:100%; background:#efeae2;">
-    <div id="mobileSplash" class="splash-screen">...</div>
+    <div id="mobileSplash" class="splash-screen"><div class="splash-content"><div class="brand-logo">🌟</div><div class="brand-name">SERUSOFT</div><div class="brand-sub">connect • reply • share</div><div class="loading-spinner"></div></div></div>
     <div id="mobileAuth"></div>
     <div id="mobileChat" class="chat-container hidden"></div>
   </div>
@@ -539,40 +544,64 @@
   const CLOUDINARY_CONFIG = { cloudName: "dwmdaz0c6", uploadPreset: "ml_default" };
   let currentUser = null;
   let unsubscribeMessages = null;
-  
-  // Store active reply data per platform
   let activeReply = { desktop: null, mobile: null };
+  let globalZoomModal = null;
 
   function getPlatform() { return window.innerWidth <= 768 ? 'mobile' : 'desktop'; }
   
   function hideSplash(platform) {
     const splash = document.getElementById(`${platform}Splash`);
-    if (splash) { splash.style.opacity = '0'; setTimeout(() => splash.style.display = 'none', 500); }
+    if (splash && splash.style.display !== 'none') {
+      splash.style.opacity = '0';
+      setTimeout(() => { splash.style.display = 'none'; }, 500);
+    }
   }
 
+  // robust file upload to cloudinary + fallback
   async function uploadToCloudinary(file) {
     const formData = new FormData();
     formData.append('file', file);
     formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
-    const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/auto/upload`, { method: 'POST', body: formData });
-    const data = await res.json();
-    if (data.secure_url) return { url: data.secure_url, name: file.name, type: file.type };
-    else throw new Error('Upload failed');
+    const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/auto/upload`, { method: 'POST', body: formData });
+    if (!response.ok) throw new Error('Cloudinary rejected');
+    const data = await response.json();
+    if (data.secure_url) return { url: data.secure_url, name: file.name, type: file.type, size: file.size };
+    throw new Error('no url');
   }
-  async function fallbackBase64(file) { return new Promise((resolve) => { const reader = new FileReader(); reader.onload = (e) => resolve({ url: e.target.result, name: file.name, type: file.type }); reader.readAsDataURL(file); }); }
 
   async function handleFileUpload(file, platform) {
     if (!file) return;
     const container = document.getElementById(`${platform}MessagesArea`);
-    const tempId = 'temp-' + Date.now();
-    const tempDiv = document.createElement('div'); tempDiv.id = tempId; tempDiv.className = 'message sent';
-    tempDiv.innerHTML = `<div class="bubble">📤 uploading ${escapeHtml(file.name)}...<div class="upload-progress">☁️ Cloudinary</div><div class="message-time">now</div></div>`;
-    container.appendChild(tempDiv); scrollToBottom(platform);
+    if (!container) return;
+    const tempId = 'temp-' + Date.now() + Math.random();
+    const tempDiv = document.createElement('div');
+    tempDiv.id = tempId;
+    tempDiv.className = 'message sent';
+    const fileSize = (file.size / 1024).toFixed(1);
+    tempDiv.innerHTML = `<div class="bubble">📤 uploading "${escapeHtml(file.name)}" (${fileSize}KB)...<div class="upload-progress">⏫ Cloudinary secure</div><div class="message-time">now</div></div>`;
+    container.appendChild(tempDiv);
+    scrollToBottom(platform);
     try {
-      let fileData; try { fileData = await uploadToCloudinary(file); } catch(e) { fileData = await fallbackBase64(file); }
+      let fileData;
+      try {
+        fileData = await uploadToCloudinary(file);
+      } catch (cloudErr) {
+        console.warn("Cloudinary error, using base64 fallback", cloudErr);
+        const fallbackUrl = await new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => resolve(e.target.result);
+          reader.readAsDataURL(file);
+        });
+        fileData = { url: fallbackUrl, name: file.name, type: file.type };
+      }
       await sendMessage('', fileData, null);
-      const el = document.getElementById(tempId); if(el) el.remove();
-    } catch (err) { const el = document.getElementById(tempId); if(el) el.innerHTML = `<div class="bubble">❌ failed ${escapeHtml(file.name)}</div>`; setTimeout(() => { const x = document.getElementById(tempId); if(x) x.remove(); }, 2000); }
+      const tempElement = document.getElementById(tempId);
+      if (tempElement) tempElement.remove();
+    } catch (err) {
+      const errEl = document.getElementById(tempId);
+      if (errEl) errEl.innerHTML = `<div class="bubble">❌ Failed: ${escapeHtml(file.name)}<div class="message-time">now</div></div>`;
+      setTimeout(() => { const x = document.getElementById(tempId); if(x) x.remove(); }, 2500);
+    }
   }
 
   async function sendMessage(text, fileData = null, replyTo = null) {
@@ -583,7 +612,7 @@
       senderEmail: currentUser.email,
       timestamp: serverTimestamp(),
       ...(text && text.trim() && { text: text.trim() }),
-      ...(fileData && { file: fileData }),
+      ...(fileData && { file: { url: fileData.url, name: fileData.name, type: fileData.type } }),
       ...(replyTo && { replyTo: replyTo })
     };
     await addDoc(collection(db, 'messages'), msg);
@@ -591,27 +620,34 @@
 
   function scrollToBottom(platform) { setTimeout(() => { const area = document.getElementById(`${platform}MessagesArea`); if(area) area.scrollTop = area.scrollHeight; }, 100); }
 
-  let zoomModal = null;
-  function initZoomFeature() { if (!zoomModal) { const modal = document.createElement('div'); modal.className = 'zoom-modal'; modal.innerHTML = `<div class="close-zoom">✕</div><img class="zoom-image" alt="Zoom" />`; document.body.appendChild(modal); zoomModal = modal; modal.addEventListener('click', (e) => { if (e.target === modal || e.target.classList.contains('close-zoom')) modal.classList.remove('active'); }); } return zoomModal; }
+  function initZoomFeature() {
+    if (!globalZoomModal) {
+      const modal = document.createElement('div');
+      modal.className = 'zoom-modal';
+      modal.innerHTML = `<div class="close-zoom">✕</div><img class="zoom-image" alt="Zoom preview" />`;
+      document.body.appendChild(modal);
+      globalZoomModal = modal;
+      modal.addEventListener('click', (e) => { if (e.target === modal || e.target.classList.contains('close-zoom')) modal.classList.remove('active'); });
+    }
+    return globalZoomModal;
+  }
   function showImageZoom(url) { const modal = initZoomFeature(); modal.querySelector('.zoom-image').src = url; modal.classList.add('active'); }
-  function escapeHtml(str) { if(!str) return ''; return str.replace(/[&<>]/g, (m) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
+  function escapeHtml(str) { if(!str) return ''; return String(str).replace(/[&<>]/g, (m) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
 
-  // Helper to extract preview text from message (for reply quote)
   function getMessagePreview(data) {
-    if (data.text) return data.text.length > 70 ? data.text.substring(0,70)+'...' : data.text;
-    if (data.file) return `📎 ${data.file.name || 'file'}`;
+    if (data.text) return data.text.length > 65 ? data.text.substring(0,65)+'...' : data.text;
+    if (data.file) return `📎 ${data.file.name || 'attachment'}`;
     return '📄 Message';
   }
 
-  // Render reply bar
   function updateReplyBar(platform) {
     const replyData = activeReply[platform];
     const chatContainer = document.getElementById(`${platform}Chat`);
     if (!chatContainer) return;
-    let bar = document.getElementById(`${platform}ReplyBar`);
-    if (bar) bar.remove();
+    let existing = document.getElementById(`${platform}ReplyBar`);
+    if (existing) existing.remove();
     if (replyData) {
-      bar = document.createElement('div');
+      const bar = document.createElement('div');
       bar.id = `${platform}ReplyBar`;
       bar.className = 'reply-context-bar';
       bar.innerHTML = `<span>↩️ Replying to ${escapeHtml(replyData.senderName || 'user')}: "${escapeHtml(replyData.preview)}"</span><button class="cancel-reply">✕</button>`;
@@ -622,13 +658,12 @@
   }
 
   function handleReplyToMessage(originalMsg, platform) {
-    const previewText = originalMsg.text || (originalMsg.file ? `[File: ${originalMsg.file.name}]` : 'Message');
+    const previewText = originalMsg.text || (originalMsg.file ? `📎 ${originalMsg.file.name}` : 'Message');
     activeReply[platform] = {
       originalMessageId: originalMsg.id,
       senderName: originalMsg.senderName || 'User',
-      text: originalMsg.text || '',
-      preview: previewText.length > 50 ? previewText.substring(0,50)+'...' : previewText,
-      file: originalMsg.file || null
+      preview: previewText.length > 55 ? previewText.substring(0,55)+'...' : previewText,
+      text: originalMsg.text || (originalMsg.file ? `[File: ${originalMsg.file.name}]` : '')
     };
     updateReplyBar(platform);
     const input = document.getElementById(`${platform}MessageInput`);
@@ -643,26 +678,27 @@
     if (!isSent && data.senderName) {
       const nameSpan = document.createElement('div'); nameSpan.className = 'sender-name'; nameSpan.innerHTML = `👤 ${escapeHtml(data.senderName)}`; bubble.appendChild(nameSpan);
     }
-    // Show reply quote if exists
     if (data.replyTo) {
-      const reply = data.replyTo;
       const quoteDiv = document.createElement('div'); quoteDiv.className = 'reply-quote';
-      quoteDiv.innerHTML = `<div class="reply-sender">↩️ ${escapeHtml(reply.senderName || 'Someone')}</div><div class="reply-text">${escapeHtml(reply.preview || reply.text || 'Media content')}</div>`;
+      const replyContent = data.replyTo.preview || data.replyTo.text || 'media';
+      quoteDiv.innerHTML = `<div class="reply-sender">↩️ ${escapeHtml(data.replyTo.senderName || 'Someone')}</div><div class="reply-text">${escapeHtml(replyContent)}</div>`;
       bubble.appendChild(quoteDiv);
     }
-    if (data.file) {
+    if (data.file && data.file.url) {
       const file = data.file;
-      const isImage = file.type && file.type.startsWith('image/');
-      if (isImage && file.url) {
+      const isImage = file.type && (file.type.startsWith('image/') || file.url.match(/\.(jpg|jpeg|png|gif|webp)/i));
+      if (isImage) {
         const imgWrap = document.createElement('div'); imgWrap.className = 'image-wrapper';
         const img = document.createElement('img'); img.src = file.url; img.alt = file.name || 'image'; img.className = 'image-preview-img';
-        img.style.cursor = 'pointer'; img.addEventListener('click', (e) => { e.stopPropagation(); showImageZoom(file.url); });
+        img.loading = 'lazy';
+        img.addEventListener('click', (e) => { e.stopPropagation(); showImageZoom(file.url); });
         imgWrap.appendChild(img); bubble.appendChild(imgWrap);
-        if (file.name) { const cap = document.createElement('div'); cap.className = 'file-name'; cap.textContent = file.name; cap.style.fontSize = '9px'; bubble.appendChild(cap); }
+        if (file.name) { const cap = document.createElement('div'); cap.className = 'file-name'; cap.textContent = file.name; cap.style.fontSize = '10px'; cap.style.marginTop = '2px'; bubble.appendChild(cap); }
       } else {
         const fileDiv = document.createElement('div'); fileDiv.className = 'file-attachment';
         fileDiv.addEventListener('click', () => { if(file.url) window.open(file.url, '_blank'); });
-        fileDiv.innerHTML = `<span class="file-icon">${file.type?.startsWith('video/') ? '🎥' : '📄'}</span><span class="file-name">${escapeHtml(file.name || 'file')}</span>`;
+        const icon = file.type?.startsWith('video/') ? '🎥' : (file.type?.includes('pdf') ? '📑' : (file.type?.includes('word') ? '📝' : '📎'));
+        fileDiv.innerHTML = `<span class="file-icon">${icon}</span><span class="file-name">${escapeHtml(file.name || 'download')}</span>`;
         bubble.appendChild(fileDiv);
       }
     }
@@ -670,25 +706,12 @@
     const timeSpan = document.createElement('div'); timeSpan.className = 'message-time';
     if (data.timestamp?.toDate) { const d = data.timestamp.toDate(); timeSpan.textContent = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); } else timeSpan.textContent = 'now';
     bubble.appendChild(timeSpan);
-    msgDiv.appendChild(bubble);
-    // Add reply button on long press / context menu? For simplicity: add a small reply icon on bubble (only for received or sent but useful)
-    const replyAction = document.createElement('div'); 
-    replyAction.style.cssText = 'position: absolute; right: 0; top: -6px; background: #fff; border-radius: 30px; padding: 2px 6px; font-size: 10px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); cursor: pointer; opacity:0.7; transition:0.1s;';
-    replyAction.innerHTML = '↩️';
-    replyAction.title = 'Reply to message';
-    replyAction.style.display = 'inline-block';
-    replyAction.style.marginLeft = '8px';
-    replyAction.onclick = (e) => { e.stopPropagation(); 
-      const originalMsgData = { id: docId, senderName: data.senderName, text: data.text || null, file: data.file || null };
-      handleReplyToMessage(originalMsgData, platform);
-    };
-    // Only show on hover for desktop, always for mobile? Add inside bubble
-    bubble.style.position = 'relative';
-    const replyBtnContainer = document.createElement('div'); replyBtnContainer.style.cssText = 'display: flex; justify-content: flex-end; margin-top: 2px;';
-    const smallReply = document.createElement('button'); smallReply.textContent = '↩️ reply'; smallReply.style.cssText = 'background: none; border: none; font-size: 9px; color: #128c7e; cursor: pointer; padding: 0 4px;';
+    const replyBtnContainer = document.createElement('div'); replyBtnContainer.style.cssText = 'display: flex; justify-content: flex-end; margin-top: 6px;';
+    const smallReply = document.createElement('button'); smallReply.textContent = '↩️ reply'; smallReply.style.cssText = 'background: none; border: none; font-size: 9px; color: #128c7e; cursor: pointer; padding: 4px 6px; border-radius: 30px; font-weight: 500;';
     smallReply.onclick = (e) => { e.stopPropagation(); handleReplyToMessage({ id: docId, senderName: data.senderName, text: data.text || null, file: data.file || null }, platform); };
     replyBtnContainer.appendChild(smallReply);
     bubble.appendChild(replyBtnContainer);
+    msgDiv.appendChild(bubble);
     return msgDiv;
   }
 
@@ -700,7 +723,7 @@
       if (!container) return;
       const wasBottom = (container.scrollHeight - container.scrollTop - container.clientHeight) < 200;
       container.innerHTML = '';
-      if (snap.empty) container.innerHTML = '<div class="info-message">✨ Tap message "reply" to quote ✨</div>';
+      if (snap.empty) container.innerHTML = '<div class="info-message">✨ Tap "reply" on any message to quote ✨</div>';
       snap.forEach(docSnap => {
         const data = docSnap.data();
         const isSent = currentUser && data.senderId === currentUser.uid;
@@ -735,7 +758,7 @@
     
     let activePicker = null;
     function buildEmojiGrid() {
-      const emojis = ['😀','😃','😄','😁','😆','😂','🤣','😍','🥰','😘','😎','🤩','🥳','😊','🙂','😉','❤️','🧡','💛','💚','💙','💜','🔥','✨','⭐','🚀','🌈','👍','🎉','🎊','💎','😜','🤪'];
+      const emojis = ['😀','😃','😄','😁','😆','😂','🤣','😍','🥰','😘','😎','🤩','🥳','😊','🙂','❤️','🧡','💛','💚','💙','💜','🔥','✨','⭐','🚀','🌈','👍','🎉','🎊','💎','😜','🤪'];
       const pickerDiv = document.createElement('div'); pickerDiv.className = 'emoji-picker';
       emojis.forEach(emo => { const span = document.createElement('span'); span.textContent = emo; span.onclick = (e) => { e.stopPropagation(); const inp = document.getElementById(`${platform}MessageInput`); if(inp) { inp.value += emo; inp.focus(); if(activePicker) activePicker.remove(); activePicker = null; } }; pickerDiv.appendChild(span); });
       return pickerDiv;
@@ -748,17 +771,17 @@
     if(!chatDiv) return;
     chatDiv.innerHTML = `
       <div class="chat-header">
-        <div class="avatar">💬</div>
-        <div class="contact-info"><div class="contact-name" id="${platform}UserName">Chat Space</div><div class="contact-status" id="${platform}UserEmail">online</div></div>
+        <div class="avatar">✨</div>
+        <div class="contact-info"><div class="contact-name" id="${platform}UserName">Chat Space</div><div class="contact-status" id="${platform}UserEmail">secure • online</div></div>
         <button class="logout-btn" id="${platform}LogoutBtn">Exit</button>
       </div>
       <div class="messages-area" id="${platform}MessagesArea"><div class="info-message">✨ Reply to any message by tapping "reply" ✨</div></div>
       <div class="input-area">
         <button class="attach-btn" id="${platform}AttachBtn">📎</button>
         <button class="emoji-btn" id="${platform}EmojiBtn">😊</button>
-        <input type="text" class="message-input" id="${platform}MessageInput" placeholder="Type a message..." autocomplete="off">
+        <input type="text" class="message-input" id="${platform}MessageInput" placeholder="Message or share files..." autocomplete="off">
         <button class="send-btn" id="${platform}SendBtn">➤</button>
-        <input type="file" id="${platform}FileInput" class="file-input" accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain">
+        <input type="file" id="${platform}FileInput" class="file-input" accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,application/octet-stream">
       </div>
     `;
   }
@@ -768,7 +791,7 @@
     const platform = getPlatform();
     buildChatUI(platform);
     document.getElementById(`${platform}UserName`).textContent = user.displayName || user.email.split('@')[0];
-    document.getElementById(`${platform}UserEmail`).textContent = `${user.email} • live`;
+    document.getElementById(`${platform}UserEmail`).textContent = `${user.email} • active`;
     document.getElementById(`${platform}Auth`).innerHTML = '';
     document.getElementById(`${platform}Chat`).classList.remove('hidden');
     hideSplash(platform);
@@ -776,7 +799,6 @@
     setupUI(platform);
     activeReply[platform] = null; updateReplyBar(platform);
     setTimeout(() => scrollToBottom(platform), 300);
-    // logout
     document.getElementById(`${platform}LogoutBtn`)?.addEventListener('click', async () => { await signOut(auth); });
   }
 
@@ -790,10 +812,9 @@
     document.getElementById('showSignup')?.addEventListener('click', () => { const modeDiv = document.getElementById('authMode'); if(modeDiv) modeDiv.innerHTML = `<input type="email" id="signupEmail" class="auth-input" placeholder="Email"><input type="text" id="signupName" class="auth-input" placeholder="Your Name"><input type="password" id="signupPassword" class="auth-input" placeholder="Password"><button id="signupBtn" class="auth-btn">Create & Enter</button><div class="toggle-auth" id="showLogin">← Back</div><div id="authError" class="error-msg"></div>`; document.getElementById('signupBtn')?.addEventListener('click', async () => { const email = document.getElementById('signupEmail').value, pwd = document.getElementById('signupPassword').value, name = document.getElementById('signupName').value; if(!name) { const err = document.getElementById('authError'); if(err) err.innerText = "Enter name"; return; } try { const cred = await createUserWithEmailAndPassword(auth, email, pwd); await updateProfile(cred.user, { displayName: name }); } catch(e){ const errDiv = document.getElementById('authError'); if(errDiv) errDiv.innerText = e.message; } }); document.getElementById('showLogin')?.addEventListener('click', renderAuth); });
   }
 
-  window.addEventListener('resize', () => { if(currentUser){ const newPlatform = getPlatform(); setTimeout(() => scrollToBottom(newPlatform), 150); } });
+  window.addEventListener('resize', () => { if(currentUser){ const np = getPlatform(); setTimeout(() => scrollToBottom(np), 150); } });
   onAuthStateChanged(auth, (user) => { if (user) initChat(user); else { if(unsubscribeMessages) unsubscribeMessages(); currentUser=null; renderAuth(); } });
-  setTimeout(() => { if(!currentUser) { const p = getPlatform(); hideSplash(p); } }, 1500);
-  window.addEventListener('load', () => { if(window.innerWidth <= 768 && document.getElementById('mobileChat') && !document.getElementById('mobileChat').classList.contains('hidden')) scrollToBottom('mobile'); });
+  setTimeout(() => { if(!currentUser) { const p = getPlatform(); hideSplash(p); } }, 1800);
 </script>
 </body>
 </html>
