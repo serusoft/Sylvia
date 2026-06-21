@@ -3,496 +3,102 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <title>SERUSOFT SPACE • Smart Chat • Pro Media & Files</title>
+  <title>SERUSOFT · Cloudinary Pics · Chat</title>
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      -webkit-tap-highlight-color: transparent;
-    }
-
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
-      background: #1a1a2e;
-      min-height: 100vh;
-      overflow: hidden;
-      position: fixed;
-      width: 100%;
-      height: 100%;
-    }
-
-    /* DESKTOP ONLY: elegant frame */
-    .desktop-frame {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      background: linear-gradient(145deg, #1a1a2e 0%, #0f172a 100%);
-      padding: 20px;
-    }
-
-    .phone-mock {
-      position: relative;
-      width: 100%;
-      max-width: 380px;
-      height: 90vh;
-      max-height: 780px;
-      min-height: 600px;
-      background: #000;
-      border-radius: 48px;
-      box-shadow: 0 30px 50px rgba(0,0,0,0.6), 0 0 0 6px #3a3a3a, 0 0 0 10px #2c2c2c;
-      overflow: hidden;
-    }
-
-    .dynamic-island {
-      position: absolute;
-      top: 12px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 110px;
-      height: 34px;
-      background: #0f0f0f;
-      border-radius: 28px;
-      z-index: 20;
-      box-shadow: inset 0 1px 1px rgba(255,255,255,0.08), 0 2px 8px rgba(0,0,0,0.3);
-    }
-
-    .speaker-grille {
-      position: absolute;
-      top: 22px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 48px;
-      height: 4px;
-      background: #2a2a2a;
-      border-radius: 4px;
-      z-index: 21;
-    }
-
-    .phone-screen {
-      background: #000;
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-    }
-
-    .mobile-full {
-      display: none;
-    }
-
-    /* CHAT CONTAINER */
-    .chat-container {
-      width: 100%;
-      height: 100%;
-      background: #efeae2;
-      display: flex;
-      flex-direction: column;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .chat-header {
-      background: #075e54;
-      color: white;
-      padding: 12px 16px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      flex-shrink: 0;
-      box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-      z-index: 5;
-    }
-    
-    .avatar { 
-      width: 40px; 
-      height: 40px; 
-      background: #25d366; 
-      border-radius: 50%; 
-      display: flex; 
-      align-items: center; 
-      justify-content: center; 
-      font-weight: bold; 
-      font-size: 20px; 
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-    
-    .contact-info { flex: 1; }
-    .contact-name { font-weight: 700; font-size: 16px; letter-spacing: -0.3px; }
+    * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background: #1a1a2e; min-height: 100vh; overflow: hidden; position: fixed; width: 100%; height: 100%; }
+    .desktop-frame { display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(145deg, #1a1a2e 0%, #0f172a 100%); padding: 20px; }
+    .phone-mock { position: relative; width: 100%; max-width: 380px; height: 90vh; max-height: 780px; min-height: 600px; background: #000; border-radius: 48px; box-shadow: 0 30px 50px rgba(0,0,0,0.6), 0 0 0 6px #3a3a3a, 0 0 0 10px #2c2c2c; overflow: hidden; }
+    .dynamic-island { position: absolute; top: 12px; left: 50%; transform: translateX(-50%); width: 110px; height: 34px; background: #0f0f0f; border-radius: 28px; z-index: 20; box-shadow: inset 0 1px 1px rgba(255,255,255,0.08), 0 2px 8px rgba(0,0,0,0.3); }
+    .speaker-grille { position: absolute; top: 22px; left: 50%; transform: translateX(-50%); width: 48px; height: 4px; background: #2a2a2a; border-radius: 4px; z-index: 21; }
+    .phone-screen { background: #000; width: 100%; height: 100%; display: flex; flex-direction: column; overflow: hidden; }
+    .mobile-full { display: none; }
+    .chat-container { width: 100%; height: 100%; background: #efeae2; display: flex; flex-direction: column; overflow: hidden; position: relative; }
+    .chat-header { background: #075e54; color: white; padding: 10px 16px; display: flex; align-items: center; gap: 10px; flex-shrink: 0; box-shadow: 0 1px 3px rgba(0,0,0,0.1); z-index: 5; }
+    .back-btn { background: rgba(255,255,255,0.2); border: none; color: white; font-size: 20px; border-radius: 50%; width: 36px; height: 36px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.2s; flex-shrink: 0; }
+    .back-btn:active { background: rgba(0,0,0,0.3); transform: scale(0.92); }
+    .avatar { width: 40px; height: 40px; background: #25d366; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; font-size: 18px; box-shadow: 0 2px 5px rgba(0,0,0,0.2); object-fit: cover; overflow: hidden; flex-shrink: 0; }
+    .avatar img { width: 100%; height: 100%; object-fit: cover; }
+    .contact-info { flex: 1; min-width: 0; }
+    .contact-name { font-weight: 700; font-size: 15px; letter-spacing: -0.2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .contact-status { font-size: 10px; opacity: 0.85; }
-    
-    .logout-btn { 
-      background: rgba(255,255,255,0.2); 
-      border: none; 
-      color: white; 
-      padding: 6px 14px; 
-      border-radius: 30px; 
-      cursor: pointer; 
-      font-size: 12px; 
-      font-weight: 600;
-      transition: 0.2s;
-      flex-shrink: 0;
-    }
-    
-    .logout-btn:active { background: rgba(0,0,0,0.3); transform: scale(0.95);}
-
-    .messages-area {
-      flex: 1;
-      overflow-y: auto;
-      padding: 12px 12px 16px 12px;
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-      scroll-behavior: smooth;
-      background: #efeae2;
-      min-height: 0;
-      -webkit-overflow-scrolling: touch;
-    }
-    
+    .logout-btn { background: rgba(255,255,255,0.2); border: none; color: white; padding: 6px 14px; border-radius: 30px; cursor: pointer; font-size: 11px; font-weight: 600; transition: 0.2s; flex-shrink: 0; }
+    .logout-btn:active { background: rgba(0,0,0,0.3); transform: scale(0.95); }
+    .contact-list { flex: 1; overflow-y: auto; background: #efeae2; padding: 8px 12px; }
+    .contact-item { display: flex; align-items: center; gap: 14px; padding: 12px 14px; background: white; border-radius: 20px; margin-bottom: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); cursor: pointer; transition: 0.1s ease; }
+    .contact-item:active { background: #e0e0e0; transform: scale(0.98); }
+    .contact-item .avatar { width: 50px; height: 50px; font-size: 22px; }
+    .contact-item .info { flex: 1; min-width: 0; }
+    .contact-item .name { font-weight: 700; font-size: 16px; color: #111; }
+    .contact-item .email { font-size: 12px; color: #555; margin-top: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .contact-item .status-dot { width: 10px; height: 10px; border-radius: 50%; background: #25d366; flex-shrink: 0; }
+    .messages-area { flex: 1; overflow-y: auto; padding: 12px 12px 16px 12px; display: flex; flex-direction: column; gap: 6px; scroll-behavior: smooth; background: #efeae2; min-height: 0; -webkit-overflow-scrolling: touch; }
     .messages-area::-webkit-scrollbar { width: 4px; }
     .messages-area::-webkit-scrollbar-track { background: #ddd; border-radius: 10px; }
     .messages-area::-webkit-scrollbar-thumb { background: #aaa; border-radius: 10px; }
-
-    .message {
-      display: flex;
-      margin-bottom: 4px;
-      max-width: 85%;
-      animation: messageSlide 0.2s ease;
-      position: relative;
-    }
-    
+    .message { display: flex; margin-bottom: 2px; max-width: 86%; animation: messageSlide 0.2s ease; position: relative; }
     @keyframes messageSlide { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     .message.sent { align-self: flex-end; justify-content: flex-end; }
     .message.received { align-self: flex-start; }
-
-    .bubble {
-      background: white;
-      padding: 8px 12px;
-      border-radius: 18px;
-      font-size: 14px;
-      line-height: 1.4;
-      word-break: break-word;
-      max-width: 100%;
-      box-shadow: 0 1px 0.6px rgba(0,0,0,0.08);
-      position: relative;
-    }
-    
+    .bubble { background: white; padding: 8px 12px; border-radius: 18px; font-size: 14px; line-height: 1.4; word-break: break-word; max-width: 100%; box-shadow: 0 1px 0.6px rgba(0,0,0,0.08); position: relative; }
     .message.sent .bubble { background: #dcf8c5; border-bottom-right-radius: 4px; }
     .message.received .bubble { background: white; border-bottom-left-radius: 4px; }
-    .message-time { font-size: 9px; color: rgba(0,0,0,0.5); margin-top: 6px; text-align: right; }
-    .sender-name { font-size: 10px; font-weight: 800; color: #075e54; margin-bottom: 5px; display: flex; align-items: center; gap: 4px;}
-
-    /* Reply Quote Styling */
-    .reply-quote {
-      background: rgba(0,0,0,0.05);
-      border-left: 3px solid #25d366;
-      padding: 6px 8px;
-      margin-bottom: 8px;
-      border-radius: 10px;
-      font-size: 12px;
-    }
-    .reply-quote .reply-sender {
-      font-weight: 700;
-      color: #075e54;
-      font-size: 11px;
-      margin-bottom: 2px;
-    }
-    .reply-quote .reply-text {
-      color: #3b3b3b;
-      font-style: italic;
-      white-space: pre-wrap;
-      word-break: break-word;
-      max-height: 55px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-    }
-    .reply-quote .reply-file-indicator {
-      font-size: 11px;
-      color: #128c7e;
-    }
-
-    /* Reply Context Bar (in input area) */
-    .reply-context-bar {
-      background: #e9ecef;
-      margin: 0 14px 6px 14px;
-      padding: 8px 12px;
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      font-size: 12px;
-      border-left: 4px solid #25d366;
-      flex-shrink: 0;
-    }
-    .reply-context-bar span {
-      color: #075e54;
-      font-weight: 500;
-    }
-    .cancel-reply {
-      background: none;
-      border: none;
-      font-size: 18px;
-      cursor: pointer;
-      color: #888;
-      padding: 0 6px;
-    }
-
-    .image-wrapper {
-      cursor: pointer;
-      border-radius: 14px;
-      overflow: hidden;
-      margin-bottom: 6px;
-      display: inline-block;
-      max-width: 200px;
-      transition: transform 0.05s ease;
-    }
+    .message-time { font-size: 9px; color: rgba(0,0,0,0.5); margin-top: 4px; text-align: right; }
+    .sender-name { font-size: 10px; font-weight: 800; color: #075e54; margin-bottom: 4px; display: flex; align-items: center; gap: 4px; }
+    .reply-quote { background: rgba(0,0,0,0.04); border-left: 3px solid #25d366; padding: 5px 8px; margin-bottom: 6px; border-radius: 10px; font-size: 12px; }
+    .reply-quote .reply-sender { font-weight: 700; color: #075e54; font-size: 10px; }
+    .reply-quote .reply-text { color: #3b3b3b; font-style: italic; white-space: pre-wrap; word-break: break-word; max-height: 50px; overflow: hidden; }
+    .reply-context-bar { background: #e9ecef; margin: 0 12px 4px 12px; padding: 6px 12px; border-radius: 20px; display: flex; align-items: center; justify-content: space-between; font-size: 11px; border-left: 4px solid #25d366; flex-shrink: 0; }
+    .cancel-reply { background: none; border: none; font-size: 16px; cursor: pointer; color: #888; padding: 0 6px; }
+    .image-wrapper { cursor: pointer; border-radius: 14px; overflow: hidden; margin-bottom: 4px; display: inline-block; max-width: 200px; transition: transform 0.05s ease; }
     .image-wrapper:active { transform: scale(0.98); }
-    
-    .image-preview-img {
-      width: 100%;
-      max-width: 180px;
-      max-height: 160px;
-      object-fit: cover;
-      border-radius: 14px;
-      display: block;
-      background: #e9e9e9;
-    }
-    
-    .file-attachment {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      background: rgba(0,0,0,0.04);
-      padding: 8px 14px 8px 10px;
-      border-radius: 36px;
-      cursor: pointer;
-      transition: background 0.1s;
-    }
+    .image-preview-img { width: 100%; max-width: 180px; max-height: 160px; object-fit: cover; border-radius: 14px; display: block; background: #e9e9e9; }
+    .file-attachment { display: flex; align-items: center; gap: 8px; background: rgba(0,0,0,0.04); padding: 6px 14px 6px 10px; border-radius: 36px; cursor: pointer; transition: background 0.1s; }
     .file-attachment:active { background: rgba(0,0,0,0.12); }
-    
-    .file-icon { font-size: 28px; }
+    .file-icon { font-size: 26px; }
     .file-name { font-size: 12px; font-weight: 500; color: #075e54; text-decoration: underline; word-break: break-all; }
-    
-    /* INPUT AREA */
-    .input-area {
-      background: #ffffff;
-      padding: 10px 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      border-top: 1px solid rgba(0,0,0,0.08);
-      flex-shrink: 0;
-      box-shadow: 0 -2px 8px rgba(0,0,0,0.03);
-      min-height: 68px;
-      position: relative;
-      z-index: 10;
-      width: 100%;
-      flex-wrap: wrap;
-    }
-    
-    .input-row {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      width: 100%;
-    }
-    
-    .attach-btn, .emoji-btn {
-      background: #f0f2f5;
-      border: none;
-      font-size: 22px;
-      cursor: pointer;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all 0.15s ease;
-      flex-shrink: 0;
-      color: #2c3e2f;
-    }
-    
-    .attach-btn:active, .emoji-btn:active { background: #d1d5db; transform: scale(0.96);}
-    
-    .message-input {
-      flex: 1;
-      border: 1px solid #e2e5e9;
-      background: #ffffff;
-      padding: 10px 16px;
-      border-radius: 40px;
-      font-size: 16px;
-      outline: none;
-      font-family: inherit;
-      transition: all 0.2s;
-      color: #111;
-      min-width: 0;
-    }
-    
-    .message-input:focus { 
-      border-color: #25d366; 
-      box-shadow: 0 0 0 2px rgba(37,211,102,0.2);
-    }
-    
-    .send-btn {
-      background: #075e54;
-      border: none;
-      color: white;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 18px;
-      transition: 0.15s;
-      flex-shrink: 0;
-    }
-    
+    .input-area { background: #ffffff; padding: 8px 12px; display: flex; align-items: center; gap: 6px; border-top: 1px solid rgba(0,0,0,0.08); flex-shrink: 0; box-shadow: 0 -2px 8px rgba(0,0,0,0.03); min-height: 62px; flex-wrap: wrap; width: 100%; }
+    .input-row { display: flex; align-items: center; gap: 6px; width: 100%; }
+    .attach-btn, .emoji-btn, .voice-btn { background: #f0f2f5; border: none; font-size: 20px; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.15s ease; flex-shrink: 0; color: #2c3e2f; }
+    .attach-btn:active, .emoji-btn:active, .voice-btn:active { background: #d1d5db; transform: scale(0.94); }
+    .voice-btn.recording { background: #ff4d4d; color: white; animation: pulse 1s infinite; }
+    @keyframes pulse { 0% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0.4); } 70% { box-shadow: 0 0 0 10px rgba(255, 77, 77, 0); } 100% { box-shadow: 0 0 0 0 rgba(255, 77, 77, 0); } }
+    .message-input { flex: 1; border: 1px solid #e2e5e9; background: #ffffff; padding: 10px 16px; border-radius: 40px; font-size: 15px; outline: none; font-family: inherit; transition: all 0.2s; color: #111; min-width: 0; }
+    .message-input:focus { border-color: #25d366; box-shadow: 0 0 0 2px rgba(37,211,102,0.2); }
+    .send-btn { background: #075e54; border: none; color: white; width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; font-size: 18px; transition: 0.15s; flex-shrink: 0; }
     .send-btn:active { transform: scale(0.94); background: #054a42; }
-
-    .emoji-picker {
-      position: fixed;
-      bottom: 90px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 340px;
-      background: white;
-      border-radius: 28px;
-      padding: 14px 10px;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
-      z-index: 300;
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
-      max-height: 280px;
-      overflow-y: auto;
-      background: rgba(255,255,255,0.98);
-    }
-    
-    .emoji-picker span { font-size: 34px; cursor: pointer; text-align: center; padding: 5px; border-radius: 50%; transition: 0.05s; }
-    .emoji-picker span:active { background: #e2e2e2; transform: scale(1.1);}
-    .hidden { display: none; }
-    .info-message { text-align: center; color: #6b6b6b; padding: 25px 20px; font-size: 12px; background: transparent; }
     .file-input { display: none; }
-    .upload-progress { font-size: 9px; color: #128c7e; margin-top: 3px; font-weight: 500;}
-
-    .zoom-modal {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(0,0,0,0.95);
-      backdrop-filter: blur(20px);
-      z-index: 2000;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      opacity: 0;
-      transition: opacity 0.25s ease;
-      pointer-events: none;
-    }
-    
-    .zoom-modal.active {
-      opacity: 1;
-      pointer-events: auto;
-    }
-    
-    .zoom-image {
-      max-width: 92%;
-      max-height: 85%;
-      object-fit: contain;
-      border-radius: 20px;
-    }
-
-    .close-zoom {
-      position: absolute;
-      top: 40px;
-      right: 20px;
-      background: rgba(0,0,0,0.6);
-      color: white;
-      font-size: 24px;
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      backdrop-filter: blur(8px);
-      cursor: pointer;
-    }
-
-    .auth-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: rgba(0,0,0,0.92);
-      backdrop-filter: blur(8px);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-    
-    .auth-card {
-      background: white;
-      border-radius: 40px;
-      padding: 32px 24px;
-      width: 100%;
-      max-width: 320px;
-      text-align: center;
-      box-shadow: 0 30px 50px rgba(0,0,0,0.4);
-    }
-    
-    .auth-card h2 { color: #075e54; margin-bottom: 24px; font-weight: 700; font-size: 24px; }
-    .auth-input { width: 100%; padding: 12px 16px; margin: 8px 0; border: 1px solid #ddd; border-radius: 40px; font-size: 15px; outline: none; background: #f9f9f9; }
+    .upload-progress { font-size: 9px; color: #128c7e; margin-top: 3px; font-weight: 500; }
+    .zoom-modal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); backdrop-filter: blur(20px); z-index: 2000; display: flex; align-items: center; justify-content: center; cursor: pointer; opacity: 0; transition: opacity 0.25s ease; pointer-events: none; }
+    .zoom-modal.active { opacity: 1; pointer-events: auto; }
+    .zoom-image { max-width: 92%; max-height: 85%; object-fit: contain; border-radius: 20px; }
+    .close-zoom { position: absolute; top: 40px; right: 20px; background: rgba(0,0,0,0.6); color: white; font-size: 24px; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(8px); cursor: pointer; }
+    .auth-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0,0,0,0.92); backdrop-filter: blur(8px); display: flex; justify-content: center; align-items: center; z-index: 1000; padding: 20px; }
+    .auth-card { background: white; border-radius: 40px; padding: 32px 24px; width: 100%; max-width: 320px; text-align: center; box-shadow: 0 30px 50px rgba(0,0,0,0.4); }
+    .auth-card h2 { color: #075e54; margin-bottom: 18px; font-weight: 700; font-size: 22px; }
+    .auth-input { width: 100%; padding: 12px 16px; margin: 8px 0; border: 1px solid #ddd; border-radius: 40px; font-size: 14px; outline: none; background: #f9f9f9; }
     .auth-input:focus { border-color: #25d366; background: white; }
-    .auth-btn { background: #075e54; color: white; border: none; padding: 12px; width: 100%; border-radius: 40px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 10px; }
-    .toggle-auth { margin-top: 16px; color: #075e54; cursor: pointer; font-size: 13px; font-weight: 500; }
-    .error-msg { color: #e74c3c; font-size: 11px; margin-top: 8px; }
-
-    /* SPLASH premium */
-    .splash-screen {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: radial-gradient(circle at 30% 20%, #075e54, #0b2b26);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 10000;
-      opacity: 1;
-      transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-      backdrop-filter: blur(0px);
-    }
-    
+    .auth-btn { background: #075e54; color: white; border: none; padding: 12px; width: 100%; border-radius: 40px; font-size: 16px; font-weight: 700; cursor: pointer; margin-top: 8px; }
+    .toggle-auth { margin-top: 14px; color: #075e54; cursor: pointer; font-size: 13px; font-weight: 500; }
+    .error-msg { color: #e74c3c; font-size: 11px; margin-top: 6px; }
+    .splash-screen { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 30% 20%, #075e54, #0b2b26); display: flex; justify-content: center; align-items: center; z-index: 10000; opacity: 1; transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1); }
     .splash-content { text-align: center; animation: fadeUp 0.7s ease; }
-    .brand-logo { font-size: 74px; margin-bottom: 12px; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2)); }
-    .brand-name { font-size: 28px; font-weight: 800; color: white; letter-spacing: 1px; background: linear-gradient(135deg, #fff, #d0ffd0); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .brand-sub { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 8px; font-weight: 500; letter-spacing: 0.5px; }
-    
-    .loading-spinner { width: 42px; height: 42px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid #25d366; border-radius: 50%; animation: spin 0.9s linear infinite; margin: 20px auto; }
+    .brand-logo { font-size: 70px; margin-bottom: 10px; filter: drop-shadow(0 8px 16px rgba(0,0,0,0.2)); }
+    .brand-name { font-size: 26px; font-weight: 800; color: white; letter-spacing: 1px; background: linear-gradient(135deg, #fff, #d0ffd0); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .brand-sub { font-size: 12px; color: rgba(255,255,255,0.8); margin-top: 6px; font-weight: 500; }
+    .loading-spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.3); border-top: 3px solid #25d366; border-radius: 50%; animation: spin 0.9s linear infinite; margin: 16px auto; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     @keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
-
+    .hidden { display: none !important; }
+    .info-message { text-align: center; color: #6b6b6b; padding: 25px 20px; font-size: 12px; background: transparent; }
+    .photo-preview { width: 80px; height: 80px; border-radius: 50%; object-fit: cover; margin: 8px auto; display: block; border: 2px solid #075e54; }
     @media (max-width: 768px) {
       .desktop-frame { display: none !important; }
       .mobile-full { display: block !important; width: 100%; height: 100%; position: fixed; top: 0; left: 0; background: #efeae2; }
       body { position: fixed; width: 100%; height: 100%; overflow: hidden; }
       .chat-container { height: 100dvh !important; max-height: 100dvh; display: flex; flex-direction: column; }
       .messages-area { flex: 1; overflow-y: auto; -webkit-overflow-scrolling: touch; min-height: 0; }
-      .input-area { padding: 10px 12px; padding-bottom: max(12px, env(safe-area-inset-bottom)); background: #ffffff; flex-shrink: 0; }
+      .input-area { padding: 8px 10px; padding-bottom: max(10px, env(safe-area-inset-bottom)); background: #ffffff; flex-shrink: 0; }
     }
     @media (min-width: 769px) {
       .desktop-frame { display: flex !important; }
@@ -504,10 +110,9 @@
 
 <div class="desktop-frame">
   <div class="phone-mock">
-    <div class="dynamic-island"></div>
-    <div class="speaker-grille"></div>
+    <div class="dynamic-island"></div><div class="speaker-grille"></div>
     <div class="phone-screen" id="desktopScreen">
-      <div id="desktopSplash" class="splash-screen"><div class="splash-content"><div class="brand-logo">🚀</div><div class="brand-name">SERUSOFT SPACE</div><div class="brand-sub">smart chat • media ready</div><div class="loading-spinner"></div></div></div>
+      <div id="desktopSplash" class="splash-screen"><div class="splash-content"><div class="brand-logo">📸</div><div class="brand-name">SERUSOFT</div><div class="brand-sub">cloudinary · contacts · chat</div><div class="loading-spinner"></div></div></div>
       <div id="desktopAuth"></div>
       <div id="desktopChat" class="chat-container hidden"></div>
     </div>
@@ -516,7 +121,7 @@
 
 <div class="mobile-full">
   <div id="mobileScreen" style="width:100%; height:100%; background:#efeae2;">
-    <div id="mobileSplash" class="splash-screen"><div class="splash-content"><div class="brand-logo">🌟</div><div class="brand-name">SERUSOFT</div><div class="brand-sub">connect • reply • share</div><div class="loading-spinner"></div></div></div>
+    <div id="mobileSplash" class="splash-screen"><div class="splash-content"><div class="brand-logo">🌟</div><div class="brand-name">SERUSOFT</div><div class="brand-sub">connect · reply · share</div><div class="loading-spinner"></div></div></div>
     <div id="mobileAuth"></div>
     <div id="mobileChat" class="chat-container hidden"></div>
   </div>
@@ -525,7 +130,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-app.js";
   import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-auth.js";
-  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, limit } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, query, orderBy, onSnapshot, serverTimestamp, getDocs, doc, setDoc } from "https://www.gstatic.com/firebasejs/12.14.0/firebase-firestore.js";
 
   const firebaseConfig = {
     apiKey: "AIzaSyAWb2IuKrtSQzmJSLHWR2cgsAR1mbXwwoo",
@@ -541,197 +146,294 @@
   const auth = getAuth(app);
   const db = getFirestore(app);
 
-  const CLOUDINARY_CONFIG = { cloudName: "dwmdaz0c6", uploadPreset: "ml_default" };
+  // ============================================================
+  // YOUR CLOUDINARY CONFIGURATION - UPDATE THESE TWO VALUES
+  // ============================================================
+  const CLOUDINARY_CONFIG = { 
+    cloudName: "dxgrgkz7c",      // ← Your Cloudinary cloud name
+    uploadPreset: "chat_app"     // ← Your unsigned upload preset name
+  };
+  // ============================================================
+
   let currentUser = null;
+  let currentChatPartnerId = null;
+  let allUsers = [];
   let unsubscribeMessages = null;
   let activeReply = { desktop: null, mobile: null };
   let globalZoomModal = null;
+  let mediaRecorder = null;
+  let recordedChunks = [];
+  let isRecording = false;
 
   function getPlatform() { return window.innerWidth <= 768 ? 'mobile' : 'desktop'; }
+  function hideSplash(platform) { const s = document.getElementById(`${platform}Splash`); if(s && s.style.display !== 'none'){ s.style.opacity='0'; setTimeout(()=>{ s.style.display='none'; },500); } }
   
-  function hideSplash(platform) {
-    const splash = document.getElementById(`${platform}Splash`);
-    if (splash && splash.style.display !== 'none') {
-      splash.style.opacity = '0';
-      setTimeout(() => { splash.style.display = 'none'; }, 500);
-    }
-  }
-
-  // robust file upload to cloudinary + fallback
   async function uploadToCloudinary(file) {
-    const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
-    const response = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/auto/upload`, { method: 'POST', body: formData });
-    if (!response.ok) throw new Error('Cloudinary rejected');
-    const data = await response.json();
-    if (data.secure_url) return { url: data.secure_url, name: file.name, type: file.type, size: file.size };
-    throw new Error('no url');
+    const fd = new FormData();
+    fd.append('file', file);
+    fd.append('upload_preset', CLOUDINARY_CONFIG.uploadPreset);
+    const url = `https://api.cloudinary.com/v1_1/${CLOUDINARY_CONFIG.cloudName}/upload`;
+    const res = await fetch(url, { method: 'POST', body: fd });
+    if (!res.ok) {
+      const errText = await res.text();
+      throw new Error(`Cloudinary upload failed (${res.status}): ${errText}`);
+    }
+    const data = await res.json();
+    if (!data.secure_url) throw new Error('Cloudinary did not return secure_url');
+    return { url: data.secure_url, name: file.name, type: file.type, size: file.size };
   }
 
   async function handleFileUpload(file, platform) {
-    if (!file) return;
+    if(!file) return;
     const container = document.getElementById(`${platform}MessagesArea`);
-    if (!container) return;
-    const tempId = 'temp-' + Date.now() + Math.random();
-    const tempDiv = document.createElement('div');
-    tempDiv.id = tempId;
-    tempDiv.className = 'message sent';
-    const fileSize = (file.size / 1024).toFixed(1);
-    tempDiv.innerHTML = `<div class="bubble">📤 uploading "${escapeHtml(file.name)}" (${fileSize}KB)...<div class="upload-progress">⏫ Cloudinary secure</div><div class="message-time">now</div></div>`;
-    container.appendChild(tempDiv);
-    scrollToBottom(platform);
+    if(!container) return;
+    const tempId = 'temp-'+Date.now()+Math.random();
+    const tempDiv = document.createElement('div'); tempDiv.id=tempId; tempDiv.className='message sent';
+    const size = (file.size/1024).toFixed(1);
+    tempDiv.innerHTML = `<div class="bubble">📤 uploading "${escapeHtml(file.name)}" (${size}KB)...<div class="upload-progress">⏫ secure</div><div class="message-time">now</div></div>`;
+    container.appendChild(tempDiv); scrollToBottom(platform);
     try {
       let fileData;
-      try {
-        fileData = await uploadToCloudinary(file);
-      } catch (cloudErr) {
-        console.warn("Cloudinary error, using base64 fallback", cloudErr);
-        const fallbackUrl = await new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onload = (e) => resolve(e.target.result);
-          reader.readAsDataURL(file);
-        });
-        fileData = { url: fallbackUrl, name: file.name, type: file.type };
+      try { fileData = await uploadToCloudinary(file); } catch(e) {
+        console.warn("Cloudinary fallback", e);
+        const fallback = await new Promise((resolve) => { const r = new FileReader(); r.onload = (ev) => resolve(ev.target.result); r.readAsDataURL(file); });
+        fileData = { url: fallback, name: file.name, type: file.type };
       }
       await sendMessage('', fileData, null);
-      const tempElement = document.getElementById(tempId);
-      if (tempElement) tempElement.remove();
-    } catch (err) {
-      const errEl = document.getElementById(tempId);
-      if (errEl) errEl.innerHTML = `<div class="bubble">❌ Failed: ${escapeHtml(file.name)}<div class="message-time">now</div></div>`;
-      setTimeout(() => { const x = document.getElementById(tempId); if(x) x.remove(); }, 2500);
+      document.getElementById(tempId)?.remove();
+    } catch(err) {
+      const el = document.getElementById(tempId);
+      if(el) el.innerHTML = `<div class="bubble">❌ Failed: ${escapeHtml(file.name)}<div class="message-time">now</div></div>`;
+      setTimeout(() => document.getElementById(tempId)?.remove(), 3000);
     }
   }
 
-  async function sendMessage(text, fileData = null, replyTo = null) {
-    if ((!text || !text.trim()) && !fileData) return;
+  async function sendMessage(text, fileData = null, replyTo = null, voiceUrl = null) {
+    if(!text && !fileData && !voiceUrl) return;
+    if(!currentChatPartnerId) { alert('Select a contact first'); return; }
     const msg = {
       senderId: currentUser.uid,
       senderName: currentUser.displayName || currentUser.email.split('@')[0],
       senderEmail: currentUser.email,
       timestamp: serverTimestamp(),
+      chatPartnerId: currentChatPartnerId,
       ...(text && text.trim() && { text: text.trim() }),
       ...(fileData && { file: { url: fileData.url, name: fileData.name, type: fileData.type } }),
+      ...(voiceUrl && { voice: { url: voiceUrl, duration: '~' } }),
       ...(replyTo && { replyTo: replyTo })
     };
-    await addDoc(collection(db, 'messages'), msg);
-  }
-
-  function scrollToBottom(platform) { setTimeout(() => { const area = document.getElementById(`${platform}MessagesArea`); if(area) area.scrollTop = area.scrollHeight; }, 100); }
-
-  function initZoomFeature() {
-    if (!globalZoomModal) {
-      const modal = document.createElement('div');
-      modal.className = 'zoom-modal';
-      modal.innerHTML = `<div class="close-zoom">✕</div><img class="zoom-image" alt="Zoom preview" />`;
-      document.body.appendChild(modal);
-      globalZoomModal = modal;
-      modal.addEventListener('click', (e) => { if (e.target === modal || e.target.classList.contains('close-zoom')) modal.classList.remove('active'); });
+    try {
+      await addDoc(collection(db, 'messages'), msg);
+    } catch (error) {
+      alert('Unable to send message: ' + error.message);
+      console.error('Firestore write failed:', error);
     }
-    return globalZoomModal;
   }
-  function showImageZoom(url) { const modal = initZoomFeature(); modal.querySelector('.zoom-image').src = url; modal.classList.add('active'); }
-  function escapeHtml(str) { if(!str) return ''; return String(str).replace(/[&<>]/g, (m) => ({ '&':'&amp;', '<':'&lt;', '>':'&gt;' }[m])); }
+
+  function scrollToBottom(platform) { setTimeout(() => { const a = document.getElementById(`${platform}MessagesArea`); if(a) a.scrollTop = a.scrollHeight; }, 120); }
+  function initZoomFeature() { if(!globalZoomModal){ const m=document.createElement('div'); m.className='zoom-modal'; m.innerHTML=`<div class="close-zoom">✕</div><img class="zoom-image" alt="Zoom" />`; document.body.appendChild(m); globalZoomModal=m; m.addEventListener('click',(e)=>{ if(e.target===m||e.target.classList.contains('close-zoom')) m.classList.remove('active'); }); } return globalZoomModal; }
+  function showImageZoom(url) { const m=initZoomFeature(); m.querySelector('.zoom-image').src=url; m.classList.add('active'); }
+  function escapeHtml(str) { if(!str) return ''; return String(str).replace(/[&<>]/g, (m)=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m])); }
 
   function getMessagePreview(data) {
-    if (data.text) return data.text.length > 65 ? data.text.substring(0,65)+'...' : data.text;
-    if (data.file) return `📎 ${data.file.name || 'attachment'}`;
-    return '📄 Message';
+    if(data.text) return data.text.length>60 ? data.text.substring(0,60)+'...' : data.text;
+    if(data.file) return `📎 ${data.file.name || 'file'}`;
+    if(data.voice) return `🎤 voice note`;
+    return '📄 message';
   }
 
   function updateReplyBar(platform) {
     const replyData = activeReply[platform];
-    const chatContainer = document.getElementById(`${platform}Chat`);
-    if (!chatContainer) return;
+    const chat = document.getElementById(`${platform}Chat`); if(!chat) return;
     let existing = document.getElementById(`${platform}ReplyBar`);
-    if (existing) existing.remove();
-    if (replyData) {
-      const bar = document.createElement('div');
-      bar.id = `${platform}ReplyBar`;
-      bar.className = 'reply-context-bar';
-      bar.innerHTML = `<span>↩️ Replying to ${escapeHtml(replyData.senderName || 'user')}: "${escapeHtml(replyData.preview)}"</span><button class="cancel-reply">✕</button>`;
-      const inputArea = chatContainer.querySelector('.input-area');
-      if (inputArea && inputArea.parentNode) inputArea.parentNode.insertBefore(bar, inputArea);
-      bar.querySelector('.cancel-reply').onclick = () => { activeReply[platform] = null; updateReplyBar(platform); };
+    if(existing) existing.remove();
+    if(replyData) {
+      const bar = document.createElement('div'); bar.id=`${platform}ReplyBar`; bar.className='reply-context-bar';
+      bar.innerHTML = `<span>↩️ Replying to ${escapeHtml(replyData.senderName||'user')}: "${escapeHtml(replyData.preview)}"</span><button class="cancel-reply">✕</button>`;
+      const inputArea = chat.querySelector('.input-area');
+      if(inputArea && inputArea.parentNode) inputArea.parentNode.insertBefore(bar, inputArea);
+      bar.querySelector('.cancel-reply').onclick = () => { activeReply[platform]=null; updateReplyBar(platform); };
     }
   }
 
   function handleReplyToMessage(originalMsg, platform) {
-    const previewText = originalMsg.text || (originalMsg.file ? `📎 ${originalMsg.file.name}` : 'Message');
+    const preview = originalMsg.text || (originalMsg.file ? `📎 ${originalMsg.file.name}` : (originalMsg.voice ? '🎤 voice' : 'Message'));
     activeReply[platform] = {
-      originalMessageId: originalMsg.id,
-      senderName: originalMsg.senderName || 'User',
-      preview: previewText.length > 55 ? previewText.substring(0,55)+'...' : previewText,
+      originalMessageId: originalMsg.id, senderName: originalMsg.senderName || 'User',
+      preview: preview.length>55 ? preview.substring(0,55)+'...' : preview,
       text: originalMsg.text || (originalMsg.file ? `[File: ${originalMsg.file.name}]` : '')
     };
     updateReplyBar(platform);
-    const input = document.getElementById(`${platform}MessageInput`);
-    if (input) input.focus();
+    document.getElementById(`${platform}MessageInput`)?.focus();
   }
 
   function buildMessageElement(data, docId, isSent, platform) {
-    const msgDiv = document.createElement('div');
-    msgDiv.className = `message ${isSent ? 'sent' : 'received'}`;
-    const bubble = document.createElement('div');
-    bubble.className = 'bubble';
-    if (!isSent && data.senderName) {
-      const nameSpan = document.createElement('div'); nameSpan.className = 'sender-name'; nameSpan.innerHTML = `👤 ${escapeHtml(data.senderName)}`; bubble.appendChild(nameSpan);
+    const msgDiv = document.createElement('div'); msgDiv.className = `message ${isSent ? 'sent' : 'received'}`;
+    const bubble = document.createElement('div'); bubble.className = 'bubble';
+    if(!isSent && data.senderName) {
+      const nameSpan = document.createElement('div'); nameSpan.className='sender-name'; nameSpan.innerHTML = `👤 ${escapeHtml(data.senderName)}`; bubble.appendChild(nameSpan);
     }
-    if (data.replyTo) {
-      const quoteDiv = document.createElement('div'); quoteDiv.className = 'reply-quote';
-      const replyContent = data.replyTo.preview || data.replyTo.text || 'media';
-      quoteDiv.innerHTML = `<div class="reply-sender">↩️ ${escapeHtml(data.replyTo.senderName || 'Someone')}</div><div class="reply-text">${escapeHtml(replyContent)}</div>`;
-      bubble.appendChild(quoteDiv);
+    if(data.replyTo) {
+      const quote = document.createElement('div'); quote.className='reply-quote';
+      const rp = data.replyTo.preview || data.replyTo.text || 'media';
+      quote.innerHTML = `<div class="reply-sender">↩️ ${escapeHtml(data.replyTo.senderName||'Someone')}</div><div class="reply-text">${escapeHtml(rp)}</div>`;
+      bubble.appendChild(quote);
     }
-    if (data.file && data.file.url) {
+    if(data.voice && data.voice.url) {
+      const audio = document.createElement('audio'); audio.controls = true; audio.src = data.voice.url; audio.style.maxWidth='180px'; audio.style.borderRadius='30px'; bubble.appendChild(audio);
+    }
+    if(data.file && data.file.url) {
       const file = data.file;
       const isImage = file.type && (file.type.startsWith('image/') || file.url.match(/\.(jpg|jpeg|png|gif|webp)/i));
-      if (isImage) {
-        const imgWrap = document.createElement('div'); imgWrap.className = 'image-wrapper';
-        const img = document.createElement('img'); img.src = file.url; img.alt = file.name || 'image'; img.className = 'image-preview-img';
-        img.loading = 'lazy';
+      if(isImage) {
+        const wrap = document.createElement('div'); wrap.className='image-wrapper';
+        const img = document.createElement('img'); img.src=file.url; img.alt=file.name||'image'; img.className='image-preview-img'; img.loading='lazy';
         img.addEventListener('click', (e) => { e.stopPropagation(); showImageZoom(file.url); });
-        imgWrap.appendChild(img); bubble.appendChild(imgWrap);
-        if (file.name) { const cap = document.createElement('div'); cap.className = 'file-name'; cap.textContent = file.name; cap.style.fontSize = '10px'; cap.style.marginTop = '2px'; bubble.appendChild(cap); }
+        wrap.appendChild(img); bubble.appendChild(wrap);
+        if(file.name) { const cap=document.createElement('div'); cap.className='file-name'; cap.textContent=file.name; cap.style.fontSize='10px'; cap.style.marginTop='2px'; bubble.appendChild(cap); }
       } else {
-        const fileDiv = document.createElement('div'); fileDiv.className = 'file-attachment';
-        fileDiv.addEventListener('click', () => { if(file.url) window.open(file.url, '_blank'); });
+        const fileDiv = document.createElement('div'); fileDiv.className='file-attachment';
+        fileDiv.addEventListener('click', ()=> { if(file.url) window.open(file.url, '_blank'); });
         const icon = file.type?.startsWith('video/') ? '🎥' : (file.type?.includes('pdf') ? '📑' : (file.type?.includes('word') ? '📝' : '📎'));
-        fileDiv.innerHTML = `<span class="file-icon">${icon}</span><span class="file-name">${escapeHtml(file.name || 'download')}</span>`;
+        fileDiv.innerHTML = `<span class="file-icon">${icon}</span><span class="file-name">${escapeHtml(file.name||'download')}</span>`;
         bubble.appendChild(fileDiv);
       }
     }
-    if (data.text) bubble.appendChild(document.createTextNode(data.text));
-    const timeSpan = document.createElement('div'); timeSpan.className = 'message-time';
-    if (data.timestamp?.toDate) { const d = data.timestamp.toDate(); timeSpan.textContent = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }); } else timeSpan.textContent = 'now';
+    if(data.text) bubble.appendChild(document.createTextNode(data.text));
+    const timeSpan = document.createElement('div'); timeSpan.className='message-time';
+    if(data.timestamp?.toDate) { const d = data.timestamp.toDate(); timeSpan.textContent = d.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }); } else timeSpan.textContent='now';
     bubble.appendChild(timeSpan);
-    const replyBtnContainer = document.createElement('div'); replyBtnContainer.style.cssText = 'display: flex; justify-content: flex-end; margin-top: 6px;';
-    const smallReply = document.createElement('button'); smallReply.textContent = '↩️ reply'; smallReply.style.cssText = 'background: none; border: none; font-size: 9px; color: #128c7e; cursor: pointer; padding: 4px 6px; border-radius: 30px; font-weight: 500;';
-    smallReply.onclick = (e) => { e.stopPropagation(); handleReplyToMessage({ id: docId, senderName: data.senderName, text: data.text || null, file: data.file || null }, platform); };
-    replyBtnContainer.appendChild(smallReply);
-    bubble.appendChild(replyBtnContainer);
+    const replyContainer = document.createElement('div'); replyContainer.style.cssText='display:flex; justify-content:flex-end; margin-top:4px;';
+    const smallReply = document.createElement('button'); smallReply.textContent='↩️ reply'; smallReply.style.cssText='background:none; border:none; font-size:9px; color:#128c7e; cursor:pointer; padding:2px 6px; border-radius:30px; font-weight:500;';
+    smallReply.onclick = (e) => { e.stopPropagation(); handleReplyToMessage({ id:docId, senderName:data.senderName, text:data.text||null, file:data.file||null, voice:data.voice||null }, platform); };
+    replyContainer.appendChild(smallReply);
+    bubble.appendChild(replyContainer);
     msgDiv.appendChild(bubble);
     return msgDiv;
   }
 
+  function showFirestoreError(error, platform, targetId, defaultMessage) {
+    console.error('Firestore error:', error);
+    const container = document.getElementById(targetId);
+    if (container) {
+      container.innerHTML = `<div class="info-message">${escapeHtml(defaultMessage)}<br><small>${escapeHtml(error.message)}</small></div>`;
+    }
+  }
+
   function loadMessages(platform) {
-    if (unsubscribeMessages) unsubscribeMessages();
-    const q = query(collection(db, 'messages'), orderBy('timestamp', 'asc'), limit(500));
-    unsubscribeMessages = onSnapshot(q, (snap) => {
+    if(unsubscribeMessages) unsubscribeMessages();
+    if(!currentChatPartnerId) { 
       const container = document.getElementById(`${platform}MessagesArea`);
-      if (!container) return;
+      if(container) container.innerHTML = '<div class="info-message">👤 Select a contact from the list</div>';
+      return;
+    }
+    const q = query(collection(db, 'messages'), orderBy('timestamp', 'asc'));
+    unsubscribeMessages = onSnapshot(q, (snap) => {
+      const container = document.getElementById(`${platform}MessagesArea`); if(!container) return;
       const wasBottom = (container.scrollHeight - container.scrollTop - container.clientHeight) < 200;
       container.innerHTML = '';
-      if (snap.empty) container.innerHTML = '<div class="info-message">✨ Tap "reply" on any message to quote ✨</div>';
+      let hasMessages = false;
       snap.forEach(docSnap => {
         const data = docSnap.data();
-        const isSent = currentUser && data.senderId === currentUser.uid;
-        const msgElement = buildMessageElement(data, docSnap.id, isSent, platform);
-        container.appendChild(msgElement);
+        if ((data.senderId === currentUser.uid && data.chatPartnerId === currentChatPartnerId) ||
+            (data.senderId === currentChatPartnerId && data.chatPartnerId === currentUser.uid)) {
+          hasMessages = true;
+          const isSent = currentUser && data.senderId === currentUser.uid;
+          const msgElement = buildMessageElement(data, docSnap.id, isSent, platform);
+          container.appendChild(msgElement);
+        }
       });
-      if (wasBottom) scrollToBottom(platform);
+      if(!hasMessages) container.innerHTML = '<div class="info-message">💬 Start the conversation with files, voice or text</div>';
+      if(wasBottom) scrollToBottom(platform);
+    }, (error) => {
+      showFirestoreError(error, platform, `${platform}MessagesArea`, 'Unable to load messages.');
     });
+  }
+
+  async function loadAllUsers(platform) {
+    try {
+      const snapshot = await getDocs(collection(db, 'users'));
+      allUsers = [];
+      snapshot.forEach(doc => { allUsers.push({ id: doc.id, ...doc.data() }); });
+      allUsers = allUsers.filter(u => u.uid !== currentUser.uid);
+      renderContactList(platform);
+    } catch (error) {
+      showFirestoreError(error, platform, `${platform}ContactList`, 'Unable to load contacts.');
+      allUsers = [];
+    }
+  }
+
+  function renderContactList(platform) {
+    const container = document.getElementById(`${platform}ContactList`);
+    if(!container) return;
+    container.innerHTML = '';
+    if(allUsers.length === 0) {
+      container.innerHTML = '<div class="info-message" style="padding:40px 20px;">No other users yet. Invite friends!</div>';
+      return;
+    }
+    allUsers.forEach(u => {
+      const div = document.createElement('div');
+      div.className = 'contact-item';
+      const hasPhoto = u.photoURL && u.photoURL.trim().length > 0;
+      const avatarHtml = hasPhoto ? `<img src="${u.photoURL}" alt="${u.displayName || 'avatar'}" />` : '👤';
+      div.innerHTML = `
+        <div class="avatar" style="flex-shrink: 0;">${avatarHtml}</div>
+        <div class="info">
+          <div class="name">${escapeHtml(u.displayName || u.email || 'User')}</div>
+          <div class="email">${escapeHtml(u.email || '')}</div>
+        </div>
+        <div class="status-dot"></div>
+      `;
+      div.addEventListener('click', () => {
+        currentChatPartnerId = u.uid;
+        showChatView(platform, u);
+      });
+      container.appendChild(div);
+    });
+  }
+
+  function showChatView(platform, contact) {
+    const chatContainer = document.getElementById(`${platform}Chat`);
+    const contactList = document.getElementById(`${platform}ContactList`);
+    const header = chatContainer.querySelector('.chat-header');
+    const messagesArea = document.getElementById(`${platform}MessagesArea`);
+    const avatar = header.querySelector('.avatar');
+    if(avatar) avatar.innerHTML = contact.photoURL ? `<img src="${contact.photoURL}" alt="avatar" />` : '👤';
+    const nameSpan = document.getElementById(`${platform}ContactName`);
+    if(nameSpan) nameSpan.textContent = contact.displayName || contact.email || 'User';
+    const statusSpan = document.getElementById(`${platform}UserEmail`);
+    if(statusSpan) statusSpan.textContent = contact.email || '';
+    contactList.classList.add('hidden');
+    messagesArea.classList.remove('hidden');
+    document.querySelector(`#${platform}Chat .input-area`).classList.remove('hidden');
+    if(unsubscribeMessages) unsubscribeMessages();
+    loadMessages(platform);
+    const backBtn = document.getElementById(`${platform}BackBtn`);
+    if(backBtn) backBtn.classList.remove('hidden');
+  }
+
+  function showContactList(platform) {
+    const chatContainer = document.getElementById(`${platform}Chat`);
+    const contactList = document.getElementById(`${platform}ContactList`);
+    const messagesArea = document.getElementById(`${platform}MessagesArea`);
+    contactList.classList.remove('hidden');
+    messagesArea.classList.add('hidden');
+    document.querySelector(`#${platform}Chat .input-area`).classList.add('hidden');
+    const backBtn = document.getElementById(`${platform}BackBtn`);
+    if(backBtn) backBtn.classList.add('hidden');
+    const avatar = chatContainer.querySelector('.chat-header .avatar');
+    if(avatar) {
+      if (currentUser && currentUser.photoURL) {
+        avatar.innerHTML = `<img src="${currentUser.photoURL}" alt="avatar" />`;
+      } else {
+        avatar.innerHTML = '📇';
+      }
+    }
+    const nameSpan = document.getElementById(`${platform}ContactName`);
+    if(nameSpan) nameSpan.textContent = 'Contacts';
+    const statusSpan = document.getElementById(`${platform}UserEmail`);
+    if(statusSpan) statusSpan.textContent = `${allUsers.length} users`;
+    if(unsubscribeMessages) unsubscribeMessages();
   }
 
   function setupUI(platform) {
@@ -740,8 +442,13 @@
     const sendBtn = document.getElementById(`${platform}SendBtn`);
     const inputMsg = document.getElementById(`${platform}MessageInput`);
     const emojiBtn = document.getElementById(`${platform}EmojiBtn`);
+    const voiceBtn = document.getElementById(`${platform}VoiceBtn`);
+    const backBtn = document.getElementById(`${platform}BackBtn`);
+    if(backBtn) backBtn.onclick = () => showContactList(platform);
+
     if(attachBtn) attachBtn.onclick = () => fileInput?.click();
     if(fileInput) fileInput.onchange = async (e) => { if(e.target.files[0]) await handleFileUpload(e.target.files[0], platform); fileInput.value = ''; };
+
     const sendText = () => { 
       if(inputMsg && inputMsg.value.trim()) { 
         const replyData = activeReply[platform];
@@ -755,15 +462,46 @@
     };
     if(sendBtn) sendBtn.onclick = sendText;
     if(inputMsg) inputMsg.onkeypress = (e) => { if(e.key === 'Enter') { e.preventDefault(); sendText(); } };
-    
+
     let activePicker = null;
     function buildEmojiGrid() {
       const emojis = ['😀','😃','😄','😁','😆','😂','🤣','😍','🥰','😘','😎','🤩','🥳','😊','🙂','❤️','🧡','💛','💚','💙','💜','🔥','✨','⭐','🚀','🌈','👍','🎉','🎊','💎','😜','🤪'];
-      const pickerDiv = document.createElement('div'); pickerDiv.className = 'emoji-picker';
-      emojis.forEach(emo => { const span = document.createElement('span'); span.textContent = emo; span.onclick = (e) => { e.stopPropagation(); const inp = document.getElementById(`${platform}MessageInput`); if(inp) { inp.value += emo; inp.focus(); if(activePicker) activePicker.remove(); activePicker = null; } }; pickerDiv.appendChild(span); });
-      return pickerDiv;
+      const picker = document.createElement('div'); picker.className='emoji-picker'; picker.style.cssText='position:fixed; bottom:100px; left:50%; transform:translateX(-50%); width:90%; max-width:340px; background:white; border-radius:28px; padding:12px 8px; box-shadow:0 10px 30px rgba(0,0,0,0.4); z-index:300; display:grid; grid-template-columns:repeat(5,1fr); gap:8px; max-height:260px; overflow-y:auto; background:rgba(255,255,255,0.98);';
+      emojis.forEach(emo => { const span=document.createElement('span'); span.textContent=emo; span.style.cssText='font-size:32px; cursor:pointer; text-align:center; padding:4px; border-radius:50%;'; span.onclick=(e)=>{ e.stopPropagation(); const inp=document.getElementById(`${platform}MessageInput`); if(inp){ inp.value+=emo; inp.focus(); if(activePicker) activePicker.remove(); activePicker=null; } }; picker.appendChild(span); });
+      return picker;
     }
-    if(emojiBtn) emojiBtn.onclick = (e) => { e.stopPropagation(); if(activePicker) { activePicker.remove(); activePicker = null; return; } const picker = buildEmojiGrid(); document.body.appendChild(picker); activePicker = picker; const close = (ev) => { if (!picker.contains(ev.target) && ev.target !== emojiBtn) { picker.remove(); activePicker = null; document.removeEventListener('click', close); } }; setTimeout(() => document.addEventListener('click', close), 80); };
+    if(emojiBtn) emojiBtn.onclick = (e) => { e.stopPropagation(); if(activePicker){ activePicker.remove(); activePicker=null; return; } const picker=buildEmojiGrid(); document.body.appendChild(picker); activePicker=picker; const close=(ev)=>{ if(!picker.contains(ev.target) && ev.target!==emojiBtn){ picker.remove(); activePicker=null; document.removeEventListener('click', close); } }; setTimeout(()=>document.addEventListener('click', close), 80); };
+
+    if(voiceBtn) {
+      voiceBtn.onclick = async () => {
+        if(isRecording) {
+          mediaRecorder?.stop();
+          isRecording = false;
+          voiceBtn.classList.remove('recording');
+          voiceBtn.textContent = '🎤';
+          return;
+        }
+        try {
+          const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+          mediaRecorder = new MediaRecorder(stream);
+          recordedChunks = [];
+          mediaRecorder.ondataavailable = (e) => { if(e.data.size > 0) recordedChunks.push(e.data); };
+          mediaRecorder.onstop = async () => {
+            const blob = new Blob(recordedChunks, { type: 'audio/webm' });
+            const file = new File([blob], 'voice.webm', { type: 'audio/webm' });
+            try {
+              const data = await uploadToCloudinary(file);
+              await sendMessage('', null, null, data.url);
+            } catch(e) { console.error('Voice upload failed', e); }
+            stream.getTracks().forEach(t => t.stop());
+          };
+          mediaRecorder.start();
+          isRecording = true;
+          voiceBtn.classList.add('recording');
+          voiceBtn.textContent = '⏹';
+        } catch(e) { alert('Microphone permission needed'); }
+      };
+    }
   }
 
   function buildChatUI(platform) {
@@ -771,50 +509,154 @@
     if(!chatDiv) return;
     chatDiv.innerHTML = `
       <div class="chat-header">
-        <div class="avatar">✨</div>
-        <div class="contact-info"><div class="contact-name" id="${platform}UserName">Chat Space</div><div class="contact-status" id="${platform}UserEmail">secure • online</div></div>
+        <button class="back-btn hidden" id="${platform}BackBtn">‹</button>
+        <div class="avatar" id="${platform}HeaderAvatar">📇</div>
+        <div class="contact-info">
+          <div class="contact-name" id="${platform}ContactName">Contacts</div>
+          <div class="contact-status" id="${platform}UserEmail">loading...</div>
+        </div>
         <button class="logout-btn" id="${platform}LogoutBtn">Exit</button>
       </div>
-      <div class="messages-area" id="${platform}MessagesArea"><div class="info-message">✨ Reply to any message by tapping "reply" ✨</div></div>
-      <div class="input-area">
+      <div class="contact-list" id="${platform}ContactList"><div class="info-message">Loading contacts...</div></div>
+      <div class="messages-area hidden" id="${platform}MessagesArea"></div>
+      <div class="input-area hidden">
         <button class="attach-btn" id="${platform}AttachBtn">📎</button>
         <button class="emoji-btn" id="${platform}EmojiBtn">😊</button>
-        <input type="text" class="message-input" id="${platform}MessageInput" placeholder="Message or share files..." autocomplete="off">
+        <button class="voice-btn" id="${platform}VoiceBtn">🎤</button>
+        <input type="text" class="message-input" id="${platform}MessageInput" placeholder="Message or share..." autocomplete="off">
         <button class="send-btn" id="${platform}SendBtn">➤</button>
-        <input type="file" id="${platform}FileInput" class="file-input" accept="image/*,video/*,application/pdf,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document,text/plain,application/octet-stream">
+        <input type="file" id="${platform}FileInput" class="file-input" accept="*/*">
       </div>
     `;
+  }
+
+  function updateChatHeaderAvatar(platform, user) {
+    const avatar = document.getElementById(`${platform}HeaderAvatar`);
+    if (!avatar) return;
+    if (user && user.photoURL) {
+      avatar.innerHTML = `<img src="${user.photoURL}" alt="avatar" />`;
+    } else {
+      avatar.textContent = '📇';
+    }
+  }
+
+  async function signUpWithPhoto(email, password, displayName, photoFile) {
+    if(!photoFile) throw new Error('Profile picture is required');
+    let photoURL = '';
+    try {
+      const uploadResult = await uploadToCloudinary(photoFile);
+      photoURL = uploadResult.url;
+    } catch(e) {
+      throw new Error('Failed to upload profile picture: ' + e.message);
+    }
+    const cred = await createUserWithEmailAndPassword(auth, email, password);
+    await updateProfile(cred.user, { displayName, photoURL });
+    await setDoc(doc(db, 'users', cred.user.uid), { uid: cred.user.uid, displayName, email, photoURL });
+    return cred;
+  }
+
+  function renderAuth() {
+    const platform = getPlatform();
+    const authContainer = document.getElementById(`${platform}Auth`);
+    const chatContainer = document.getElementById(`${platform}Chat`);
+    if(!authContainer) return;
+    hideSplash(platform);
+    if(chatContainer) chatContainer.classList.add('hidden');
+    authContainer.classList.remove('hidden');
+    authContainer.innerHTML = `
+      <div class="auth-overlay">
+        <div class="auth-card">
+          <h2>📸 SERUSOFT</h2>
+          <div id="authMode">
+            <input type="email" id="loginEmail" class="auth-input" placeholder="Email">
+            <input type="password" id="loginPassword" class="auth-input" placeholder="Password">
+            <button id="loginBtn" class="auth-btn">Login → Chat</button>
+            <div class="toggle-auth" id="showSignup">✨ Create account with photo</div>
+            <div id="authError" class="error-msg"></div>
+          </div>
+        </div>
+      </div>
+    `;
+    document.getElementById('loginBtn')?.addEventListener('click', async () => {
+      const email=document.getElementById('loginEmail').value, pwd=document.getElementById('loginPassword').value;
+      try { await signInWithEmailAndPassword(auth, email, pwd); }
+      catch(e){ document.getElementById('authError').innerText=e.message; }
+    });
+    document.getElementById('showSignup')?.addEventListener('click', () => {
+      const mode=document.getElementById('authMode');
+      if(mode) mode.innerHTML = `
+        <input type="text" id="signupName" class="auth-input" placeholder="Your Name">
+        <input type="email" id="signupEmail" class="auth-input" placeholder="Email">
+        <input type="password" id="signupPassword" class="auth-input" placeholder="Password">
+        <label style="display:block; margin:12px 0; text-align:center; font-size:13px; color:#075e54; font-weight:600;">
+          <span id="photoLabel">📸 Upload Profile Picture</span>
+          <input type="file" id="signupPhoto" accept="image/*" style="display:none;">
+        </label>
+        <div id="photoPreview" style="text-align:center; margin:8px 0;"></div>
+        <button id="signupBtn" class="auth-btn">Create & Enter</button>
+        <div class="toggle-auth" id="showLogin">← Back</div>
+        <div id="authError" class="error-msg"></div>
+      `;
+      const photoInput = document.getElementById('signupPhoto');
+      const previewDiv = document.getElementById('photoPreview');
+      const label = document.querySelector('label');
+      if (label) {
+        label.style.cursor = 'pointer';
+        label.style.padding = '12px';
+        label.style.border = '2px dashed #25d366';
+        label.style.borderRadius = '12px';
+        label.style.background = '#f0f9f6';
+      }
+      photoInput?.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if(file) {
+          const reader = new FileReader();
+          reader.onload = (ev) => {
+            previewDiv.innerHTML = `<img src="${ev.target.result}" class="photo-preview" alt="preview" />`;
+            const photoLabel = document.getElementById('photoLabel');
+            if (photoLabel) photoLabel.textContent = '✅ Photo selected';
+          };
+          reader.readAsDataURL(file);
+        }
+      });
+      document.getElementById('signupBtn')?.addEventListener('click', async () => {
+        const email=document.getElementById('signupEmail')?.value;
+        const pwd=document.getElementById('signupPassword')?.value;
+        const name=document.getElementById('signupName')?.value;
+        const photoInput = document.getElementById('signupPhoto');
+        const photoFile = photoInput?.files?.[0];
+        const errDiv = document.getElementById('authError');
+        if(!name){ if(errDiv) errDiv.innerText="Enter name"; return; }
+        if(!photoFile){ if(errDiv) errDiv.innerText="Please select a profile picture"; return; }
+        try {
+          await signUpWithPhoto(email, pwd, name, photoFile);
+        } catch(e){ if(errDiv) errDiv.innerText=e.message; }
+      });
+      document.getElementById('showLogin')?.addEventListener('click', renderAuth);
+    });
   }
 
   function initChat(user) {
     currentUser = user;
     const platform = getPlatform();
     buildChatUI(platform);
-    document.getElementById(`${platform}UserName`).textContent = user.displayName || user.email.split('@')[0];
-    document.getElementById(`${platform}UserEmail`).textContent = `${user.email} • active`;
-    document.getElementById(`${platform}Auth`).innerHTML = '';
+    document.getElementById(`${platform}UserEmail`).textContent = user.email;
+    updateChatHeaderAvatar(platform, user);
+    loadAllUsers(platform).then(() => {
+      showContactList(platform);
+    });
+    const authContainer = document.getElementById(`${platform}Auth`);
+    if (authContainer) authContainer.classList.add('hidden');
     document.getElementById(`${platform}Chat`).classList.remove('hidden');
     hideSplash(platform);
-    loadMessages(platform);
     setupUI(platform);
     activeReply[platform] = null; updateReplyBar(platform);
-    setTimeout(() => scrollToBottom(platform), 300);
     document.getElementById(`${platform}LogoutBtn`)?.addEventListener('click', async () => { await signOut(auth); });
   }
 
-  function renderAuth() {
-    const platform = getPlatform();
-    const authContainer = document.getElementById(`${platform}Auth`);
-    if(!authContainer) return;
-    hideSplash(platform);
-    authContainer.innerHTML = `<div class="auth-overlay"><div class="auth-card"><h2>📱 SERUSOFT</h2><div id="authMode"><input type="email" id="loginEmail" class="auth-input" placeholder="Email"><input type="password" id="loginPassword" class="auth-input" placeholder="Password"><button id="loginBtn" class="auth-btn">Login → Chat</button><div class="toggle-auth" id="showSignup">✨ Create account</div><div id="authError" class="error-msg"></div></div></div></div>`;
-    document.getElementById('loginBtn')?.addEventListener('click', async () => { const email = document.getElementById('loginEmail').value, pwd = document.getElementById('loginPassword').value; try { await signInWithEmailAndPassword(auth, email, pwd); } catch(e){ const errDiv = document.getElementById('authError'); if(errDiv) errDiv.innerText = e.message; } });
-    document.getElementById('showSignup')?.addEventListener('click', () => { const modeDiv = document.getElementById('authMode'); if(modeDiv) modeDiv.innerHTML = `<input type="email" id="signupEmail" class="auth-input" placeholder="Email"><input type="text" id="signupName" class="auth-input" placeholder="Your Name"><input type="password" id="signupPassword" class="auth-input" placeholder="Password"><button id="signupBtn" class="auth-btn">Create & Enter</button><div class="toggle-auth" id="showLogin">← Back</div><div id="authError" class="error-msg"></div>`; document.getElementById('signupBtn')?.addEventListener('click', async () => { const email = document.getElementById('signupEmail').value, pwd = document.getElementById('signupPassword').value, name = document.getElementById('signupName').value; if(!name) { const err = document.getElementById('authError'); if(err) err.innerText = "Enter name"; return; } try { const cred = await createUserWithEmailAndPassword(auth, email, pwd); await updateProfile(cred.user, { displayName: name }); } catch(e){ const errDiv = document.getElementById('authError'); if(errDiv) errDiv.innerText = e.message; } }); document.getElementById('showLogin')?.addEventListener('click', renderAuth); });
-  }
-
-  window.addEventListener('resize', () => { if(currentUser){ const np = getPlatform(); setTimeout(() => scrollToBottom(np), 150); } });
-  onAuthStateChanged(auth, (user) => { if (user) initChat(user); else { if(unsubscribeMessages) unsubscribeMessages(); currentUser=null; renderAuth(); } });
-  setTimeout(() => { if(!currentUser) { const p = getPlatform(); hideSplash(p); } }, 1800);
+  window.addEventListener('resize', () => { if(currentUser){ const p=getPlatform(); setTimeout(()=>scrollToBottom(p),150); } });
+  onAuthStateChanged(auth, (user) => { if (user) { initChat(user); } else { if(unsubscribeMessages) unsubscribeMessages(); currentUser=null; renderAuth(); } });
+  setTimeout(() => { if(!currentUser) { const p=getPlatform(); hideSplash(p); } }, 1600);
 </script>
 </body>
 </html>
